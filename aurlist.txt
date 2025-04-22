@@ -1,0 +1,17 @@
+cava-debug 0.10.2-2
+clipse 1.1.0-1
+clipse-debug 1.1.0-1
+libajantv2 1:17.1.0-2
+libajantv2-debug 1:17.1.0-2
+libcava 0.10.3-3
+libcava-debug 0.10.3-3
+spicetify-cli 2.39.6-1
+spicetify-cli-debug 2.39.6-1
+vesktop-debug 1.5.6-1
+waybar-cava 0.12.0-1
+waybar-cava-debug 0.12.0-1
+where-is-my-sddm-theme-git 1:r111.1910fd7-1
+wlogout 1.2.2-0
+wlogout-debug 1.2.2-0
+yay 12.4.2-1
+yay-debug 12.4.2-1
