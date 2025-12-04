@@ -33,6 +33,16 @@
     pkgs.libgcc
     pkgs.quickshell
     ];
+
+  # Base
+    home.sessionPath = [ "$HOME/bin" ];
+
+    programs.bash = {
+    enable = true;
+    shellAliases = {
+      nsrf = "sudo nixos-rebuild switch --flake ~/nixos-config";
+    };
+  };
   # Neovim
     programs.neovim = {
     enable = true;
