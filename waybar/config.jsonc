@@ -1,0 +1,199 @@
+//  __     __     ______     __  __     ______     ______     ______    
+//   \ \  _ \ \   /\  __ \   /\ \_\ \   /\  == \   /\  __ \   /\  == \   
+//  \ \ \/ ".\ \  \ \  __ \  \ \____ \  \ \  __<   \ \  __ \  \ \  __<   
+//   \ \__/".~\_\  \ \_\ \_\  \/\_____\  \ \_____\  \ \_\ \_\  \ \_\ \_\ 
+//    \/_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/\/_/   \/_/ /_/ 
+                                                                     
+
+
+// -*- mode: jsonc -*-
+{
+"layer": "top",
+"position": "top",
+"spacing": 0,  
+"modules-left": [
+    "hyprland/workspaces",
+    "group/sysinfo",
+    "tray",
+    "cava"
+],
+"modules-center": [
+    "clock",
+    "hyprland/window",
+    "mpris"
+],
+"modules-right": [
+    //"privacy",
+    "group/sysctrls"
+],  
+"hyprland/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": true,
+      "warp-on-scroll": false,
+      "format": "{name}",
+      "format-icons": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "focused": "",
+        "default": ""
+      }
+},
+"group/sysinfo": {
+    "orientation": "horizontal",
+    "modules": [
+      "cpu",
+      "memory",
+      "temperature",
+      "disk"
+    ],
+  "drawer": {
+    "transition-duration": 300,
+    "transition-left-to-right": true,
+    "children-class": "sysinfo",
+    "click-to-reveal": false
+  }
+},
+"cpu": {
+  "format": "{usage}% ",
+  "tooltip": false,
+  "on-click": "hyprctl dispatch -- exec '[float; size 80% 80%; center 1] ghostty -e btop'"
+},
+"memory": {
+  "format": "{used:0.1f}G/{total:0.1f}G ",
+  "tooltip": true
+},
+"temperature": {
+    "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C {icon}",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": ["", "", ""]
+},
+"disk": {
+  "format": "{used}/{total} ",
+  "path": "/",
+  "tooltip": true
+},  
+"tray": {
+    "spacing": 7
+},
+"cava": {
+      "hide_on_silence": true,
+      "sleep_timer": 3,
+      "autosens": 1,
+      "bar_delimiter": 0,
+      "bars": 10,
+      "format-icons": [
+        "<span foreground='#ffffff'>▁</span>",
+        "<span foreground='#ffffff'>▂</span>",
+        "<span foreground='#ffffff'>▃</span>",
+        "<span foreground='#ffffff'>▄</span>",
+        "<span foreground='#ffffff'>▅</span>",
+        "<span foreground='#ffffff'>▆</span>",
+        "<span foreground='#ffffff'>▇</span>",
+        "<span foreground='#ffffff'>█</span>"
+      ],
+      "framerate": 60,
+      "higher_cutoff_freq": 10000,
+      "input_delay": 2,
+      "lower_cutoff_freq": 50,
+      "method": "pipewire",
+      "monstercat": false,
+      "reverse": false,
+      "source": "auto",
+      "stereo": true,
+      "waves": false
+},
+"clock": {
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "format-alt": "{:%Y-%m-%d}",
+      "format": "{:%I:%M %p}"
+},
+"hyprland/window": {
+      "format": "{} "
+},
+"mpris": {
+  "format": "{player_icon} {title} - {artist} ",
+  "format-paused": "{status_icon} {title} - {artist} ",
+  "player-icons": { 
+      "default": "",
+      "mpv": "🎵"
+  },
+  "status-icons": {
+      "paused": ""
+  },
+  // "ignored-players": ["firefox"]
+  "max-length": 800,
+  "interval": 1
+},
+"group/sysctrls": {
+    "orientation": "inherit",
+    "modules": [
+        "custom/power",
+        "network",
+        "backlight",
+        "pulseaudio",
+        "battery"
+    ],
+    "drawer": {
+          "transition-duration": 300,
+          "transition-left-to-right": false,
+          "children-class": "drawer-child",
+          "click-to-reveal": false
+    }
+},
+"custom/power": {
+    "format": "  ",
+    "icon-size": 30,
+    "tooltip": false,
+    "on-click": "kitty wlogout --protocol layer-shell"
+},
+"network": {
+    "format-wifi": "({signalStrength}%) ",
+    "format-ethernet": "{ipaddr}/{cidr} ",
+    "tooltip-format": "{ifname} via {gwaddr} ",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "Disconnected ⚠",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+},
+"backlight": {
+      "format": "{percent}% {icon}",
+      "format-icons": ["\uE3D3"]
+},  
+"pulseaudio": {
+    "scroll-step": 0.5,
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": "0% ",
+    "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", "", ""]
+      },
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+},
+"battery": {
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{capacity}% {icon}",
+      "format-full": "{capacity}% {icon}",
+      "format-charging": "{capacity}% ",
+      "format-plugged": "{capacity}% ",
+      "format-alt": "{time} {icon}",
+      "format-icons": ["", "", "", "", ""]
+}
+}
+
+
+
+  
