@@ -52,7 +52,7 @@
 
     # exec on startup
     exec-once = [
-      "waybar"
+      "quickshell"
       "nm-applet"
       "clipse -listen"
       "playerctld daemon"
@@ -107,6 +107,17 @@
       "$mainMod, 7, workspace, 7"
       "$mainMod, 8, workspace, 8"
       "$mainMod, 9, workspace, 9"
+      # Move active window to a workspace with mainMod + SHIFT + [0-9]
+      "$mainMod SHIFT, 1, movetoworkspace, 1"
+      "$mainMod SHIFT, 2, movetoworkspace, 2"
+      "$mainmod shift, 3, movetoworkspace, 3"
+      "$mainmod shift, 4, movetoworkspace, 4"
+      "$mainmod shift, 5, movetoworkspace, 5"
+      "$mainmod shift, 6, movetoworkspace, 6"
+      "$mainmod shift, 7, movetoworkspace, 7"
+      "$mainmod shift, 8, movetoworkspace, 8"
+      "$mainmod shift, 9, movetoworkspace, 9"
+      "$mainMod SHIFT, 0, movetoworkspace, 10"
       # Clipse pop-up with Ghostty
       "SUPER, V, exec, ghostty --class=ghostty.clipse -e clipse"
       # main Hyprland binds (now using ghostty + nautilus)
