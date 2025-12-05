@@ -157,5 +157,6 @@
     #  "ignorealpha 0.1, quickshell"
     #];
 
-};
+}
+
 
