@@ -71,7 +71,7 @@
     package = null;
     portalPackage = null;
     
-    settings = import ./hyprland-conf.nix;
+    settings = import ./hyprland/hyprland-conf.nix;
   };  
 
   services.hyprpaper = {
@@ -94,7 +94,7 @@
 
 
   # Import Waybar or Quickshell configs
-  xdg.configFile."quickshell/shell.qml".source = ./qkshell/shell.qml;
+  xdg.configFile."quickshell/shell.qml".source = ./quickshell-config/shell.qml;
   #xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   #xdg.configFile."waybar/style.css".source = ./waybar/style.css;
   
