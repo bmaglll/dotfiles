@@ -38,11 +38,12 @@
     home.sessionPath = [ "$HOME/bin" ];
 
     programs.bash = {
-    enable = true;
-    shellAliases = {
-      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config";
+      enable = true;
+      shellAliases = {
+        nrs = "cd ~/nixos-config && git add . && (git commit -m 'Update NixOS config' || echo 'No changes to commit') && git push && sudo nixos-rebuild switch --flake ~/nixos-config";
+      };
     };
-  };
+
   # Neovim
     programs.neovim = {
     enable = true;
