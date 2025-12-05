@@ -1,0 +1,28 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "kitty-icat",
+    "source": "/home/bmag/images-gifs/images/csman_himeno2.png",
+    "width": 25,
+    "height": 12
+    },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "display",
+    "cpu",
+    "gpu",
+    "de",
+    "wm",
+    "wmtheme",
+    //"theme",
+    //"icons",
+    "terminal",
+    "packages",
+    "break",
+    "colors"
+  ]
+}
+

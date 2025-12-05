@@ -1,0 +1,7 @@
+com.discordapp.Discord
+com.obsproject.Studio
+com.protonvpn.www
+com.valvesoftware.Steam
+com.valvesoftware.SteamLink
+org.gnome.Boxes
+org.libretro.RetroArch
