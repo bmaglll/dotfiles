@@ -157,5 +157,5 @@
     #  "ignorealpha 0.1, quickshell"
     #];
 
-}; **<-- ADDED SEMI-COLON**
+};
 
