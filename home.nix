@@ -40,7 +40,7 @@
     programs.bash = {
     enable = true;
     shellAliases = {
-      nsrf = "sudo nixos-rebuild switch --flake ~/nixos-config";
+      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config";
     };
   };
   # Neovim
