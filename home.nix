@@ -32,7 +32,7 @@
     pkgs.rose-pine-hyprcursor
     pkgs.libgcc
     pkgs.quickshell
-    pkgs.nm-tray
+    pkgs.networkmanagerapplet
     ];
 
   # Base
