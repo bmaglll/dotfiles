@@ -93,9 +93,10 @@
   };
 
 
-  # Import Waybar configs
-  xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
-  xdg.configFile."waybar/style.css".source = ./waybar/style.css;
+  # Import Waybar or Quickshell configs
+  xdg.configFile."quickshell/shell.qml".source = ./qkshell/shell.qml;
+  #xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
+  #xdg.configFile."waybar/style.css".source = ./waybar/style.css;
   
   home.sessionVariables = {
 
