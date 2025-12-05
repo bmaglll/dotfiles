@@ -53,7 +53,7 @@
     # exec on startup
     exec-once = [
       "quickshell"
-      #"nm-applet"
+      "nm-applet --indicator"
       "clipse -listen"
       "playerctld daemon"
     ];
