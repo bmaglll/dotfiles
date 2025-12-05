@@ -110,13 +110,13 @@
       # Move active window to a workspace with mainMod + SHIFT + [0-9]
       "$mainMod SHIFT, 1, movetoworkspace, 1"
       "$mainMod SHIFT, 2, movetoworkspace, 2"
-      "$mainMod SHIFT, 3, movetoworkspace, 3" **<-- CORRECTED**
-      "$mainMod SHIFT, 4, movetoworkspace, 4" **<-- CORRECTED**
-      "$mainMod SHIFT, 5, movetoworkspace, 5" **<-- CORRECTED**
-      "$mainMod SHIFT, 6, movetoworkspace, 6" **<-- CORRECTED**
-      "$mainMod SHIFT, 7, movetoworkspace, 7" **<-- CORRECTED**
-      "$mainMod SHIFT, 8, movetoworkspace, 8" **<-- CORRECTED**
-      "$mainMod SHIFT, 9, movetoworkspace, 9" **<-- CORRECTED**
+      "$mainMod SHIFT, 3, movetoworkspace, 3"
+      "$mainMod SHIFT, 4, movetoworkspace, 4"
+      "$mainMod SHIFT, 5, movetoworkspace, 5"
+      "$mainMod SHIFT, 6, movetoworkspace, 6"
+      "$mainMod SHIFT, 7, movetoworkspace, 7"
+      "$mainMod SHIFT, 8, movetoworkspace, 8"
+      "$mainMod SHIFT, 9, movetoworkspace, 9"
       "$mainMod SHIFT, 0, movetoworkspace, 10"
       # Clipse pop-up with Ghostty
       "SUPER, V, exec, ghostty --class=ghostty.clipse -e clipse"
