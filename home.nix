@@ -42,7 +42,7 @@
   
     shellAliases = { };
   
-    shellInit = ''
+    initExtra = ''
       nrs() {
         cd ~/nixos-config || { echo "Folder not found"; return 1; }
   
