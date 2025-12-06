@@ -45,7 +45,7 @@ PanelWindow {
             spacing: 0
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
 
-            WorkspacesBar {
+            Workspaces {
                 vars: vars
             }
         }
@@ -66,11 +66,11 @@ PanelWindow {
             spacing: 4
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 
-            TrayBar {
+            Tray {
                 panelWindow: root
             }
 
-            BatteryWidget {
+            Battery {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 colNormal: vars.colWhite
@@ -78,7 +78,7 @@ PanelWindow {
                 colLow: "#ff5555"
             }
 
-            ClockWidget {
+            Clock {
                 vars: vars
             }
         }
