@@ -36,14 +36,43 @@
     ];
 
   # Base
-    home.sessionPath = [ "$HOME/bin" ];
+  home.sessionPath = [ "$HOME/bin" ];
+  programs.bash = {
+    enable = true;
+  
+    shellAliases = { };
+  
+    shellInit = ''
+      nrs() {
+        cd ~/nixos-config || { echo "Folder not found"; return 1; }
+  
+        # Ask whether user wants a custom commit message
+        read -p "Use a custom commit message? (y/n): " yn
+  
+        if [[ "$yn" == "y" || "$yn" == "Y" ]]; then
+          read -p "Enter commit message: " msg
+          git add .
+          if git commit -m "$msg"; then
+            echo "Committed with custom message."
+          else
+            echo "No changes to commit."
+          fi
+        else
+          # Normal mode
+          git add .
+          if git commit -m "Update NixOS config"; then
+            echo "Committed with default message."
+          else
+            echo "No changes to commit."
+          fi
+        fi
+  
+        git push
+        sudo nixos-rebuild switch --flake ~/nixos-config
+      }
+    '';
+  };
 
-    programs.bash = {
-      enable = true;
-      shellAliases = {
-        nrs = "cd ~/nixos-config && git add . && (git commit -m 'Update NixOS config' || echo 'No changes to commit') && git push && sudo nixos-rebuild switch --flake ~/nixos-config";
-      };
-    };
 
   # Neovim
     programs.neovim = {
