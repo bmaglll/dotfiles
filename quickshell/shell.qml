@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
+import Quickshell.Services.Mpris
 
 import "modules"
 
@@ -57,7 +58,10 @@ PanelWindow {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
-            // add center modules later if you want
+	    // add center modules later if you want
+	    MprisMini {
+            // You can later add properties (like colors/fonts) here
+            }
         }
 
         // ----- RIGHT: tray + battery + clock -----
