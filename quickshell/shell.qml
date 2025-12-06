@@ -121,7 +121,41 @@ PanelWindow {
 		    }
 		}
             }
-	                // ----- BATTERY -----
+	        
+            // CLOCK (to the right of tray)
+            Text {
+                id: clockText
+
+                // false = show time, true = show date
+                property bool showDate: false
+
+                text: showDate
+                      ? Qt.formatDate(new Date(), "MM-dd-yyyy")
+                      : Qt.formatTime(new Date(), "hh:mm")
+
+                color: vars.colWhite
+                font.family: vars.fontFamily
+                font.pixelSize: vars.iFontSz
+                font.bold: true
+                Layout.alignment: Qt.AlignVCenter
+
+                Timer {
+                    interval: 1000
+                    running: true
+                    repeat: true
+                    onTriggered: {
+                        clockText.text = clockText.showDate
+                            ? Qt.formatDate(new Date(), "MM-dd-yyyy")
+                            : Qt.formatTime(new Date(), "hh:mm")
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: clockText.showDate = !clockText.showDate
+                }
+            }
+    	          // ----- BATTERY -----
             Item {
                 id: batteryRoot
                 
@@ -205,40 +239,7 @@ PanelWindow {
                 }
             }
 
-            // CLOCK (to the right of tray)
-            Text {
-                id: clockText
-
-                // false = show time, true = show date
-                property bool showDate: false
-
-                text: showDate
-                      ? Qt.formatDate(new Date(), "MM-dd-yyyy")
-                      : Qt.formatTime(new Date(), "hh:mm")
-
-                color: vars.colWhite
-                font.family: vars.fontFamily
-                font.pixelSize: vars.iFontSz
-                font.bold: true
-                Layout.alignment: Qt.AlignVCenter
-
-                Timer {
-                    interval: 1000
-                    running: true
-                    repeat: true
-                    onTriggered: {
-                        clockText.text = clockText.showDate
-                            ? Qt.formatDate(new Date(), "MM-dd-yyyy")
-                            : Qt.formatTime(new Date(), "hh:mm")
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: clockText.showDate = !clockText.showDate
-                }
-            }
-        }
+    	}
     }
 }
 
