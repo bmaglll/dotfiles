@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import QtQuick.Layouts
 import Quickshell.Wayland
 import Quickshell.Services.SystemTray
+import Quickshell.Services.UPower
 
 
 
@@ -119,6 +120,89 @@ PanelWindow {
     			}
 		    }
 		}
+            }
+	                // ----- BATTERY -----
+            Item {
+                id: batteryRoot
+                Layout.alignment: Qt.AlignVCenter
+
+                // use UPower's aggregate display device
+                property var dev: UPower.displayDevice
+
+                // UPowerDevice.percentage is 0–1 in current Quickshell → convert to 0–100
+                readonly property int perc: dev && dev.ready
+                                            ? Math.round(dev.percentage * 100)
+                                            : -1
+
+                readonly property bool isCharging:
+                    dev && (dev.state === UPowerDeviceState.Charging
+                            || dev.state === UPowerDeviceState.PendingCharge)
+
+                readonly property bool isLow: perc >= 0 && perc <= 30
+                readonly property bool isCritical: perc >= 0 && perc <= 15
+
+                // colors
+                property color colNormal:  vars.colWhite
+                property color colCharging: "#00ff00"
+                property color colLow:     "#ff5555"
+
+                // flash when critically low and not charging
+                opacity: 1.0
+                NumberAnimation on opacity {
+                    from: 1.0
+                    to: 0.3
+                    duration: 600
+                    loops: Animation.Infinite
+                    running: batteryRoot.isCritical && !batteryRoot.isCharging
+                }
+
+                RowLayout {
+                    anchors.fill: parent
+                    spacing: 4
+
+                    // battery icon (Nerd Font)
+                    Text {
+                        text: batteryRoot.perc >= 0
+                              ? batteryRoot.batteryIcon(batteryRoot.perc)
+                              : ""
+
+                        color: batteryRoot.isCharging
+                               ? batteryRoot.colCharging
+                               : (batteryRoot.isLow
+                                   ? batteryRoot.colLow
+                                   : batteryRoot.colNormal)
+
+                        font.family: vars.fontFamily
+                        font.pixelSize: vars.iFontSz
+                        font.bold: true
+                    }
+
+                    // percentage text
+                    Text {
+                        text: batteryRoot.perc >= 0
+                              ? batteryRoot.perc + "%"
+                              : ""
+
+                        color: batteryRoot.isCharging
+                               ? batteryRoot.colCharging
+                               : (batteryRoot.isLow
+                                   ? batteryRoot.colLow
+                                   : batteryRoot.colNormal)
+
+                        font.family: vars.fontFamily
+                        font.pixelSize: vars.iFontSz
+                        font.bold: true
+                    }
+                }
+
+                function batteryIcon(p) {
+                    if (p < 0) return "";
+                    if (p <= 10) return "";
+                    if (p <= 30) return "";
+                    if (p <= 60) return "";
+                    if (p <= 85) return "";
+                    return "";
+                }
             }
 
             // CLOCK (to the right of tray)
