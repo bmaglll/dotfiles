@@ -124,7 +124,7 @@ PanelWindow {
 	                // ----- BATTERY -----
             Item {
                 id: batteryRoot
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignVRight
+                
 
                 // use UPower's aggregate display device
                 property var dev: UPower.displayDevice
