@@ -96,7 +96,7 @@
 
 
   # Import Waybar or Quickshell configs
-  xdg.configFile."quickshell/shell.qml".source = ./quickshell/shell.qml;
+  xdg.configFile."quickshell".source = ./quickshell;
   #xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   #xdg.configFile."waybar/style.css".source = ./waybar/style.css;
   
