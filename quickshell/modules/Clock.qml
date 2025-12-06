@@ -1,5 +1,5 @@
 import QtQuick
-
+import QtQuick.Layouts
 Item {
     id: clockRoot
     Layout.alignment: Qt.AlignVCenter
