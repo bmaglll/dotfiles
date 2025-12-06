@@ -1,4 +1,4 @@
-//@ pragma UseQApplication
+u//@ pragma UseQApplication
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
@@ -241,4 +241,5 @@ PanelWindow {
         }
     }
 }
+
 
