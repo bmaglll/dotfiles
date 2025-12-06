@@ -89,6 +89,7 @@
 
     wallpaper = [
        "eDP-1,/home/bmag/Pictures/wallpapers/ngc2899.png"
+
     ];
   };
   };
