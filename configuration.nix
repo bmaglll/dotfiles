@@ -106,61 +106,7 @@
   };
 
   ######### Hyprland ############
-  programs.hyprlock = {
-    enable = true;
-
-      # You can fill in `settings` later; for now a minimal config is fine.
-      # Example skeleton:
-    settings = {
-      general = {
-        disable_loading_bar = false;
-        };
-
-      background = {
-        monitor = "eDP-1";
-        path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
-        blur_passes = 2;
-        blur_size = 3;
-      };
-
-      label = {
-        text = "bmag";
-        position = "0, 50";
-        halign = "center";
-        valign = "center";
-      };
-
-      input-field = {
-        size = "200, 40";
-        position = "0, -50";
-        halign = "center";
-        valign = "center";
-      };
-    };
-  };
-   services.hypridle = {
-    enable = true;
-  
-    settings = {
-      general = {
-        # Only lock, don’t suspend or anything yet
-        lock_cmd = "pidof hyprlock || hyprlock";
-        unlock_cmd = "";
-        before_sleep_cmd = "";
-        after_sleep_cmd = "";
-        inhibit_if_fullscreen = true;
-      };
-  
-      listener = [
-        {
-          timeout = 300;  # 5 minutes
-          on-timeout = "pidof hyprlock || hyprlock";
-          on-resume = "";
-        }
-      ];
-    };
-  };
-  
+   
   programs.hyprland.enable = true; # enable Hyprland
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

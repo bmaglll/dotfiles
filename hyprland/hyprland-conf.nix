@@ -128,6 +128,7 @@
       "$mainMod, Z, togglefloating,"
       "$mainMod, D, exec, $menu"
       "$mainMod, F, fullscreen, 1"
+      "SUPER, L, exec, hyprlock"
       ];
     # repeat-on-hold audio binds
     binde = [
