@@ -4,7 +4,7 @@ import Quickshell.Hyprland
 
 RowLayout {
     id: workspacesBar
-    spacing: 0
+    spacing: 2
 
     // pass from shell.qml: QtObject with colors/fonts
     property var vars
