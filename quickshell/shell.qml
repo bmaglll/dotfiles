@@ -7,8 +7,6 @@ import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 
-
-
 PanelWindow {
     id: root
 
@@ -68,7 +66,7 @@ PanelWindow {
             Layout.fillWidth: true
         }
 
-        // ----- RIGHT: system tray + clock -----
+        // ----- RIGHT: system tray + battery + clock -----
         RowLayout {
             spacing: 4
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
@@ -94,34 +92,127 @@ PanelWindow {
                     }
 
                     MouseArea {
-    			anchors.fill: parent
-    			acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-    			onClicked: function(mouse) {
-        			if (mouse.button === Qt.LeftButton) {
-            				// primary action
-            				modelData.activate()
-            				return
-        			}
+                        onClicked: function(mouse) {
+                            if (mouse.button === Qt.LeftButton) {
+                                // primary action
+                                modelData.activate()
+                                return
+                            }
 
-        			if (mouse.button === Qt.RightButton && modelData.hasMenu) {
-                			// Map click position on trayItem → window content coordinates
-                			var p = trayItem.mapToItem(root.contentItem, mouse.x, mouse.y)		             				// Put menu just below the icon, near the click
-               				var menuX = Math.round(p.x)
-                			var menuY = Math.round(p.y + trayItem.height)
+                            if (mouse.button === Qt.RightButton && modelData.hasMenu) {
+                                // Map click position on trayItem → window content coordinates
+                                var p = trayItem.mapToItem(root.contentItem, mouse.x, mouse.y)
+                                var menuX = Math.round(p.x)
+                                var menuY = Math.round(p.y + trayItem.height)
 
-					// parent = trayItem (QQuickItem), coords relative to it
-            				modelData.display(root, menuX, menuY)
-        			}
-    			}
+                                modelData.display(root, menuX, menuY)
+                            }
+                        }
 
-    		    onWheel: function(wheel) {
-        		modelData.scroll(wheel.angleDelta.y, false)
-    			}
-		    }
-		}
+                        onWheel: function(wheel) {
+                            modelData.scroll(wheel.angleDelta.y, false)
+                        }
+                    }
+                }
             }
-	        
+
+            // ----- BATTERY -----
+            Item {
+                id: batteryRoot
+                Layout.alignment: Qt.AlignVCenter
+
+                // intrinsic size based on children
+                implicitWidth: icon.width + percent.width + 6
+                implicitHeight: percent.implicitHeight
+
+                // use UPower's aggregate display device
+                property var dev: UPower.displayDevice
+
+                // convert 0–1 to 0–100
+                readonly property int perc: dev && dev.ready
+                                            ? Math.round(dev.percentage * 100)
+                                            : -1
+
+                readonly property bool isCharging:
+                    dev && (dev.state === UPowerDeviceState.Charging
+                            || dev.state === UPowerDeviceState.PendingCharge)
+
+                readonly property bool isLow: perc >= 0 && perc <= 30
+                readonly property bool isCritical: perc >= 0 && perc <= 15
+
+                // colors
+                property color colNormal:   vars.colWhite
+                property color colCharging: "#00ff00"
+                property color colLow:      "#ff5555"
+
+                // flash when critically low and not charging
+                opacity: 1.0
+                NumberAnimation on opacity {
+                    from: 1.0
+                    to: 0.3
+                    duration: 600
+                    loops: Animation.Infinite
+                    running: batteryRoot.isCritical && !batteryRoot.isCharging
+                }
+
+                // battery icon (Nerd Font)
+                Text {
+                    id: icon
+
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: batteryRoot.perc >= 0
+                          ? batteryRoot.batteryIcon(batteryRoot.perc)
+                          : ""
+
+                    color: batteryRoot.isCharging
+                           ? batteryRoot.colCharging
+                           : (batteryRoot.isLow
+                               ? batteryRoot.colLow
+                               : batteryRoot.colNormal)
+
+                    font.family: vars.fontFamily
+                    font.pixelSize: vars.iFontSz
+                    font.bold: true
+                }
+
+                // percentage text
+                Text {
+                    id: percent
+
+                    anchors.left: icon.right
+                    anchors.leftMargin: 4
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: batteryRoot.perc >= 0
+                          ? batteryRoot.perc + "%"
+                          : ""
+
+                    color: batteryRoot.isCharging
+                           ? batteryRoot.colCharging
+                           : (batteryRoot.isLow
+                               ? batteryRoot.colLow
+                               : batteryRoot.colNormal)
+
+                    font.family: vars.fontFamily
+                    font.pixelSize: vars.iFontSz
+                    font.bold: true
+                }
+
+                function batteryIcon(p) {
+                    if (p < 0)  return "";
+                    if (p <= 10) return "";
+                    if (p <= 30) return "";
+                    if (p <= 60) return "";
+                    if (p <= 85) return "";
+                    return "";
+                }
+            }
+
             // CLOCK (to the right of tray)
             Text {
                 id: clockText
@@ -155,92 +246,7 @@ PanelWindow {
                     onClicked: clockText.showDate = !clockText.showDate
                 }
             }
-    	          // ----- BATTERY -----
-            Item {
-                id: batteryRoot
-                
-
-                // use UPower's aggregate display device
-                property var dev: UPower.displayDevice
-
-                // UPowerDevice.percentage is 0–1 in current Quickshell → convert to 0–100
-                readonly property int perc: dev && dev.ready
-                                            ? Math.round(dev.percentage * 100)
-                                            : -1
-
-                readonly property bool isCharging:
-                    dev && (dev.state === UPowerDeviceState.Charging
-                            || dev.state === UPowerDeviceState.PendingCharge)
-
-                readonly property bool isLow: perc >= 0 && perc <= 30
-                readonly property bool isCritical: perc >= 0 && perc <= 15
-
-                // colors
-                property color colNormal:  vars.colWhite
-                property color colCharging: "#00ff00"
-                property color colLow:     "#ff5555"
-
-                // flash when critically low and not charging
-                opacity: 1.0
-                NumberAnimation on opacity {
-                    from: 1.0
-                    to: 0.3
-                    duration: 600
-                    loops: Animation.Infinite
-                    running: batteryRoot.isCritical && !batteryRoot.isCharging
-                }
-
-                RowLayout {
-                    anchors.fill: parent
-                    spacing: 4
-
-                    // battery icon (Nerd Font)
-                    Text {
-                        text: batteryRoot.perc >= 0
-                              ? batteryRoot.batteryIcon(batteryRoot.perc)
-                              : ""
-
-                        color: batteryRoot.isCharging
-                               ? batteryRoot.colCharging
-                               : (batteryRoot.isLow
-                                   ? batteryRoot.colLow
-                                   : batteryRoot.colNormal)
-
-                        font.family: vars.fontFamily
-                        font.pixelSize: vars.iFontSz
-                        font.bold: true
-                    }
-
-                    // percentage text
-                    Text {
-                        text: batteryRoot.perc >= 0
-                              ? batteryRoot.perc + "%"
-                              : ""
-
-                        color: batteryRoot.isCharging
-                               ? batteryRoot.colCharging
-                               : (batteryRoot.isLow
-                                   ? batteryRoot.colLow
-                                   : batteryRoot.colNormal)
-
-                        font.family: vars.fontFamily
-                        font.pixelSize: vars.iFontSz
-                        font.bold: true
-                    }
-                }
-
-                function batteryIcon(p) {
-                    if (p < 0) return "";
-                    if (p <= 10) return "";
-                    if (p <= 30) return "";
-                    if (p <= 60) return "";
-                    if (p <= 85) return "";
-                    return "";
-                }
-            }
-
-    	}
+        }
     }
 }
-
 
