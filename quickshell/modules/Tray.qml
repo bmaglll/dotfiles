@@ -16,7 +16,7 @@ RowLayout {
             id: trayItem
             width: 22
             height: 22
-            y: -2    // raise icons a bit
+            y: -6    // raise icons a bit
 
             Image {
                 anchors.fill: parent
