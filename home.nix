@@ -32,6 +32,7 @@
     libgcc
     quickshell
     networkmanagerapplet
+    localsend
   ];
 
   # Base PATH
