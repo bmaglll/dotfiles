@@ -15,35 +15,31 @@ Text {
         id: titleProc
         command: ["hyprctl", "activewindow", "-j"]
         
-        // This property handles the signal that fires when the process has output data
+        // This handler fires when the process has data ready to be read.
         onReadyReadStandardOutput: {
             // Read all available data from the standard output buffer
             var output = titleProc.readAllStandardOutput();
             
             try {
-                // Parse the JSON output
+                // Parse the JSON output from Hyprland
                 var data = JSON.parse(output);
                 
                 // Set the text to the window title, handling null/empty focus
                 windowTitle.text = data.title ? data.title : "";
             } catch (err) {
-                // Handle parsing errors (e.g. non-JSON output)
-                windowTitle.text = "Error reading title";
+                // Keep the text clear on error
+                windowTitle.text = "";
             }
         }
         
-        // Ensure the text is cleared if the process fails or exits badly
-        onFinished: function(exitCode) {
-            if (exitCode !== 0) {
-                windowTitle.text = "hyprctl error";
-            }
-        }
+        // 🛑 REMOVED: The problematic 'onFinished' handler is gone.
     }
 
     Connections {
         target: Hyprland
         
         function onRawEvent(event) {
+            // Check for focus change or title update events
             if (event.name === "activewindow" || event.name === "activewindowv2" || event.name === "windowtitle") {
                 // Run the process to update the title
                 titleProc.running = true; 
