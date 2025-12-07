@@ -5,6 +5,8 @@ import Quickshell.Services.Mpris
 
 Item {
     id: root
+    // vanish if no valid players exist
+    visible: player !== null
 
     implicitHeight: 24
     implicitWidth: row.implicitWidth + 16
@@ -75,7 +77,7 @@ Item {
         if (player) {
             console.log("MprisMini: active player now", player.dbusName, "identity =", player.identity);
         } else {
-            //console.log("MprisMini: no active player");
+            console.log("MprisMini: no active player");
           }
     }
 
