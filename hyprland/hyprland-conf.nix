@@ -155,7 +155,7 @@
       ];
     layerrule = [
       "blur, quickshell"
-      "ignorealpha 0.3, quickshell"
+      "ignorealpha 0.7, quickshell"
       "noanim, quickshell"
     ];
 
