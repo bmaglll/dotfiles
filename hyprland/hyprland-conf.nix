@@ -40,13 +40,9 @@
       blur = {
         enabled = true;
         size = 10;
-        passes = 2;
+        passes = 1;
         vibrancy = 0.1696;
 	new_optimizations = true;
-	noise = 0.1;
-	ignore_opacity = true;
-	contrast = 2;
-
       	};
     };
     # misc
