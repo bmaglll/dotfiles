@@ -161,10 +161,7 @@
       # 5. Optional: Disable window animations for a snappier feel.
       "noanim,title:^Picture-in-Picture$"
 
-      # 6. Optional: Prevent maximizing/fullscreen requests.
-      "nofullscreenrequest,title:^Picture-in-Picture$"
-      
-      # Optional: Enable aspect ratio lock if resizing
+          # Optional: Enable aspect ratio lock if resizing
       "keepaspectratio,title:^Picture-in-Picture$"	
       # Clipse window via Ghostty
       "float, class:(ghostty.clipse)"
