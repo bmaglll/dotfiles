@@ -30,8 +30,11 @@
   # Power Profiles Daemon
   services.power-profiles-daemon.enable = true;
   # Local Send
-  services.localsend.enable = true;
-  services.localsend.openFirewall = true; # Automatically opens port 53317
+  # Local Send
+  programs.localsend = {
+  enable = true;
+  openFirewall = true;  # opens TCP/UDP 53317 for you
+  };
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
