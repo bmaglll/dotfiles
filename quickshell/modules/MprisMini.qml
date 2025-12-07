@@ -1,92 +1,80 @@
 import QtQuick
-import QtQuick.Layouts
-import Quickshell
 import Quickshell.Services.Mpris
 
 Item {
     id: root
 
-    // Make it obviously visible in the bar
-    implicitHeight: 24
-    implicitWidth: row.implicitWidth + 16
+    // All players as a QML list
+    property var playersList: Mpris.players ? Mpris.players.values : []
 
-    // Gray background so you can SEE it
-    Rectangle {
-        anchors.fill: parent
-        color: "#333333"
-        radius: 4
-    }
+    // Just use the first player for now
+    property var player: (playersList && playersList.length > 0)
+                         ? playersList[0]
+                         : null
 
-    // Current player: pick the first one if the model is ready
-    property var player: (
-        Mpris.players && typeof Mpris.players.count !== "undefined" && Mpris.players.count > 0
-            ? Mpris.players.get(0)
-            : null
-    )
+    // Size to content
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
 
-    // Click to toggle play/pause
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-
-        onClicked: {
-            if (!root.player) {
-                return;
-            }
-
-            if (root.player.canTogglePlaying) {
-                root.player.togglePlaying();
-            } else if (root.player.canPlay || root.player.canPause) {
-                root.player.isPlaying = !root.player.isPlaying;
-            }
-        }
-    }
-
-    RowLayout {
+    Row {
         id: row
         anchors.fill: parent
         anchors.margins: 4
         spacing: 6
 
-        // Icon
+        // Play/pause “icon”
         Text {
-            Layout.alignment: Qt.AlignVCenter
-
-            text: {
-                if (!root.player) {
-                    return "⏹";      // no player
-                }
-                return root.player.isPlaying ? "⏸" : "▶";
-            }
-
-            font.family: "JetBrainsMono Nerd Font"
+            id: statusIcon
+            visible: player !== null
+            text: player && player.isPlaying ? "" : ""   // swap to your nerd icons if you want
             font.pixelSize: 12
-            color: "white"
-            verticalAlignment: Text.AlignVCenter
         }
 
-        // Artist - Title
+        // Artist – Title or fallback
         Text {
-            Layout.alignment: Qt.AlignVCenter
-            Layout.fillWidth: true
-
-            text: {
-                if (!root.player) {
-                    return "No MPRIS player";
-                }
-
-                const artist = root.player.trackArtist || "Unknown Artist";
-                const title  = root.player.trackTitle  || "Unknown Title";
-                return artist + " - " + title;
-            }
-
-            font.family: "JetBrainsMono Nerd Font"
+            id: label
+            text: player
+                  ? ( (player.trackArtist || "Unknown Artist")
+                      + " - "
+                      + (player.trackTitle || "Unknown Title") )
+                  : "No MPRIS player"
             font.pixelSize: 12
-            color: "white"
-
             elide: Text.ElideRight
-            maximumLineCount: 1
-            verticalAlignment: Text.AlignVCenter
+        }
+    }
+
+    // Click to toggle play/pause
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            if (player && player.canTogglePlaying) {
+                player.togglePlaying();
+            }
+        }
+    }
+
+    // Debug so we can see what Quickshell sees
+    Component.onCompleted: {
+        if (Mpris.players) {
+            console.log("MprisMini: initial players values length =",
+                        Mpris.players.values.length);
+            for (let i = 0; i < Mpris.players.values.length; i++) {
+                const p = Mpris.players.values[i];
+                console.log("MprisMini: player", i,
+                            "dbusName =", p.dbusName,
+                            "identity =", p.identity);
+            }
+        } else {
+            console.log("MprisMini: Mpris.players is null");
+        }
+    }
+
+    Connections {
+        target: Mpris.players
+        // Fired when the underlying list changes
+        function onValuesChanged() {
+            const len = Mpris.players.values.length;
+            console.log("MprisMini: players values changed, length =", len);
         }
     }
 }
