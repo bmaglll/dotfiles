@@ -33,7 +33,7 @@ PanelWindow {
     anchors.right: true
 
     color: "#00ffffff"
-    implicitHeight: 24
+    implicitHeight: 20
 
     RowLayout {
         anchors.fill: parent
