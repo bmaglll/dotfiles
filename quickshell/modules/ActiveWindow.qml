@@ -15,24 +15,28 @@ Text {
         id: titleProc
         command: ["hyprctl", "activewindow", "-j"]
         
-        // This handler fires when the process has data ready to be read.
-        onReadyReadStandardOutput: {
-            // Read all available data from the standard output buffer
-            var output = titleProc.readAllStandardOutput();
-            
-            try {
-                // Parse the JSON output from Hyprland
-                var data = JSON.parse(output);
+        // Use the signal handler that is most likely to be exposed: onProcessFinished
+        // This fires *after* the command runs and the output is ready.
+        onProcessFinished: function(exitCode) {
+            // Only proceed if the command executed successfully
+            if (exitCode === 0) {
+                // Read the output buffer directly from the process object
+                var output = titleProc.readAllStandardOutput();
                 
-                // Set the text to the window title, handling null/empty focus
-                windowTitle.text = data.title ? data.title : "";
-            } catch (err) {
-                // Keep the text clear on error
-                windowTitle.text = "";
+                try {
+                    // Parse the JSON output from Hyprland
+                    var data = JSON.parse(output);
+                    
+                    // Set the text to the window title, handling null/empty focus
+                    windowTitle.text = data.title ? data.title : "";
+                } catch (err) {
+                    windowTitle.text = "";
+                }
+            } else {
+                // Command failed (e.g., hyprctl not found)
+                windowTitle.text = "hyprctl fail";
             }
         }
-        
-        // 🛑 REMOVED: The problematic 'onFinished' handler is gone.
     }
 
     Connections {
