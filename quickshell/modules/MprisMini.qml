@@ -75,8 +75,8 @@ Item {
         if (player) {
             console.log("MprisMini: active player now", player.dbusName, "identity =", player.identity);
         } else {
-            console.log("MprisMini: no active player");
-        }
+            //console.log("MprisMini: no active player");
+          }
     }
 
     MouseArea {
