@@ -103,12 +103,7 @@
     
     settings = import ./hyprland/hyprland-conf.nix;
   };
-  wayland.windowManager.hyprland.settings = {
-    layerrule = [
-      "blur, quickshell"
-      "ignorealpha 0.1, quickshell"
-    ];
-  };
+  
 
 
   ## Hyprlock
