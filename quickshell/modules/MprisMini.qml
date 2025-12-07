@@ -2,20 +2,27 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Mpris
-
 Item {
     id: root
 
-    // Size for the bar; tweak as needed
+    // Size for the bar
     implicitHeight: row.implicitHeight
     implicitWidth: row.implicitWidth
 
-    // Pick the first available MPRIS player.
-    // This binding re-evaluates when players.count changes.
+    // First available MPRIS player
     property var player: (Mpris.players.count > 0 ? Mpris.players.get(0) : null)
 
-    // Hide if nothing is playing / no player
-    visible: player !== null
+    // TEMP: always visible so we can debug.
+    // Once everything works, you can switch back to: visible: player !== null
+    // visible: player !== null
+
+    Component.onCompleted: {
+        console.log("MprisMini: players count on start =", Mpris.players.count)
+    }
+
+    onPlayerChanged: {
+        console.log("MprisMini: player changed =", player)
+    }
 
     MouseArea {
         id: clickArea
@@ -26,11 +33,9 @@ Item {
             if (!root.player)
                 return;
 
-            // Prefer the official toggle API if the player supports it
             if (root.player.canTogglePlaying) {
                 root.player.togglePlaying();
             } else if (root.player.canPlay || root.player.canPause) {
-                // Fallback: flip isPlaying
                 root.player.isPlaying = !root.player.isPlaying;
             }
         }
@@ -49,12 +54,12 @@ Item {
 
             text: {
                 if (!root.player) {
-                    return "⏹";        // no player
+                    // Show something so you know it's alive
+                    return "⏹"; // no player
                 }
                 return root.player.isPlaying ? "⏸" : "▶";
             }
 
-            // plug your font variables in here if you want
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -68,7 +73,7 @@ Item {
 
             text: {
                 if (!root.player) {
-                    return "";
+                    return "No MPRIS player";
                 }
 
                 const artist = root.player.trackArtist || "Unknown Artist";
