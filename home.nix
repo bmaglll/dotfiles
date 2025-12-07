@@ -33,6 +33,7 @@
     quickshell
     networkmanagerapplet
     localsend
+    sioyek
   ];
 
   # Base PATH
