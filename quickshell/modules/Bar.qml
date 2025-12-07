@@ -59,7 +59,15 @@ PanelWindow {
             id: centerRow
             spacing: 4
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+
+	    MprisMini {
+
+	    }
+
+	    WorkspaceTitle {
+
+	    }
         }
 
         // ----- RIGHT: tray + battery + clock -----
