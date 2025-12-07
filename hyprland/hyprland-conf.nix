@@ -154,9 +154,10 @@
       # "center, class:^(com\\.obsproject\\.Studio)$"
       ];
     layerrule = [
-      "blur,quickshell"
+      "blur, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
+      "xray, quickshell"
     ];
 
 }
