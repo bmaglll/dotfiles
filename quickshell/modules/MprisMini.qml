@@ -108,9 +108,9 @@ Item {
                 if (!root.player) {
                     const len = root.players ? root.players.length : 0;
                     return "⏹ (" + len + ")";
-                }
-                return root.player.isPlaying ? "⏸" : "▶";
-            }
+	        }
+	        return root.player.isPlaying ? "" : "" 
+	    }
 
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 12
