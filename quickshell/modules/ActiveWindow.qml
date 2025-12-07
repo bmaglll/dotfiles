@@ -17,8 +17,11 @@ Text { // Renamed from BarText to standard Text for compatibility
     }
     
     // Set your display properties
-    color: "#ffffff"
-    font.pixelSize: 14 
+       
+    font.family: "JetBrainsMono Nerd Font"
+    font.pixelSize: 10
+    color: "white"
+
     verticalAlignment: Text.AlignVCenter
 
     // --- Process to run hyprctl and parse the output ---
