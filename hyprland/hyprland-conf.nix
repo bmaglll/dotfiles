@@ -153,10 +153,10 @@
       # "float, class:^(com\\.obsproject\\.Studio)$"
       # "center, class:^(com\\.obsproject\\.Studio)$"
       ];
-    #layerrule = [
-    #  "blur, quickshell"
-    #  "ignorealpha 0.1, quickshell"
-    #];
+    layerrule = [
+      "blur, quickshell"
+      "ignorealpha 0.1, quickshell"
+    ];
 
 }
 
