@@ -115,7 +115,7 @@ Item {
 	    }
 
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 12
+            font.pixelSize: 10
             color: "white"
             verticalAlignment: Text.AlignVCenter
         }
@@ -136,7 +136,7 @@ Item {
             }
 
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 12
+            font.pixelSize: 10
             color: "white"
 
             elide: Text.ElideRight
