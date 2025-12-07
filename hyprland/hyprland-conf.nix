@@ -141,7 +141,31 @@
       # Btop in kitty (if you still use this – otherwise you can delete)
       # "fullscreen, class:^(kitty)$, title:^(btop)$"
       # "float, class:^(kitty)$, title:^(btop)$"
+      
+      #The regex ^Picture-in-Picture$ ensures an exact match.
+      "float,title:^Picture-in-Picture$"
+      
+      # 2. Set the 16:9 size (e.g., 640 width, 360 height).
+      # You can adjust these numbers, but keep the 16:9 ratio.
+      "size 640 360,title:^Picture-in-Picture$"
+      
+      # 3. Move the window to the bottom-right corner.
+      # 100% moves it to the edge, and the subtraction provides a small gap.
+      # Example: move 100%-650 100%-390
+      # Note: Hyprland uses the format "X Y" for move.
+      "move 100%-650 100%-390,title:^Picture-in-Picture$"
 
+      # 4. Optional: Pin the window to show it on all workspaces.
+      "pin,title:^Picture-in-Picture$"
+
+      # 5. Optional: Disable window animations for a snappier feel.
+      "noanim,title:^Picture-in-Picture$"
+
+      # 6. Optional: Prevent maximizing/fullscreen requests.
+      "nofullscreenrequest,title:^Picture-in-Picture$"
+      
+      # Optional: Enable aspect ratio lock if resizing
+      "keepaspectratio,title:^Picture-in-Picture$"	
       # Clipse window via Ghostty
       "float, class:(ghostty.clipse)"
       "size 622 600, class:(ghostty.clipse)"
