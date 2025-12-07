@@ -6,63 +6,76 @@ import Quickshell.Services.Mpris
 Item {
     id: root
 
-    // Make it visibly present
     implicitHeight: 24
     implicitWidth: row.implicitWidth + 16
 
-    // Background so you can clearly see it
     Rectangle {
         anchors.fill: parent
         color: "#333333"
         radius: 4
     }
 
-    // Currently selected player (we pick the first usable one)
-    property var player: null
-    property int playersLen: 0
+    // Model/list from Quickshell
+    property var playersModel: Mpris.players
+    property var players: playersModel ? playersModel.values : []
 
-    function updatePlayer() {
-        if (!Mpris.players || !Mpris.players.values) {
-            console.log("MprisMini: updatePlayer -> no players model")
-            root.player = null
-            root.playersLen = 0
-            return
+    // Choose the active player:
+    //  1. Any non-playerctld that isPlaying
+    //  2. Otherwise prefer spotify
+    //  3. Otherwise prefer firefox
+    //  4. Otherwise first non-playerctld
+    property var player: {
+        const vals = root.players;
+        if (!vals || vals.length === 0) {
+            return null;
         }
 
-        const vals = Mpris.players.values
-        root.playersLen = vals.length
-        console.log("MprisMini: updatePlayer -> values length =", vals.length)
-
-        if (vals.length === 0) {
-            root.player = null
-            return
+        function valid(p) {
+            return p && p.dbusName.indexOf("playerctld") === -1;
         }
 
-        // Naive: just pick the first one for now
-        // (we can later prefer spotify over playerctld/firefox)
-        root.player = vals[0]
+        // 1) any playing player (skip playerctld)
+        for (let i = 0; i < vals.length; ++i) {
+            const p = vals[i];
+            if (valid(p) && p.isPlaying) {
+                return p;
+            }
+        }
 
-        console.log("MprisMini: using player dbusName =", root.player.dbusName,
-                    "identity =", root.player.identity)
+        // 2) prefer spotify
+        for (let i = 0; i < vals.length; ++i) {
+            const p = vals[i];
+            if (valid(p) && p.dbusName.indexOf("spotify") !== -1) {
+                return p;
+            }
+        }
+
+        // 3) prefer firefox
+        for (let i = 0; i < vals.length; ++i) {
+            const p = vals[i];
+            if (valid(p) && p.dbusName.indexOf("firefox") !== -1) {
+                return p;
+            }
+        }
+
+        // 4) fallback: first non-playerctld
+        for (let i = 0; i < vals.length; ++i) {
+            const p = vals[i];
+            if (valid(p)) {
+                return p;
+            }
+        }
+
+        // worst case: just first
+        return vals[0];
     }
 
-    Component.onCompleted: {
-        if (Mpris.players && Mpris.players.values) {
-            console.log("MprisMini: initial values length =", Mpris.players.values.length)
+    // Debug: see when active player changes
+    onPlayerChanged: {
+        if (player) {
+            console.log("MprisMini: active player now", player.dbusName, "identity =", player.identity);
         } else {
-            console.log("MprisMini: initial players model not ready")
-        }
-        updatePlayer()
-    }
-
-    Connections {
-        target: Mpris.players
-
-        // Fired whenever the list of players changes
-        function onValuesChanged() {
-            const len = Mpris.players.values.length
-            console.log("MprisMini: players values changed, length =", len)
-            root.updatePlayer()
+            console.log("MprisMini: no active player");
         }
     }
 
@@ -72,12 +85,12 @@ Item {
 
         onClicked: {
             if (!root.player)
-                return
+                return;
 
             if (root.player.canTogglePlaying) {
-                root.player.togglePlaying()
+                root.player.togglePlaying();
             } else if (root.player.canPlay || root.player.canPause) {
-                root.player.isPlaying = !root.player.isPlaying
+                root.player.isPlaying = !root.player.isPlaying;
             }
         }
     }
@@ -88,16 +101,15 @@ Item {
         anchors.margins: 4
         spacing: 6
 
-        // Play / pause icon
         Text {
             Layout.alignment: Qt.AlignVCenter
-            visible: true
 
             text: {
                 if (!root.player) {
-                    return "⏹"
+                    const len = root.players ? root.players.length : 0;
+                    return "⏹ (" + len + ")";
                 }
-                return root.player.isPlaying ? "⏸" : "▶"
+                return root.player.isPlaying ? "⏸" : "▶";
             }
 
             font.family: "JetBrainsMono Nerd Font"
@@ -106,20 +118,19 @@ Item {
             verticalAlignment: Text.AlignVCenter
         }
 
-        // Artist - Title or debug fallback
         Text {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
 
             text: {
                 if (!root.player) {
-                    // show length so we know what the model sees
-                    return "No MPRIS player (len=" + root.playersLen + ")"
+                    const len = root.players ? root.players.length : 0;
+                    return "No MPRIS player (len=" + len + ")";
                 }
 
-                const artist = root.player.trackArtist || "Unknown Artist"
-                const title  = root.player.trackTitle  || "Unknown Title"
-                return artist + " - " + title
+                const artist = root.player.trackArtist || "Unknown Artist";
+                const title  = root.player.trackTitle  || "Unknown Title";
+                return artist + " - " + title;
             }
 
             font.family: "JetBrainsMono Nerd Font"
