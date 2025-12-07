@@ -39,9 +39,14 @@
 
       blur = {
         enabled = true;
-        size = 2;
-        passes = 1;
+        size = 10;
+        passes = 2;
         vibrancy = 0.1696;
+	new_optimizations = true;
+	noise = 0.1;
+	ignore_opacity = true;
+	contrast = 2;
+
       	};
     };
     # misc
@@ -157,7 +162,7 @@
       "blur, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
-      "xray, quickshell"
+      
     ];
 
 }
