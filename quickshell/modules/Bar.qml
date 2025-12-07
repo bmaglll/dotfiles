@@ -65,7 +65,7 @@ PanelWindow {
 
 	    }
 
-	    WorkspaceTitle {
+            WindowTitle {
 
 	    }
         }
