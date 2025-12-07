@@ -37,11 +37,7 @@ Text { // Renamed from BarText to standard Text for compatibility
         command: ["sh", "-c", "hyprctl activewindow | grep title: | sed 's/^[^:]*: //'"]
         property bool isFetching: false
 
-        running: isFetching
-        
-        // Timeout set to 100ms to prevent the shell command from hanging indefinitely 
-        // if hyprctl takes too long or fails silently, though this is rare.
-        timeout: 100 
+        running: isFetching 
 
         stdout: SplitParser {
             // Trim and assign the title. If the command output is empty, data.trim() 
