@@ -5,11 +5,12 @@ import Quickshell.Services.Mpris
 
 Item {
     id: root
+    
     // vanish if no valid players exist
     visible: player !== null
 
     implicitHeight: 24
-    implicitWidth: row.implicitWidth + 16
+    implicitWidth: row.implicitWidth + 16 // Implicit width relies on RowLayout width
 
     Rectangle {
         anchors.fill: parent
@@ -21,11 +22,7 @@ Item {
     property var playersModel: Mpris.players
     property var players: playersModel ? playersModel.values : []
 
-    // Choose the active player:
-    //  1. Any non-playerctld that isPlaying
-    //  2. Otherwise prefer spotify
-    //  3. Otherwise prefer firefox
-    //  4. Otherwise first non-playerctld
+    // Choose the active player (Logic unchanged)
     property var player: {
         const vals = root.players;
         if (!vals || vals.length === 0) {
@@ -103,6 +100,7 @@ Item {
         anchors.margins: 4
         spacing: 6
 
+        // Play/Pause Icon Text
         Text {
             Layout.alignment: Qt.AlignVCenter
 
@@ -110,9 +108,9 @@ Item {
                 if (!root.player) {
                     const len = root.players ? root.players.length : 0;
                     return "⏹ (" + len + ")";
-	        }
-	        return root.player.isPlaying ? "" : "" 
-	    }
+            }
+            return root.player.isPlaying ? "" : "" 
+        }
 
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 10
@@ -120,9 +118,13 @@ Item {
             verticalAlignment: Text.AlignVCenter
         }
 
+        // Artist and Title Text (The one we are limiting)
         Text {
             Layout.alignment: Qt.AlignVCenter
-            Layout.fillWidth: true
+            
+            // 🛑 FIX: Set a fixed width. Change 200 to your desired pixel width.
+            Layout.preferredWidth: 200 
+            // 🛑 FIX: Removed Layout.fillWidth: true, as it conflicts with preferredWidth.
 
             text: {
                 if (!root.player) {
@@ -139,10 +141,10 @@ Item {
             font.pixelSize: 10
             color: "white"
 
-            elide: Text.ElideRight
+            // This ensures "..." is shown when the text exceeds the 200px width.
+            elide: Text.ElideRight 
             maximumLineCount: 1
             verticalAlignment: Text.AlignVCenter
         }
     }
 }
-
