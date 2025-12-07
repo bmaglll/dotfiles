@@ -1,28 +1,45 @@
-
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Mpris
+
 Item {
     id: root
 
-    // Size for the bar
     implicitHeight: row.implicitHeight
     implicitWidth: row.implicitWidth
 
-    // First available MPRIS player
-    property var player: (Mpris.players.count > 0 ? Mpris.players.get(0) : null)
+    // The currently selected player (we'll pick the first one)
+    property var player: null
 
-    // TEMP: always visible so we can debug.
-    // Once everything works, you can switch back to: visible: player !== null
-    // visible: player !== null
+    // ---- Helper to choose a player safely ----
+    function updatePlayer() {
+        // Mpris or players not ready yet
+        if (!Mpris.players || typeof Mpris.players.count === "undefined") {
+            console.log("MprisMini: players model not ready:", Mpris.players)
+            root.player = null
+            return
+        }
 
-    Component.onCompleted: {
-        console.log("MprisMini: players count on start =", Mpris.players.count)
+        console.log("MprisMini: players count:", Mpris.players.count)
+
+        if (Mpris.players.count > 0) {
+            root.player = Mpris.players.get(0)
+        } else {
+            root.player = null
+        }
     }
 
-    onPlayerChanged: {
-        console.log("MprisMini: player changed =", player)
+    Component.onCompleted: {
+        updatePlayer()
+    }
+
+    // React when the Mpris singleton says its players changed
+    Connections {
+        target: Mpris
+        function onPlayersChanged() {
+            root.updatePlayer()
+        }
     }
 
     MouseArea {
@@ -32,12 +49,12 @@ Item {
 
         onClicked: {
             if (!root.player)
-                return;
+                return
 
             if (root.player.canTogglePlaying) {
-                root.player.togglePlaying();
+                root.player.togglePlaying()
             } else if (root.player.canPlay || root.player.canPause) {
-                root.player.isPlaying = !root.player.isPlaying;
+                root.player.isPlaying = !root.player.isPlaying
             }
         }
     }
@@ -55,10 +72,9 @@ Item {
 
             text: {
                 if (!root.player) {
-                    // Show something so you know it's alive
-                    return "⏹"; // no player
+                    return "⏹" // no player
                 }
-                return root.player.isPlaying ? "⏸" : "▶";
+                return root.player.isPlaying ? "⏸" : "▶"
             }
 
             font.family: "JetBrainsMono Nerd Font"
@@ -74,12 +90,12 @@ Item {
 
             text: {
                 if (!root.player) {
-                    return "No MPRIS player";
+                    return "No MPRIS player"
                 }
 
-                const artist = root.player.trackArtist || "Unknown Artist";
-                const title  = root.player.trackTitle  || "Unknown Title";
-                return artist + " - " + title;
+                const artist = root.player.trackArtist || "Unknown Artist"
+                const title  = root.player.trackTitle  || "Unknown Title"
+                return artist + " - " + title
             }
 
             elide: Text.ElideRight
@@ -91,5 +107,4 @@ Item {
         }
     }
 }
-
 
