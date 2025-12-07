@@ -51,19 +51,17 @@
   services.xserver.enable = true;
   # XDG Portal Settings
  
-  {
-    xdg.portal = {
-      enable = true;
+  
+  xdg.portal = {
+    enable = true;
 
-      extraPortals = [
-        pkgs.xdg-desktop-portal-hyprland
-        pkgs.xdg-desktop-portal-gtk  # optional – only if you actually need GTK portal
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk  # optional – only if you actually need GTK portal
       ];
-
       # Make Hyprland the default portal
       config.common.default = [ "hyprland" "gtk" ];
     };
-  }
 
     # Enable the GNOME Desktop Environment.
   #services.xserver.displayManager.gdm.enable = true;
