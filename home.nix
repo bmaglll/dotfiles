@@ -183,7 +183,9 @@
   xdg.configFile."quickshell".source = ./quickshell;
   #xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   #xdg.configFile."waybar/style.css".source = ./waybar/style.css;
-  
+  # Import Spotify Icon for SytemTray
+  xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source = ./icons/spotify-linux-32.png;
+
   home.sessionVariables = {
 
   };
