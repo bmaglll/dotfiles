@@ -1,56 +1,56 @@
 import QtQuick
-import Quickshell
+import QtQuick.Layouts
 import Quickshell.Io
 import Quickshell.Hyprland
+// Note: Remove the import "../" unless you have a custom component there
 
-Text {
-    id: windowTitle
-    text: "No active window"
+Text { // Renamed from BarText to standard Text for compatibility
+    id: activeWindowTitleDisplay
+
+    property int chopLength: 40 // Set a default value
+    property string activeWindowTitle: ""
+
+    text: {
+        var str = activeWindowTitle
+        // Truncate the title if it exceeds chopLength, or return the full title
+        return str.length > chopLength ? str.slice(0, chopLength) + '...' : str;
+    }
+    
+    // Set your display properties
     color: "#ffffff"
-    font.pixelSize: 14
-    elide: Text.ElideRight
-    maximumLineCount: 1
+    font.pixelSize: 14 
+    verticalAlignment: Text.AlignVCenter
 
+    // --- Process to run hyprctl and parse the output ---
     Process {
         id: titleProc
-        command: ["hyprctl", "activewindow", "-j"]
+        command: ["sh", "-c", "hyprctl activewindow | grep title: | sed 's/^[^:]*: //'"]
+        property bool isFetching: false
+
+        running: isFetching
         
-        // Use the signal handler that is most likely to be exposed: onProcessFinished
-        // This fires *after* the command runs and the output is ready.
-        onProcessFinished: function(exitCode) {
-            // Only proceed if the command executed successfully
-            if (exitCode === 0) {
-                // Read the output buffer directly from the process object
-                var output = titleProc.readAllStandardOutput();
-                
-                try {
-                    // Parse the JSON output from Hyprland
-                    var data = JSON.parse(output);
-                    
-                    // Set the text to the window title, handling null/empty focus
-                    windowTitle.text = data.title ? data.title : "";
-                } catch (err) {
-                    windowTitle.text = "";
-                }
-            } else {
-                // Command failed (e.g., hyprctl not found)
-                windowTitle.text = "hyprctl fail";
+        stdout: SplitParser {
+            onRead: data => activeWindowTitleDisplay.activeWindowTitle = data.trim()
+        }
+        
+        onRunningChanged: {
+            if (!titleProc.running) {
+                isFetching = false;
             }
         }
     }
 
-    Connections {
-        target: Hyprland
-        
-        function onRawEvent(event) {
-            // Check for focus change or title update events
-            if (event.name === "activewindow" || event.name === "activewindowv2" || event.name === "windowtitle") {
-                // Run the process to update the title
-                titleProc.running = true; 
+    // --- Event Connection to Hyprland ---
+    Component.onCompleted: {
+        Hyprland.rawEvent.connect(hyprEvent)
+        titleProc.isFetching = true
+    }
+
+    function hyprEvent(e) {
+        if (e.name === "activewindow" || e.name === "activewindowv2" || e.name === "windowtitle") {
+            if (!titleProc.isFetching) {
+                titleProc.isFetching = true
             }
         }
     }
-
-    // Initial fetch when the bar loads
-    Component.onCompleted: titleProc.running = true
 }

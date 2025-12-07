@@ -66,7 +66,15 @@ PanelWindow {
 	    }
 
             ActiveWindow {
-
+              Layout.leftMargin: 10
+              Layout.fillWidth: true // Allow it to take up the middle space
+            
+              // This calculation ensures the title doesn't overlap other blocks
+              chopLength: {
+                var space = Math.floor(bar.width - (rightBlocks.implicitWidth + leftBlocks.implicitWidth))
+                // You may need to adjust the divisor (e.g., /8 or /10) based on font size.
+                return Math.floor(space / activeWindowTitleDisplay.font.pixelSize); 
+              }
 	    }
         }
 
