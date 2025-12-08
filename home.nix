@@ -102,45 +102,44 @@
     settings = import ./hyprland/hyprland-conf.nix;
   };
 
-  ## Hyprlock
+## Hyprlock
   programs.hyprlock = {
     enable = true;
 
     settings = {
+      # 🌟 1. AUTHENTICATION (Top-level attributes in settings)
+      "fingerprint:enabled" = true;
+      "pam:enabled" = true;
+      "fingerprint:ready_message" = "(Scan fingerprint to unlock)";
+      "fingerprint:present_message" = "Scanning...";
+
+      # 2. SECTIONS (Each section block now ends with a semicolon)
       general = {
         disable_loading_bar = false;
-      };
-      auth = {
-        "fingerprint:enabled" = true;
-	"pam:enabled" = true;
-
-	"fingerprint:ready_message" = "(Scan fingerprint to unlock");
-	"fingerprint:present_message" = "Scanning...";
-      };
+      }; # <- Semicolon here
 
       background = {
-        monitor = "eDP-1";
-        path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
-        blur_passes = 2;
-        blur_size = 3;
-      };
+        monitor = "eDP-1"; # <- Semicolon here
+        path = "/home/bmag/Pictures/wallpapers/ngc2899.png"; # <- Semicolon here
+        blur_passes = 2; # <- Semicolon here
+        blur_size = 3; # <- Semicolon here
+      }; # <- Semicolon here
 
       label = {
-        text = "bmag";
-        position = "0, 50";
-        halign = "center";
-        valign = "center";
-      };
+        text = "bmag"; # <- Semicolon here
+        position = "0, 50"; # <- Semicolon here
+        halign = "center"; # <- Semicolon here
+        valign = "center"; # <- Semicolon here
+      }; # <- Semicolon here
 
       input-field = {
-        size = "200, 40";
-        position = "0, -50";
-        halign = "center";
-        valign = "center";
-      };
-    };
+        size = "200, 40"; # <- Semicolon here
+        position = "0, -50"; # <- Semicolon here
+        halign = "center"; # <- Semicolon here
+        valign = "center"; # <- Semicolon here
+      }; # <- Semicolon here
+    }; # <- Semicolon here
   };
-
   # Hypridle
   services.hypridle = {
     enable = true;
