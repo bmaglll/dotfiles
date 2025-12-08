@@ -109,13 +109,13 @@
     settings = {
       general = {
         disable_loading_bar = false;
+      };
       auth = {
         "fingerprint:enabled" = true;
 	"pam:enabled" = true;
 
 	"fingerprint:ready_message" = "(Scan fingerprint to unlock");
 	"fingerprint:present_message" = "Scanning...";
-      };
       };
 
       background = {
