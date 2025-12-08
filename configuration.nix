@@ -103,7 +103,12 @@
   users.users.bmag = {
     isNormalUser = true;
     description = "Brandon";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ 
+      "networkmanager"
+      "wheel"
+      "input"
+      "plugdev"
+    ];
     packages = with pkgs; [
     ];
   };
