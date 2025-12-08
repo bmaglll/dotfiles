@@ -8,7 +8,16 @@
       # Framework 13 Laptop Flake
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ];
-
+  security.polkit.extraRules = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "net.reactivated.fprint.device.enroll" ||
+           action.id == "net.reactivated.fprint.device.verify" ||
+           action.id == "net.reactivated.fprint.device.list_prints") &&
+          subject.isInGroup("wheel")) { // Assuming 'bmag' is in wheel
+        return polkit.Result.YES;
+      }
+    });
+  '';
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
