@@ -8,9 +8,10 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Hardware Flakes  
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    };
+    
   };
 
   outputs = { self, nixpkgs, nixos-hardware, ... }@inputs: {
