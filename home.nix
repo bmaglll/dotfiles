@@ -109,6 +109,10 @@
     settings = {
       general = {
         disable_loading_bar = false;
+      auth = {
+        "fingerprint:enabled" = true;
+	"pam:enabled" = true;
+      }
       };
 
       background = {
