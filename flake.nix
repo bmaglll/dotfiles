@@ -2,15 +2,18 @@
   description = "Nixos config flake";
 
   inputs = {
+    # Unstable NixPkg channel
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    # Home-Manager Flake
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    # Hardware Flakes  
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, nixos-hardware, ... }@inputs: {
     # use "nixos", or your hostname as the name of the configuration
     # it's a better practice than "default" shown in the video
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {

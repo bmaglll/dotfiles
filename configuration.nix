@@ -9,6 +9,8 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
+      # Framework 13 Laptop Flake
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ];
 
   # Bootloader.
@@ -115,7 +117,14 @@
 
   services.upower.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
-
+  
+  # 🌟 NEW SECTION: Enable Fingerprint Reader
+  services.fprintd.enable = true;
+  
+  # Optional: Also enable it for sudo authentication in the terminal
+  # Note: fprintd usually handles PAM configuration for login managers (like Greetd) automatically when enabled.
+  security.pam.services.sudo.fprintAuth = true;
+  
   users.users.bmag = {
     isNormalUser = true;
     description = "Brandon";
