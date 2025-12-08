@@ -123,7 +123,17 @@
   
   # Optional: Also enable it for sudo authentication in the terminal
   # Note: fprintd usually handles PAM configuration for login managers (like Greetd) automatically when enabled.
-  security.pam.services.sudo.fprintAuth = true;
+  security.pam.services = {
+    # 🌟 This section enables fingerprint authentication for Hyprlock
+    hyprlock = {
+      # Use the common system-auth stack, which includes fprintd authentication
+      # (This is the key line to integrate fprintd with Hyprlock)
+      text = "auth include system-auth";
+    };
+
+    # You already had this one, but confirming it's there for terminal sudo
+    sudo.fprintAuth = true;
+  };
   
   users.users.bmag = {
     isNormalUser = true;
