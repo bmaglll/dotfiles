@@ -126,20 +126,6 @@
   security.pam.services = {
     # 🌟 This section enables fingerprint authentication for Hyprlock
     hyprlock = {
-      # Use the common system-auth stack, which includes fprintd authentication
-      # (This is the key line to integrate fprintd with Hyprlock)
-      # ⚠️ This configuration ensures fingerprint is tried first, 
-      # but password still works as a fallback!
-      # It consists of multiple lines for the PAM file contents:
-      text = ''
-        auth    sufficient  pam_fprintd.so
-        auth    include     system-auth
-        account include     system-account
-        password include   system-password
-        session include     system-session
-      '';
-    };
-
     # You already had this one, but confirming it's there for terminal sudo
     sudo.fprintAuth = true;
   };

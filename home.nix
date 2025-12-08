@@ -112,6 +112,9 @@
       auth = {
         "fingerprint:enabled" = true;
 	"pam:enabled" = true;
+
+	"fingerprint:ready_message" = "(Scan fingerprint to unlock")
+	"fingerprint:present_message" = "Scanning..."
       };
       };
 
