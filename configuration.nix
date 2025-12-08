@@ -141,7 +141,9 @@
   git
   hyprlock
   hypridle
+  libfprint
   ];
+  # Fonts
   fonts = {
   enableDefaultPackages = true;
   fontconfig.enable = true;
