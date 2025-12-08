@@ -8,7 +8,7 @@
       # Framework 13 Laptop Flake
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ];
-  security.polkit.extraRules = ''
+  security.polkit.rules = ''
     polkit.addRule(function(action, subject) {
       if ((action.id == "net.reactivated.fprint.device.enroll" ||
            action.id == "net.reactivated.fprint.device.verify" ||
