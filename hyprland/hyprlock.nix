@@ -13,8 +13,6 @@
     blur_passes = 2;
     blur_size = 3;
   };
-
-  # Two labels: time at top, fail reason under the input
   label = [
     {
       monitor = "eDP-1";
@@ -47,8 +45,8 @@
 
     # Kill the visible box
     outline_thickness = 0;
-    outer_color = "rgba(0, 0, 0, 0.0)";
-    inner_color = "rgba(0, 0, 0, 0.0)";
+    outer_color = "rgba(255, 0, 0, 0.0)";
+    inner_color = "rgba(255, 255, 255, 0.0)";
 
     # White text / dots on top of wallpaper
     font_color = "rgba(255, 255, 255, 1.0)";
@@ -56,7 +54,7 @@
 
     # Use ***** instead of round dots
     dots_text_format = "*";
-    dots_size = 0.35;
+    dots_size = 0.75;
     dots_center = true;
 
     fade_on_empty = false;
