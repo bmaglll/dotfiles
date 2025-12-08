@@ -105,40 +105,7 @@
 ## Hyprlock
   programs.hyprlock = {
     enable = true;
-
-    settings = {
-      # 🌟 1. AUTHENTICATION (Top-level attributes in settings)
-      "fingerprint:enabled" = true;
-      "pam:enabled" = true;
-      "fingerprint:ready_message" = "(Scan fingerprint to unlock)";
-      "fingerprint:present_message" = "Scanning...";
-
-      # 2. SECTIONS (Each section block now ends with a semicolon)
-      general = {
-        disable_loading_bar = false;
-      }; # <- Semicolon here
-
-      background = {
-        monitor = "eDP-1"; # <- Semicolon here
-        path = "/home/bmag/Pictures/wallpapers/ngc2899.png"; # <- Semicolon here
-        blur_passes = 2; # <- Semicolon here
-        blur_size = 3; # <- Semicolon here
-      }; # <- Semicolon here
-
-      label = {
-        text = "bmag"; # <- Semicolon here
-        position = "0, 50"; # <- Semicolon here
-        halign = "center"; # <- Semicolon here
-        valign = "center"; # <- Semicolon here
-      }; # <- Semicolon here
-
-      input-field = {
-        size = "200, 40"; # <- Semicolon here
-        position = "0, -50"; # <- Semicolon here
-        halign = "center"; # <- Semicolon here
-        valign = "center"; # <- Semicolon here
-      }; # <- Semicolon here
-    }; # <- Semicolon here
+    settings = import ./hyprland/hyprlock.nix;
   };
   # Hypridle
   services.hypridle = {
