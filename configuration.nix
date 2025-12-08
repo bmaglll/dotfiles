@@ -97,7 +97,6 @@
   
   security.pam.services = {
      sudo.fprintAuth = true;
-    };
   };
   
   # User Info
