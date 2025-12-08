@@ -112,7 +112,7 @@
       auth = {
         "fingerprint:enabled" = true;
 	"pam:enabled" = true;
-      }
+      };
       };
 
       background = {
