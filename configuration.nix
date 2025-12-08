@@ -128,6 +128,7 @@
     hyprlock = {
     # You already had this one, but confirming it's there for terminal sudo
     sudo.fprintAuth = true;
+    };
   };
   
   users.users.bmag = {
