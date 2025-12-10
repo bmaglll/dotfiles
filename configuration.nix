@@ -101,8 +101,11 @@
     
     # Ensure sudo supports fingerprint
     sudo.fprintAuth = true;
-    
-    # Enable fingerprint for Hyprlock (via the "login" service)
+    # enable fingerprint for greetd service
+    greetd = {
+      fprintAuth = true; # Use fingerprint for the login screen itself
+    };
+    # enable fingerprint for hyprlock (via the "login" service)
     hyprlock = {
       fprintAuth = true;
     };
