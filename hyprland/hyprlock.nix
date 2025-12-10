@@ -1,9 +1,14 @@
 {
   auth = {
-    fingerprint:enabled = true;
-    pam:enabled = true;
-    fingerprint:ready_message = "Scan Finger"
-  };
+      pam = {
+        enabled = true; # Corresponds to raw 'pam:enabled'
+      };
+      fingerprint = {
+        enabled = true; # Corresponds to raw 'fingerprint:enabled'
+        ready_message = "Scan Finger"; # Corresponds to raw 'fingerprint:ready_message'
+      };
+    };
+
   background = {
     monitor = "eDP-1";
     path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
