@@ -11,7 +11,7 @@
 
   background = {
     monitor = "eDP-1";
-    path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
+    path = "/home/bmag/nixos-config/wallpapers/c691.jpg";
     blur_passes = 2;
     blur_size = 3;
   };
