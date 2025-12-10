@@ -138,7 +138,7 @@
       splash_offset = 2.0;
 
       preload = [
-        "/home/bmag/Pictures/wallpapers/ngc2899.png"
+        "/home/bmag/nixos-config/wallpapers/ngc2899.png"
       ];
 
       wallpaper = [

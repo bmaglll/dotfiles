@@ -171,7 +171,7 @@
       "float, class:^(hyprland-share-picker)$"
       "center, class:^(hyprland-share-picker)$"
       "float, class:^(discord)$"
-      "size 622 600, class:^(discord)"
+      "size 722 600, class:^(discord)"
       "float, class:^(protonvpn-app)$"
       # OBS (uncomment if you want this behavior)
       # "float, class:^(com\\.obsproject\\.Studio)$"
