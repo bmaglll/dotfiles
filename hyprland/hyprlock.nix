@@ -1,5 +1,9 @@
 {
-
+  auth = {
+    fingerprint:enabled = true
+    pam:enabled = true
+    fingerprint:ready_message = "Scan Finger"
+  };
   background = {
     monitor = "eDP-1";
     path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
