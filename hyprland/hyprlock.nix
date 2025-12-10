@@ -1,7 +1,7 @@
 {
   auth = {
-    fingerprint:enabled = true
-    pam:enabled = true
+    fingerprint:enabled = true;
+    pam:enabled = true;
     fingerprint:ready_message = "Scan Finger"
   };
   background = {
