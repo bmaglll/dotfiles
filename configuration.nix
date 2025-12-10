@@ -104,7 +104,7 @@
     
     # Enable fingerprint for Hyprlock (via the "login" service)
     hyprlock = {
-      hyprlock.fprintAuth = true;
+      fprintAuth = true;
     };
   };
   
