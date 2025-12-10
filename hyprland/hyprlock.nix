@@ -1,12 +1,5 @@
 {
-  general = {
-    disable_loading_bar = false;
-  };
-  settings = {
-    # 🌟 1. AUTHENTICATION (Top-level attributes in settings)
-    "fingerprint:enabled" = true;
-    "pam:enabled" = true;
-  };
+
   background = {
     monitor = "eDP-1";
     path = "/home/bmag/Pictures/wallpapers/ngc2899.png";
