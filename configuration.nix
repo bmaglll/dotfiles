@@ -8,16 +8,7 @@
       # Framework 13 Laptop Flake
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ];
-  security.polkit.rules = ''
-    polkit.addRule(function(action, subject) {
-      if ((action.id == "net.reactivated.fprint.device.enroll" ||
-           action.id == "net.reactivated.fprint.device.verify" ||
-           action.id == "net.reactivated.fprint.device.list_prints") &&
-          subject.isInGroup("wheel")) { // Assuming 'bmag' is in wheel
-        return polkit.Result.YES;
-      }
-    });
-  '';
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -105,7 +96,16 @@
   services.fprintd.enable = true;
   
   security.pam.services = {
-     sudo.fprintAuth = true;
+     # Ensure login/tty login supports fingerprint
+    login.fprintAuth = true; 
+    
+    # Ensure sudo supports fingerprint
+    sudo.fprintAuth = true;
+    
+    # Enable fingerprint for Hyprlock (via the "login" service)
+    hyprlock = {
+      hyprlock.fprintAuth = true;
+    };
   };
   
   # User Info
