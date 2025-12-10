@@ -47,6 +47,10 @@
     outline_thickness = 0;
     outer_color = "rgba(255, 0, 0, 0.0)";
     inner_color = "rgba(255, 255, 255, 0.0)";
+    check_color = "rgba(0, 0, 0, 0)";
+    fail_color  = "rgba(0, 0, 0, 0)";
+    capslock_color = "rgba(0, 0, 0, 0)";
+    numlock_color = "rgba(0, 0, 0, 0)";
 
     # White text / dots on top of wallpaper
     font_color = "rgba(255, 255, 255, 1.0)";
