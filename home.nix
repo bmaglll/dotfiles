@@ -106,6 +106,8 @@
   programs.hyprlock = {
     enable = true;
     settings = import ./hyprland/hyprlock.nix;
+    "fingerprint:enabled" = true;
+    "pam:enabled" = true;
   };
   # Hypridle
   services.hypridle = {
