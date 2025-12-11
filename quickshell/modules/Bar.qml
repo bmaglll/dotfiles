@@ -88,6 +88,13 @@ PanelWindow {
                 panelWindow: root
             }
 
+            VolumeWidget {
+                Layout.alignment: Qt.AlignVCenter
+                fontFamily: "JetBrainsMono Nerd Font"
+                fontSize: 12
+                // adjust if you prefer kitty or something else
+                wiremixCommand: ["ghostty", "-e", "wiremix"]
+            }
             Battery {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
