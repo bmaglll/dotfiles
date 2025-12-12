@@ -60,7 +60,24 @@ PanelWindow {
             spacing: 4
             Layout.fillWidth: true
 	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            Item {
+                id: mprisAnchor
+                Layout.alignment: Qt.AlignVCenter
 
+                implicitWidth: mprisMini.implicitWidth
+                implicitHeight: mprisMini.implicitHeight
+
+                MprisMini {
+                    id: mprisMini
+                    anchors.fill: parent
+                }
+
+                MouseArea {
+                    id: mprisHover
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+            }
 	    MprisMini {
 
 	    }
@@ -107,6 +124,14 @@ PanelWindow {
                 vars: vars
             }
         }
+      }
+    MediaPopup {
+        id: mediaPopup
+        anchorItem: mprisAnchor
+        barWidth: root.width
+        popupHeight: 400
+        widthRatio: 0.4
+        show: mprisHover.containsMouse
     }
 }
 
