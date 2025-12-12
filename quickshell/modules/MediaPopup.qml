@@ -37,7 +37,7 @@ PopupWindow {
 
     // Let the compositor blur behind this
     color: "transparent"
-    z: 999
+    
 
     // Simple anchor: attach to the bottom-left of the MPRIS block
     anchor.item: anchorItem
