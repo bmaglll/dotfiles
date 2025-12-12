@@ -4,69 +4,68 @@ import Quickshell
 PopupWindow {
     id: popup
 
-    // The bar item this popup should attach to (the MprisMini wrapper)
     required property Item anchorItem
-
-    // Width of the bar row (passed from Bar.qml)
     property int barWidth: 800
-
-    // External control: set this from Bar.qml
     property bool show: false
-
-    // Height in px
     property int popupHeight: 400
+    property real widthRatio: 0.45
 
-    // Width ratio of the bar width (0.0–1.0)
-    property real widthRatio: 0.4
+    // emitted when clicking outside
+    signal requestClose()
 
-    // Expose whether the mouse is over the popup
-    property bool hovered: hoverArea.containsMouse
-
-    // Use this to drive visibility
     visible: show
+    z: 999
 
-    // Size: width is a ratio of the bar width, clamped to a sane range
     implicitWidth: {
-        var w = barWidth * widthRatio;
-        if (w < 320) w = 320;   // minimum width
-        if (w > 700) w = 700;   // maximum width
+        let w = barWidth * widthRatio;
+        if (w < 360) w = 360;
+        if (w > 800) w = 800;
         return w;
     }
 
     implicitHeight: popupHeight
-
-    // Let the compositor blur behind this
     color: "transparent"
-    
 
-    // Simple anchor: attach to the bottom-left of the MPRIS block
     anchor.item: anchorItem
     anchor.edges: Edges.Bottom | Edges.Left
     anchor.gravity: Edges.Top | Edges.Left
 
+    // backdrop (glass)
     Rectangle {
         anchors.fill: parent
         radius: 16
-        color: "#00000080"   // semi-transparent black, should blur nicely
+        color: "#00000088"
     }
 
-    // Hover catcher (no buttons, so it doesn't eat clicks yet)
+    // CLICK OUTSIDE TO CLOSE
     MouseArea {
-        id: hoverArea
         anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.NoButton
+        propagateComposedEvents: true
+
+        onClicked: {
+            // clicks inside do nothing
+        }
     }
 
-    // Placeholder content for now
+    // Global click catcher (outside popup)
+    Overlay {
+        visible: popup.visible
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: popup.requestClose()
+        }
+    }
+
+    // Placeholder content
     Column {
         anchors.fill: parent
         anchors.margins: 16
         spacing: 8
 
         Text {
-            text: "Media popup placeholder"
-            font.pixelSize: 14
+            text: "Media popup"
+            font.pixelSize: 16
             color: "white"
         }
     }
