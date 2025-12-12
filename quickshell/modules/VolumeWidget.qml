@@ -10,11 +10,11 @@ Item {
     width: iconText.implicitWidth + 10
     height: parent ? parent.height : 24
 
-    // tweak these
+    // tweak these if you want
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
 
-    // change this to your actual terminal if needed
+    // change this to your terminal if needed (kitty, foot, alacritty, etc.)
     property var wiremixCommand: ["ghostty", "-e", "wiremix"]
 
     // PipeWire: default sink
@@ -23,7 +23,7 @@ Item {
     readonly property real volume: audio ? audio.volume : 0.0
     readonly property bool muted: audio ? audio.muted : false
 
-    // ------- ICON IN THE BAR -------
+    // =============== ICON IN THE BAR ===============
     Text {
         id: iconText
         anchors.centerIn: parent
@@ -36,7 +36,7 @@ Item {
                 return "󰝟"          // no sink
             }
             if (volumeWidget.muted || volumeWidget.volume <= 0.01) {
-                return "󰝟"          // muted
+                return "󰝟"          // muted / 0
             } else if (volumeWidget.volume < 0.33) {
                 return "󰕿"          // low
             } else if (volumeWidget.volume < 0.66) {
@@ -47,20 +47,20 @@ Item {
         }
     }
 
-    // ------- PROCESS TO LAUNCH WIREMIX -------
+    // =============== PROCESS TO LAUNCH WIREMIX ===============
     Process {
         id: wiremixProc
         command: volumeWidget.wiremixCommand
     }
 
-    // ------- MOUSE ON ICON -------
+    // =============== MOUSE ON ICON ===============
     MouseArea {
         id: iconMouse
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onClicked: {
+        onClicked: function(mouse) {
             if (mouse.button === Qt.RightButton) {
                 // open wiremix in terminal
                 wiremixProc.running = true
@@ -70,7 +70,7 @@ Item {
         }
 
         // scroll to change volume
-        onWheel: {
+        onWheel: function(wheel) {
             if (!volumeWidget.audio || !Pipewire.ready) {
                 return
             }
@@ -100,7 +100,7 @@ Item {
         }
     }
 
-    // ------- POPUP WINDOW WITH SLIDER -------
+    // =============== POPUP WINDOW WITH SLIDER ===============
     PopupWindow {
         id: popup
 
@@ -110,8 +110,8 @@ Item {
         anchor.gravity: Edges.Bottom | Edges.Left
         anchor.margins.top: 0
 
-        width: 50
-        height: 150
+        implicitWidth: 50
+        implicitHeight: 150
         visible: false
 
         Rectangle {
