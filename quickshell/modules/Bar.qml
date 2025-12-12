@@ -55,11 +55,14 @@ PanelWindow {
         }
 
         // ----- CENTER: (empty for now) -----
-        RowLayout {
-            id: centerRow
+
+ RowLayout {
+            id: centerBlocks
             spacing: 4
             Layout.fillWidth: true
-	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+
+            // Anchor for the popup
             Item {
                 id: mprisAnchor
                 Layout.alignment: Qt.AlignVCenter
@@ -78,22 +81,23 @@ PanelWindow {
                     hoverEnabled: true
                 }
             }
-	    MprisMini {
-
-	    }
 
             ActiveWindow {
-              Layout.leftMargin: 10
-              Layout.fillWidth: true // Allow it to take up the middle space
-            
-              // This calculation ensures the title doesn't overlap other blocks
-              chopLength: {
-                var space = Math.floor(bar.width - (rightBlocks.implicitWidth + leftBlocks.implicitWidth))
-                // You may need to adjust the divisor (e.g., /8 or /10) based on font size.
-                return Math.floor(space / activeWindowTitleDisplay.font.pixelSize); 
-              }
-	    }
+                Layout.leftMargin: 10
+                Layout.fillWidth: true
+
+                // Prevent overlap with left/right blocks
+                chopLength: {
+                    var space = Math.floor(bar.width - (rightBlocks.implicitWidth + leftBlocks.implicitWidth));
+                    if (space < 0) {
+                        space = 0;
+                    }
+                    var px = activeWindowTitleDisplay.font.pixelSize || 10;
+                    return Math.floor(space / px);
+                }
+            }
         }
+
 
         // ----- RIGHT: tray + battery + clock -----
         RowLayout {

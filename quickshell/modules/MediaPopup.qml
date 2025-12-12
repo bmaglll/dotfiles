@@ -7,7 +7,7 @@ PopupWindow {
     // The bar item this popup should attach to (the MprisMini wrapper)
     required property Item anchorItem
 
-    // Width of the bar window (passed from Bar.qml)
+    // Width of the bar row (passed from Bar.qml)
     property int barWidth: 800
 
     // External control: set this from Bar.qml
@@ -16,8 +16,11 @@ PopupWindow {
     // Height in px
     property int popupHeight: 400
 
-    // Width ratio of the bar window (0.0–1.0)
+    // Width ratio of the bar width (0.0–1.0)
     property real widthRatio: 0.4
+
+    // Expose whether the mouse is over the popup
+    property bool hovered: hoverArea.containsMouse
 
     // Use this to drive visibility
     visible: show
@@ -34,6 +37,7 @@ PopupWindow {
 
     // Let the compositor blur behind this
     color: "transparent"
+    z: 999
 
     // Simple anchor: attach to the bottom-left of the MPRIS block
     anchor.item: anchorItem
@@ -44,6 +48,14 @@ PopupWindow {
         anchors.fill: parent
         radius: 16
         color: "#00000080"   // semi-transparent black, should blur nicely
+    }
+
+    // Hover catcher (no buttons, so it doesn't eat clicks yet)
+    MouseArea {
+        id: hoverArea
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
     }
 
     // Placeholder content for now
