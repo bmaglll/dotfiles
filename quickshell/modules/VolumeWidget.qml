@@ -2,28 +2,67 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
-import Quickshell.Services.Pipewire
 import Quickshell.Io
+import Quickshell.Widgets
 
 Item {
     id: volumeWidget
     width: iconText.implicitWidth + 10
     height: parent ? parent.height : 24
 
-    // tweak these if you want
+    // tweak these
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
 
-    // change this to your terminal if needed (kitty, foot, alacritty, etc.)
+    // terminal + wiremix
     property var wiremixCommand: ["ghostty", "-e", "wiremix"]
 
-    // PipeWire: default sink
-    readonly property var sink: Pipewire.defaultAudioSink
-    readonly property var audio: sink && sink.audio ? sink.audio : null
-    readonly property real volume: audio ? audio.volume : 0.0
-    readonly property bool muted: audio ? audio.muted : false
+    // local idea of volume (0..1). We drive the real volume via wpctl.
+    property real volumeLevel: 0.5
+    property bool muted: false
 
-    // =============== ICON IN THE BAR ===============
+    // --- helpers to call wpctl ---
+    Process {
+        id: wpctlProc
+    }
+
+    function setVolumeFraction(f) {
+        if (f < 0.0) f = 0.0;
+        if (f > 1.0) f = 1.0;
+        volumeLevel = f;
+
+        var pct = Math.round(f * 100);
+        wpctlProc.command = [ "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", pct + "%" ];
+        wpctlProc.startDetached();
+    }
+
+    function changeVolumeByPercent(deltaPct) {
+        // we don't know the exact current value; just bump our local and send a relative wpctl
+        var rel = Math.round(Math.abs(deltaPct)) + "%";
+        var op  = deltaPct >= 0 ? "+" : "-";
+        wpctlProc.command = [ "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", rel + op ];
+        wpctlProc.startDetached();
+
+        // also move local estimate so icon/slider feel responsive
+        var newFrac = volumeLevel + (deltaPct / 100.0);
+        if (newFrac < 0.0) newFrac = 0.0;
+        if (newFrac > 1.0) newFrac = 1.0;
+        volumeLevel = newFrac;
+    }
+
+    function setMuted(m) {
+        muted = m;
+        wpctlProc.command = [ "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", m ? "1" : "0" ];
+        wpctlProc.startDetached();
+    }
+
+    // --- launch wiremix in a terminal ---
+    Process {
+        id: wiremixProc
+        command: volumeWidget.wiremixCommand
+    }
+
+    // ================= ICON =================
     Text {
         id: iconText
         anchors.centerIn: parent
@@ -32,28 +71,19 @@ Item {
         color: "white"
 
         text: {
-            if (!volumeWidget.audio) {
-                return "󰝟"          // no sink
-            }
-            if (volumeWidget.muted || volumeWidget.volume <= 0.01) {
-                return "󰝟"          // muted / 0
-            } else if (volumeWidget.volume < 0.33) {
-                return "󰕿"          // low
-            } else if (volumeWidget.volume < 0.66) {
-                return "󰖀"          // medium
+            if (volumeWidget.muted || volumeWidget.volumeLevel <= 0.01) {
+                return "󰝟";          // muted
+            } else if (volumeWidget.volumeLevel < 0.33) {
+                return "󰕿";          // low
+            } else if (volumeWidget.volumeLevel < 0.66) {
+                return "󰖀";          // medium
             } else {
-                return "󰕾"          // high
+                return "󰕾";          // high
             }
         }
     }
 
-    // =============== PROCESS TO LAUNCH WIREMIX ===============
-    Process {
-        id: wiremixProc
-        command: volumeWidget.wiremixCommand
-    }
-
-    // =============== MOUSE ON ICON ===============
+    // ================= MOUSE ON ICON =================
     MouseArea {
         id: iconMouse
         anchors.fill: parent
@@ -62,49 +92,37 @@ Item {
 
         onClicked: function(mouse) {
             if (mouse.button === Qt.RightButton) {
-                // open wiremix in terminal
-                wiremixProc.running = true
+                // open wiremix
+                wiremixProc.startDetached();
             } else if (mouse.button === Qt.LeftButton) {
-                popup.visible = !popup.visible
+                // toggle popup
+                popup.visible = !popup.visible;
             }
         }
 
-        // scroll to change volume
+        // scroll wheel volume
         onWheel: function(wheel) {
-            if (!volumeWidget.audio || !Pipewire.ready) {
-                return
-            }
-
-            var step = 0.05
-            var newVol = volumeWidget.volume
-
             if (wheel.angleDelta.y > 0) {
-                newVol = newVol + step
+                changeVolumeByPercent(5);   // +5%
             } else if (wheel.angleDelta.y < 0) {
-                newVol = newVol - step
+                changeVolumeByPercent(-5);  // -5%
             }
-
-            if (newVol < 0.0) newVol = 0.0
-            if (newVol > 1.5) newVol = 1.5
-
-            volumeWidget.audio.muted = false
-            volumeWidget.audio.volume = newVol
         }
 
-        // show popup when hovering icon
+        // hover shows popup
         onEntered: popup.visible = true
         onExited: {
             if (!popupMouse.containsMouse) {
-                popup.visible = false
+                popup.visible = false;
             }
         }
     }
 
-    // =============== POPUP WINDOW WITH SLIDER ===============
+    // ================= POPUP WINDOW =================
     PopupWindow {
         id: popup
 
-        // anchor to bar icon so it looks like it grows from it
+        // attach to the bar icon so it "grows" from it
         anchor.item: volumeWidget
         anchor.edges: Edges.Bottom | Edges.Left
         anchor.gravity: Edges.Bottom | Edges.Left
@@ -131,13 +149,7 @@ Item {
                     font.family: volumeWidget.fontFamily
                     font.pixelSize: volumeWidget.fontSize - 1
                     color: "white"
-                    text: {
-                        if (!volumeWidget.audio) {
-                            return "--%"
-                        }
-                        var pct = Math.round(volumeWidget.volume * 100)
-                        return pct + "%"
-                    }
+                    text: Math.round(volumeWidget.volumeLevel * 100) + "%"
                 }
 
                 Item { Layout.fillHeight: true }
@@ -147,16 +159,15 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     orientation: Qt.Vertical
                     from: 0.0
-                    to: 1.5
+                    to: 1.0
                     stepSize: 0.01
-                    value: volumeWidget.volume
+                    value: volumeWidget.volumeLevel
 
                     onValueChanged: {
-                        if (!volumeWidget.audio || !Pipewire.ready) {
-                            return
+                        setVolumeFraction(value);
+                        if (volumeWidget.muted && value > 0.01) {
+                            setMuted(false);
                         }
-                        volumeWidget.audio.muted = false
-                        volumeWidget.audio.volume = value
                     }
                 }
             }
@@ -167,12 +178,10 @@ Item {
                 hoverEnabled: true
                 acceptedButtons: Qt.NoButton
 
-                onEntered: {
-                    popup.visible = true
-                }
+                onEntered: popup.visible = true
                 onExited: {
                     if (!iconMouse.containsMouse) {
-                        popup.visible = false
+                        popup.visible = false;
                     }
                 }
             }
