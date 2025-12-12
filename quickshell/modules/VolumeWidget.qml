@@ -2,117 +2,124 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
-import Quickshell.Io
 import Quickshell.Services.Pipewire
-import Quickshell.Widgets
-import Quickshell.Hyprland
+import Quickshell.Io
 
 Item {
     id: volumeWidget
     width: iconText.implicitWidth + 10
     height: parent ? parent.height : 24
 
-    /* --- config knobs for you --- */
+    // tweak these
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
 
-    // change this to kitty/foot/alacritty/etc as you like
+    // change this to your actual terminal if needed
     property var wiremixCommand: ["ghostty", "-e", "wiremix"]
 
-    // Convenience shortcuts into PipeWire default sink
+    // PipeWire: default sink
     readonly property var sink: Pipewire.defaultAudioSink
     readonly property var audio: sink && sink.audio ? sink.audio : null
     readonly property real volume: audio ? audio.volume : 0.0
     readonly property bool muted: audio ? audio.muted : false
 
-    /* --- icon showing current volume level --- */
+    // ------- ICON IN THE BAR -------
     Text {
         id: iconText
         anchors.centerIn: parent
         font.family: volumeWidget.fontFamily
         font.pixelSize: volumeWidget.fontSize
+        color: "white"
 
-        // Replace these with your preferred Nerd Font glyphs
         text: {
             if (!volumeWidget.audio) {
-                return "󰝟" // no sink / fallback
+                return "󰝟"          // no sink
             }
             if (volumeWidget.muted || volumeWidget.volume <= 0.01) {
-                return "󰝟" // muted / 0
+                return "󰝟"          // muted
             } else if (volumeWidget.volume < 0.33) {
-                return "󰕿" // low
+                return "󰕿"          // low
             } else if (volumeWidget.volume < 0.66) {
-                return "󰖀" // medium
+                return "󰖀"          // medium
             } else {
-                return "󰕾" // high
+                return "󰕾"          // high
             }
         }
-
-        color: "white"
     }
 
-    /* --- process to spawn wiremix in TUI --- */
+    // ------- PROCESS TO LAUNCH WIREMIX -------
     Process {
         id: wiremixProc
         command: volumeWidget.wiremixCommand
-        // We only flip running to true on right-click; it exits on its own.
     }
 
-    /* --- mouse handling on the icon --- */
+    // ------- MOUSE ON ICON -------
     MouseArea {
         id: iconMouse
         anchors.fill: parent
-
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onClicked: (mouse) => {
+        onClicked: {
             if (mouse.button === Qt.RightButton) {
-                // open wiremix in a terminal
+                // open wiremix in terminal
                 wiremixProc.running = true
             } else if (mouse.button === Qt.LeftButton) {
                 popup.visible = !popup.visible
             }
         }
 
-        // Optional: scroll wheel to change volume
-        onWheel: (wheel) => {
-            if (!volumeWidget.audio || !Pipewire.ready)
+        // scroll to change volume
+        onWheel: {
+            if (!volumeWidget.audio || !Pipewire.ready) {
                 return
+            }
 
-            // wheel.angleDelta.y > 0 = scroll up = volume up
-            const step = 0.05
-            let newVol = volumeWidget.audio.volume + (wheel.angleDelta.y > 0 ? step : -step)
+            var step = 0.05
+            var newVol = volumeWidget.volume
+
+            if (wheel.angleDelta.y > 0) {
+                newVol = newVol + step
+            } else if (wheel.angleDelta.y < 0) {
+                newVol = newVol - step
+            }
+
             if (newVol < 0.0) newVol = 0.0
-            if (newVol > 1.5) newVol = 1.5   // allow a bit over 100% if you like
+            if (newVol > 1.5) newVol = 1.5
 
             volumeWidget.audio.muted = false
             volumeWidget.audio.volume = newVol
         }
+
+        // show popup when hovering icon
+        onEntered: popup.visible = true
+        onExited: {
+            if (!popupMouse.containsMouse) {
+                popup.visible = false
+            }
+        }
     }
 
-    /* --- popup window with vertical slider --- */
+    // ------- POPUP WINDOW WITH SLIDER -------
     PopupWindow {
         id: popup
 
-        // attach popup to this widget, so it “grows out” of the bar at the icon
+        // anchor to bar icon so it looks like it grows from it
         anchor.item: volumeWidget
-        anchor.edges: Edges.Bottom | Edges.Left        // attach to bottom of the icon
-        anchor.gravity: Edges.Bottom | Edges.Left      // expand downward from it
+        anchor.edges: Edges.Bottom | Edges.Left
+        anchor.gravity: Edges.Bottom | Edges.Left
         anchor.margins.top: 0
 
-        visible: iconMouse.containsMouse || popupMouse.containsMouse
+        width: 50
+        height: 150
+        visible: false
 
-        width: 40
-        height: 140
-
-        // No bar border: just a transparent rectangle, Hyprland blur does the rest.
         Rectangle {
             anchors.fill: parent
             radius: 8
             // semi-transparent so Hyprland blur shows through
             color: Qt.rgba(0, 0, 0, 0.35)
-            border.width = 0
+            border.width: 0
 
             ColumnLayout {
                 anchors.fill: parent
@@ -125,14 +132,14 @@ Item {
                     font.pixelSize: volumeWidget.fontSize - 1
                     color: "white"
                     text: {
-                        if (!volumeWidget.audio)
+                        if (!volumeWidget.audio) {
                             return "--%"
-                        const pct = Math.round(volumeWidget.volume * 100)
+                        }
+                        var pct = Math.round(volumeWidget.volume * 100)
                         return pct + "%"
                     }
                 }
 
-                // spacer
                 Item { Layout.fillHeight: true }
 
                 Slider {
@@ -142,25 +149,12 @@ Item {
                     from: 0.0
                     to: 1.5
                     stepSize: 0.01
+                    value: volumeWidget.volume
 
-                    // When popup appears, sync slider to current volume
-                    Component.onCompleted: {
-                        if (volumeWidget.audio)
-                            value = volumeWidget.volume
-                    }
-                    onActiveFocusChanged: {
-                        if (activeFocus && volumeWidget.audio)
-                            value = volumeWidget.volume
-                    }
-                    onPressedChanged: {
-                        // when user first presses, sync just in case
-                        if (pressed && volumeWidget.audio)
-                            value = volumeWidget.volume
-                    }
-
-                    onMoved: {
-                        if (!volumeWidget.audio || !Pipewire.ready)
+                    onValueChanged: {
+                        if (!volumeWidget.audio || !Pipewire.ready) {
                             return
+                        }
                         volumeWidget.audio.muted = false
                         volumeWidget.audio.volume = value
                     }
@@ -171,8 +165,16 @@ Item {
                 id: popupMouse
                 anchors.fill: parent
                 hoverEnabled: true
-                // let wheel events go to slider etc.
                 acceptedButtons: Qt.NoButton
+
+                onEntered: {
+                    popup.visible = true
+                }
+                onExited: {
+                    if (!iconMouse.containsMouse) {
+                        popup.visible = false
+                    }
+                }
             }
         }
     }
