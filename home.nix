@@ -34,6 +34,7 @@
     networkmanagerapplet
     localsend
     sioyek
+    wiremix
   ];
 
   # Base PATH
