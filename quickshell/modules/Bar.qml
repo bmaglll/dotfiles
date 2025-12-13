@@ -89,19 +89,6 @@ PanelWindow {
             Clock { vars: vars }
         }
     }
-
-    MediaPopup {
-        id: mediaPopup
-        anchorItem: mprisAnchor
-        barWidth: bar.width
-        popupHeight: 400
-        widthRatio: 0.45
-        show: root.mediaPopupVisible
-
-        // close when clicking outside
-        onRequestClose: {
-            root.mediaPopupVisible = false;
-        }
-    }
+  }
 }
 
