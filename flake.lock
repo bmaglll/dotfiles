@@ -24,16 +24,16 @@
       "locked": {
         "lastModified": 1764440730,
         "narHash": "sha256-ZlJTNLUKQRANlLDomuRWLBCH5792x+6XUJ4YdFRjtO4=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
+        "ref": "master",
         "rev": "9154f4569b6cdfd3c595851a6ba51bfaa472d9f3",
-        "type": "github"
+        "revCount": 2540,
+        "type": "git",
+        "url": "https://github.com/NixOS/nixos-hardware"
       },
       "original": {
-        "owner": "NixOS",
         "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
+        "type": "git",
+        "url": "https://github.com/NixOS/nixos-hardware"
       }
     },
     "nixpkgs": {

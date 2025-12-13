@@ -10,8 +10,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Hardware Flakes  
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    
+   nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
+ 
   };
 
   outputs = { self, nixpkgs, nixos-hardware, ... }@inputs: {
