@@ -75,11 +75,7 @@ PanelWindow {
 
             Tray { panelWindow: root }
 
-            VolumeWidget {
-                fontFamily: vars.fontFamily
-                fontSize: vars.iFontSz
-                wiremixCommand: ["ghostty", "-e", "wiremix"]
-            }
+
 
             Battery {
                 fontFamily: vars.fontFamily

@@ -181,7 +181,6 @@
       "blur, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
-      "blurpopups, quickshell" 
     ];
 
 }
