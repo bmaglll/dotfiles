@@ -44,34 +44,28 @@ PanelWindow {
         }
 
         // ----- CENTER -----
+
         RowLayout {
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            id: centerRow
             spacing: 4
+            Layout.fillWidth: true
+	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
-            Item {
-                id: mprisAnchor
-                Layout.alignment: Qt.AlignVCenter
+	    MprisMini {
 
-                implicitWidth: mprisMini.implicitWidth
-                implicitHeight: mprisMini.implicitHeight
-
-                MprisMini {
-                    id: mprisMini
-                    anchors.fill: parent
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        root.mediaPopupVisible = !root.mediaPopupVisible;
-                    }
-                }
-            }
+	    }
 
             ActiveWindow {
-                Layout.fillWidth: true
-            }
+              Layout.leftMargin: 10
+              Layout.fillWidth: true // Allow it to take up the middle space
+            
+              // This calculation ensures the title doesn't overlap other blocks
+              chopLength: {
+                var space = Math.floor(bar.width - (rightBlocks.implicitWidth + leftBlocks.implicitWidth))
+                // You may need to adjust the divisor (e.g., /8 or /10) based on font size.
+                return Math.floor(space / activeWindowTitleDisplay.font.pixelSize); 
+              }
+	    }
         }
 
         // ----- RIGHT -----
