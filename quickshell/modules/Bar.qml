@@ -6,11 +6,13 @@ import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 
+// sibling modules in the same dir
 import "."
 
 PanelWindow {
     id: root
 
+    // injected by Variants in shell.qml
     required property var modelData
     screen: modelData
 
@@ -21,30 +23,38 @@ PanelWindow {
     color: "#00ffffff"
     implicitHeight: 24
 
-    // explicit state
-    property bool mediaPopupVisible: false
-
+    // ---- Color & font variables ----
     QtObject {
         id: vars
-        readonly property color colWhite: "#ffffff"
+
+        // Colors
+        readonly property color colWhite:       "#ffffff"
+        readonly property color lightSeaGreen:  "#a1ede8"
+        readonly property color colLightGrey:   "#bbbababa"
+        readonly property color colDarkGrey:    "#80606060"
+
+        // Font settings
         property string fontFamily: "JetBrainsMono Nerd Font"
         property int iFontSz: 12
     }
 
     RowLayout {
-        id: bar
         anchors.fill: parent
         anchors.margins: 2
-        spacing: 4
+        spacing: 0
 
-        // ----- LEFT -----
+        // ----- LEFT: workspaces -----
         RowLayout {
-            id: leftBlocks
-            Workspaces { vars: vars }
+            id: leftRow
+            spacing: 0
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+
+            Workspaces {
+                vars: vars
+            }
         }
 
-        // ----- CENTER -----
-
+        // ----- CENTER: (empty for now) -----
         RowLayout {
             id: centerRow
             spacing: 4
@@ -68,23 +78,28 @@ PanelWindow {
 	    }
         }
 
-        // ----- RIGHT -----
+        // ----- RIGHT: tray + battery + clock -----
         RowLayout {
-            id: rightBlocks
+            id: rightRow
             spacing: 4
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 
-            Tray { panelWindow: root }
-
+            Tray {
+                panelWindow: root
+            }
 
 
             Battery {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
+                colNormal: vars.colWhite
+                colCharging: "#00ff00"
+                colLow: "#ff5555"
             }
 
-            Clock { vars: vars }
+            Clock {
+                vars: vars
+            }
         }
     }
-  }
-
-
+}
