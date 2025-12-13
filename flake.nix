@@ -3,7 +3,8 @@
 
   inputs = {
     # Unstable NixPkg channel
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "git+https://github.com/NixOS/nixpkgs?ref=nixos-unstable";
+
     # Home-Manager Flake
     home-manager = {
       url = "github:nix-community/home-manager";
