@@ -69,7 +69,7 @@
     extraConfig = "";
   };
   
-  xdg.configFile."nvim".source = ./dotfiles/nvim;
+  xdg.configFile."nvim".source = ./nixos-config/nvim;
 
   # Hyprland (user-side settings, system package comes from NixOS)
   wayland.windowManager.hyprland = {
