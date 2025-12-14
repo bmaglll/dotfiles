@@ -52,24 +52,24 @@
   };
 
   # Neovim
+  # Neovim
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
-
+  
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-
+  
     extraPackages = with pkgs; [
       wl-clipboard
     ];
-
-    extraConfig = ''
-      " Use the system clipboard for all yanks / deletes / puts
-      set clipboard=unnamedplus
-      set number
-    '';
+  
+    # IMPORTANT: stop using extraConfig once you're using init.lua
+    extraConfig = "";
   };
+  
+  xdg.configFile."nvim".source = ./dotfiles/nvim;
 
   # Hyprland (user-side settings, system package comes from NixOS)
   wayland.windowManager.hyprland = {
