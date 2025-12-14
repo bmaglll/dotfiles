@@ -179,7 +179,7 @@
       ];
     layerrule = [
       "blur, quickshell"
-      "blur_popups, quickshell"
+      "blurpopups, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
     ];
