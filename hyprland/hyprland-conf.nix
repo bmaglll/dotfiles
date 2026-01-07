@@ -177,7 +177,7 @@
       # OBS (uncomment if you want this behavior)
       # "float, class:^(com\\.obsproject\\.Studio)$"
       # "center, class:^(com\\.obsproject\\.Studio)$"
-      "opacity .6, class:^(ghostty)$"
+      "opacity .1, class:^(ghostty)$"
       ];
     layerrule = [
       "blur, quickshell"
