@@ -91,7 +91,7 @@
     # keybindings
     bind = [
       # screenshotting
-      "$mainMod SHIFT, S, exec, hyprshot -m output --clipboard-only"
+      "$mainMod SHIFT, S, exec, hyprshot -m region --clipboard-only"
       # brightness
       ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
       ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
