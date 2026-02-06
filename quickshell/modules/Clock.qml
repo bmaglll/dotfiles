@@ -1,23 +1,27 @@
 import QtQuick
 import QtQuick.Layouts
+
 Item {
     id: clockRoot
     Layout.alignment: Qt.AlignVCenter
 
-    // pass color + font from vars
+    // passed in from your vars system
     property var vars
 
     implicitWidth: clockText.implicitWidth
     implicitHeight: clockText.implicitHeight
 
+    // live time source
+    property date now: new Date()
+
     Text {
         id: clockText
 
-        property bool showDate: false
+        property bool showDateTime: false
 
-        text: showDate
-              ? Qt.formatDate(new Date(), "MM-dd-yyyy")
-              : Qt.formatTime(new Date(), "hh:mm")
+        text: showDateTime
+              ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm AP")
+              : Qt.formatTime(clockRoot.now, "hh:mm AP")
 
         color: vars.colWhite
         font.family: vars.fontFamily
@@ -28,18 +32,13 @@ Item {
             interval: 1000
             running: true
             repeat: true
-            onTriggered: {
-                clockText.text = clockText.showDate
-                    ? Qt.formatDate(new Date(), "MM-dd-yyyy")
-                    : Qt.formatTime(new Date(), "hh:mm")
-            }
+            onTriggered: clockRoot.now = new Date()
         }
 
         MouseArea {
             anchors.fill: parent
-            onClicked: clockText.showDate = !clockText.showDate
+            onClicked: clockText.showDateTime = !clockText.showDateTime
         }
     }
 }
-
 
