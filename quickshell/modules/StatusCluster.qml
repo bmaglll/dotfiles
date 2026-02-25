@@ -5,20 +5,22 @@ import Quickshell
 Item {
     id: root
 
-    // pass-through props
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
 
-    property color hoverBg: Qt.rgba(1, 1, 1, 0.10)   // subtle white tint
+    property color hoverBg: Qt.rgba(1, 1, 1, 0.10)
+    property color activeBg: Qt.rgba(1, 1, 1, 0.16)   // <-- NEW
     property int radius: 8
     property int paddingX: 8
     property int paddingY: 2
     property int innerSpacing: 6
 
-    // let the parent decide what to do on click
-    signal clicked(int button)
+    // toggle state
+    property bool toggled: false   // <-- NEW
 
-    // expose hover state if you want to use it elsewhere later
+    signal clicked(int button)
+    signal toggledChangedByUser(bool toggled)
+
     property bool hovered: mouse.containsMouse
 
     implicitWidth: bg.implicitWidth
@@ -27,7 +29,7 @@ Item {
     Rectangle {
         id: bg
         radius: root.radius
-        color: root.hovered ? root.hoverBg : Qt.rgba(0, 0, 0, 0)
+        color: root.toggled ? root.activeBg : (root.hovered ? root.hoverBg : Qt.rgba(0, 0, 0, 0))
         border.width: 0
 
         implicitWidth: content.implicitWidth + root.paddingX * 2
@@ -37,24 +39,26 @@ Item {
             id: content
             anchors.centerIn: parent
             spacing: root.innerSpacing
-
-            // Slot in whatever you want inside (Volume, Battery, Clock)
-            // We'll use this wrapper to host them from Bar.qml.
         }
     }
 
-    // This MouseArea covers the whole cluster
     MouseArea {
         id: mouse
         anchors.fill: bg
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+        cursorShape: Qt.PointingHandCursor
 
         onClicked: function(m) {
             root.clicked(m.button)
+
+            // only toggle on LEFT click
+            if (m.button === Qt.LeftButton) {
+                root.toggled = !root.toggled
+                root.toggledChangedByUser(root.toggled)
+            }
         }
     }
 
-    // This is the important part: allow children to be placed into `content`
     default property alias children: content.children
 }

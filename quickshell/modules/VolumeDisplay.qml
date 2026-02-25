@@ -14,11 +14,13 @@ Item {
     // polling
     property int pollInterval: 800
 
+    // UI behavior
+    property bool showPercent: false   // <-- NEW
+
     // state
-    property real volumeFrac: 0.0   // 0.0 .. 1.0
+    property real volumeFrac: 0.0
     property bool muted: false
 
-    // IMPORTANT: layouts use implicit sizes
     implicitWidth: row.implicitWidth
     implicitHeight: row.implicitHeight
 
@@ -27,6 +29,7 @@ Item {
         spacing: root.gap
 
         Text {
+            id: iconText
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: "white"
@@ -44,6 +47,8 @@ Item {
         }
 
         Text {
+            id: pctText
+            visible: root.showPercent
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: "white"
@@ -53,7 +58,6 @@ Item {
 
     Process {
         id: wpctlProc
-
         stdout: StdioCollector {
             onStreamFinished: {
                 var s = this.text.trim()

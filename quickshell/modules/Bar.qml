@@ -107,7 +107,8 @@ PanelWindow {
                 VolumeDisplay {
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
-                    pollInterval: 800
+		    pollInterval: 800
+		    showPercent: statusCluster.toggled
                     }
 
                 Battery {
