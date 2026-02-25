@@ -88,7 +88,12 @@ PanelWindow {
                 panelWindow: root
             }
 
-
+            VolumeDisplay {
+                Layout.alignment: Qt.AlignVCenter
+                fontFamily: "JetBrainsMono Nerd Font"
+                fontSize: 12
+                pollInterval: 800
+            }
             Battery {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
