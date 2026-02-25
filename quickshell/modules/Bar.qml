@@ -88,21 +88,39 @@ PanelWindow {
                 panelWindow: root
             }
 
-            VolumeDisplay {
-		fontFamily: vars.fontFamily
-		fontSize: vars.iFontSz
-                pollInterval: 800
-            }
-            Battery {
+            StatusCluster {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
-                colNormal: vars.colWhite
-                colCharging: "#00ff00"
-                colLow: "#ff5555"
-            }
 
-            Clock {
-                vars: vars
+                // optional styling tweaks
+                hoverBg: Qt.rgba(1, 1, 1, 0.12)
+                radius: 10
+                paddingX: 10
+                paddingY: 2
+                innerSpacing: 8
+
+                onClicked: function(btn) {
+                    console.log("StatusCluster clicked, button:", btn)
+                    // later: open your settings window/popup here
+                }
+
+                VolumeDisplay {
+                    fontFamily: vars.fontFamily
+                    fontSize: vars.iFontSz
+                    pollInterval: 800
+                    }
+
+                Battery {
+                    fontFamily: vars.fontFamily
+                    fontSize: vars.iFontSz
+                    colNormal: vars.colWhite
+                    colCharging: "#00ff00"
+                    colLow: "#ff5555"
+                }
+
+                Clock {
+                    vars: vars
+                }
             }
         }
     }
