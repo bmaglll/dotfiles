@@ -20,7 +20,7 @@ Item {
         property bool showDateTime: false
 
         text: showDateTime
-              ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm AP")
+              ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm:ss AP")
               : Qt.formatTime(clockRoot.now, "hh:mm AP")
 
         color: vars.colWhite
