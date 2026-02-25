@@ -5,8 +5,6 @@ import Quickshell.Io
 
 Item {
     id: root
-    height: parent ? parent.height : 24
-    width: row.implicitWidth
 
     // styling
     property string fontFamily: "JetBrainsMono Nerd Font"
@@ -20,9 +18,12 @@ Item {
     property real volumeFrac: 0.0   // 0.0 .. 1.0
     property bool muted: false
 
+    // IMPORTANT: layouts use implicit sizes
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
+
     Row {
         id: row
-        anchors.centerIn: parent
         spacing: root.gap
 
         Text {
@@ -31,13 +32,13 @@ Item {
             color: "white"
             text: {
                 if (root.muted || root.volumeFrac <= 0.01) {
-                    return "󰝟"    // muted/zero
+                    return "󰝟"
                 } else if (root.volumeFrac < 0.33) {
-                    return "󰕿"    // low
+                    return "󰕿"
                 } else if (root.volumeFrac < 0.66) {
-                    return "󰖀"    // medium
+                    return "󰖀"
                 } else {
-                    return "󰕾"    // high
+                    return "󰕾"
                 }
             }
         }
@@ -52,17 +53,11 @@ Item {
 
     Process {
         id: wpctlProc
-        command: ["wpctl", "get-volume", "@DEFAULT_AUDIO_SINK@"]
 
-        // Collect stdout when the process finishes
         stdout: StdioCollector {
             onStreamFinished: {
-                // examples:
-                // "Volume: 0.52"
-                // "Volume: 0.52 [MUTED]"
                 var s = this.text.trim()
 
-                // volume
                 var m = s.match(/Volume:\s*([0-9]*\.?[0-9]+)/)
                 if (m && m.length >= 2) {
                     var v = parseFloat(m[1])
@@ -73,7 +68,6 @@ Item {
                     }
                 }
 
-                // mute
                 root.muted = (s.indexOf("MUTED") !== -1)
             }
         }
@@ -86,7 +80,6 @@ Item {
         triggeredOnStart: true
 
         onTriggered: {
-            // don't overlap runs
             if (!wpctlProc.running) {
                 wpctlProc.exec({ command: ["wpctl", "get-volume", "@DEFAULT_AUDIO_SINK@"] })
             }
