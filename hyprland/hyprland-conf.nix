@@ -152,8 +152,9 @@
       ];
     # window rules
     windowrulev2 = [
-      # Special workspace: floating windows by default
+      # Special workspace: floating windows by default, orange border
       "float, onworkspace:special:magic"
+      "bordercolor rgba(ff9500ee), onworkspace:special:magic"
 
       # Btop in kitty (if you still use this – otherwise you can delete)
       # "fullscreen, class:^(kitty)$, title:^(btop)$"
