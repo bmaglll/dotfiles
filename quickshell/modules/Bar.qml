@@ -29,14 +29,15 @@ PanelWindow {
         color: "transparent"
         anchor.window: root
 
-        implicitWidth: settingsDropdown.width
-        implicitHeight: settingsDropdown.height
+        // Fixed dimensions to avoid Hyprland input region bug
+        implicitWidth: 250
+        implicitHeight: 100
 
         anchor.rect: Qt.rect(
-            root.width - settingsDropdown.width - 8,
+            root.width - 250 - 8,
             root.implicitHeight + 4,
-            settingsDropdown.width,
-            settingsDropdown.height
+            250,
+            100
         )
 
         visible: statusCluster.toggled

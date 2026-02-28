@@ -15,7 +15,7 @@ Rectangle {
     property color sliderBgColor: "#40ffffff"
 
     width: 250
-    height: content.implicitHeight + 24
+    height: 100  // Fixed height to avoid Hyprland input region bug
     radius: 12
     color: "#99111111"
     border.width: 1
