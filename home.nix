@@ -186,8 +186,8 @@
       timeout-low = 5;
       timeout-critical = 0;
       fit-to-screen = true;
-      notification-window-width = 350;
-      control-center-width = 350;
+      notification-window-width = 450;
+      control-center-width = 450;
       control-center-height = 420;
       keyboard-shortcuts = true;
       notification-grouping = true;
@@ -229,13 +229,24 @@
         margin-right: 8px;
       }
 
-      /* Overall notification size */
+      /* Overall notification size - thinner vertical padding */
       .notification {
-        padding: 8px;
+        padding: 4px 8px;
       }
 
       .notification-content {
-        padding: 4px;
+        padding: 2px 4px;
+      }
+
+      /* Reduce body text margins */
+      .body {
+        margin: 2px 0;
+      }
+
+      /* Compact summary/title */
+      .summary {
+        margin: 0;
+        padding: 0;
       }
     '';
   };
