@@ -186,8 +186,8 @@
       timeout-low = 5;
       timeout-critical = 0;
       fit-to-screen = true;
-      notification-window-width = 450;
-      control-center-width = 450;
+      notification-window-width = 550;
+      control-center-width = 550;
       control-center-height = 420;
       keyboard-shortcuts = true;
       notification-grouping = true;
@@ -208,45 +208,63 @@
       };
     };
     style = ''
-      /* Notification icons */
+      /* Smaller notification icons */
       .notification-icon {
-        min-width: 48px;
-        min-height: 48px;
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 32px;
+        max-height: 32px;
+      }
+
+      .notification-icon image {
+        min-width: 32px;
+        min-height: 32px;
+      }
+
+      /* Smaller images in body */
+      .image {
         max-width: 48px;
         max-height: 48px;
+        margin-right: 6px;
       }
 
-      /* App icon in notification */
-      .notification-icon image {
-        min-width: 48px;
-        min-height: 48px;
-      }
-
-      /* Image/screenshot in notification body */
-      .image {
-        max-width: 64px;
-        max-height: 64px;
-        margin-right: 8px;
-      }
-
-      /* Overall notification size - thinner vertical padding */
+      /* Compact notification - minimal vertical space */
       .notification {
-        padding: 4px 8px;
+        padding: 2px 10px;
+        min-height: 0;
       }
 
       .notification-content {
         padding: 2px 4px;
+        margin: 0;
       }
 
-      /* Reduce body text margins */
+      .notification-row {
+        margin: 0;
+        padding: 0;
+      }
+
       .body {
-        margin: 2px 0;
+        margin: 0;
+        padding: 0;
       }
 
-      /* Compact summary/title */
       .summary {
         margin: 0;
         padding: 0;
+      }
+
+      .time {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Tighter close button */
+      .close-button {
+        min-width: 20px;
+        min-height: 20px;
+        padding: 0;
+        margin: 0;
       }
     '';
   };
