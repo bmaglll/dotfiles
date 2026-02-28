@@ -169,6 +169,46 @@
   xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source =
     ./icons/spotify-linux-32.png;
 
+  ###########################################################################################
+  # Swaync (notification center)
+  ###########################################################################################
+  services.swaync = {
+    enable = true;
+    settings = {
+      positionX = "right";
+      positionY = "top";
+      output = "eDP-1";  # Force notifications to laptop screen
+      layer = "overlay";
+      control-center-layer = "top";
+      cssPriority = "user";
+      notification-2fa-action = true;
+      timeout = 10;
+      timeout-low = 5;
+      timeout-critical = 0;
+      fit-to-screen = true;
+      notification-window-width = 500;
+      control-center-width = 500;
+      control-center-height = 600;
+      keyboard-shortcuts = true;
+      notification-grouping = true;
+      image-visibility = "when-available";
+      transition-time = 200;
+      hide-on-clear = false;
+      hide-on-action = true;
+      relative-timestamps = true;
+      widgets = [ "inhibitors" "title" "dnd" "notifications" ];
+      widget-config = {
+        notifications = { vexpand = true; };
+        title = {
+          text = "Notifications";
+          clear-all-button = true;
+          button-text = "Clear All";
+        };
+        dnd = { text = "Do Not Disturb"; };
+      };
+    };
+  };
+
   # Session env vars
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
