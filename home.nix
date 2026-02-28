@@ -64,8 +64,9 @@
   keyMode = "vi";
   mouse = true;
   shortcut = "space";
+  baseIndex = 1;
   extraConfig = ''
-  setw -g mouse on 
+  setw -g mouse on
   '';
   };
   ###########################################################################################
