@@ -10,6 +10,8 @@ Item {
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
     property int gap: 6
+    property color colNormal: "white"
+    property color colMuted: "#ff5555"
 
     // polling
     property int pollInterval: 800
@@ -32,7 +34,7 @@ Item {
             id: iconText
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
-            color: "white"
+            color: root.muted ? root.colMuted : root.colNormal
             text: {
                 if (root.muted || root.volumeFrac <= 0.01) {
                     return "󰝟"
@@ -51,7 +53,7 @@ Item {
             visible: root.showPercent
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
-            color: "white"
+            color: root.muted ? root.colMuted : root.colNormal
             text: Math.round(root.volumeFrac * 100) + "%"
         }
     }
