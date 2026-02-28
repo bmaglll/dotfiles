@@ -109,6 +109,9 @@
       # special workspace
       "$mainMod, grave, togglespecialworkspace, magic"
       "$mainMod SHIFT, grave, movetoworkspacesilent, special:magic"
+      # workspace cycling and monitor switching
+      "$mainMod, Tab, workspace, e+1"
+      "$mainMod SHIFT, Tab, movecurrentworkspacetomonitor, +1"
       # workspace switching
       "$mainMod, 1, workspace, 1"
       "$mainMod, 2, workspace, 2"
