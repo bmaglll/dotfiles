@@ -5,18 +5,19 @@ Item {
     id: clockRoot
     Layout.alignment: Qt.AlignVCenter
 
-    // passed in from your vars system
     property var vars
 
     implicitWidth: clockText.implicitWidth
     implicitHeight: clockText.implicitHeight
 
-    // live time source
     property date now: new Date()
+
+    function toggleDateTime() {
+        clockText.showDateTime = !clockText.showDateTime
+    }
 
     Text {
         id: clockText
-
         property bool showDateTime: false
 
         text: showDateTime
@@ -37,8 +38,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: clockText.showDateTime = !clockText.showDateTime
+            onClicked: clockRoot.toggleDateTime()
         }
     }
 }
-

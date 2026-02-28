@@ -88,7 +88,8 @@ PanelWindow {
                 panelWindow: root
             }
 
-            StatusCluster {
+	    StatusCluster {
+		id: statusCluster
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
 
@@ -101,7 +102,8 @@ PanelWindow {
 
                 onClicked: function(btn) {
                     console.log("StatusCluster clicked, button:", btn)
-                    // later: open your settings window/popup here
+		    // later: open your settings window/popup here
+		    clock.toggleDateTime()
                 }
 
                 VolumeDisplay {
@@ -120,7 +122,8 @@ PanelWindow {
                 }
 
                 Clock {
-                    vars: vars
+		    id: clock
+		    vars: vars
                 }
             }
         }
