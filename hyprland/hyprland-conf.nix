@@ -141,7 +141,7 @@
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, Z, togglefloating,"
-      "$mainMod, D, exec, $menu"
+      "$mainMod, Space, exec, $menu"
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       ];
