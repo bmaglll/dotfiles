@@ -155,7 +155,7 @@
       # Special workspace: floating windows by default, orange border, slight transparency
       "float, onworkspace:special:magic"
       "bordercolor rgba(ff9500ee), onworkspace:special:magic"
-      "opacity 0.9, onworkspace:special:magic"
+      "opacity 0.6, onworkspace:special:magic"
 
       # Btop in kitty (if you still use this – otherwise you can delete)
       # "fullscreen, class:^(kitty)$, title:^(btop)$"
