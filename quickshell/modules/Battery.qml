@@ -13,8 +13,11 @@ Item {
     property color colCharging
     property color colLow
 
+    // UI behavior
+    property bool showPercent: false
+
     // size based on text
-    implicitWidth: icon.width + percent.width + 6
+    implicitWidth: icon.width + (showPercent ? percent.width + 6 : 0)
     implicitHeight: percent.implicitHeight
 
     // power device
@@ -61,6 +64,7 @@ Item {
     // percentage text
     Text {
         id: percent
+        visible: batteryRoot.showPercent
         anchors.left: icon.right
         anchors.leftMargin: 4
         anchors.verticalCenter: parent.verticalCenter
