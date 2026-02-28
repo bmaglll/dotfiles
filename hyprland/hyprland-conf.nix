@@ -62,6 +62,12 @@
     # workspace rules
     workspace = [
       "1, persistent:true"
+      "special:magic, on-created-empty:"
+    ];
+
+    # special workspace animation (vertical slide instead of horizontal)
+    animation = [
+      "specialWorkspace, 1, 4, default, slidevert"
     ];
 
     # keyboard / mouse
@@ -101,6 +107,9 @@
       # workspace binds
       "$mainMod, Q, movetoworkspace, empty"
       "$mainMod SHIFT, Q, movetoworkspacesilent, empty"
+      # special workspace
+      "$mainMod, S, movetoworkspacesilent, special:magic"
+      "$mainMod SHIFT, S, togglespecialworkspace, magic"
       # workspace switching
       "$mainMod, 1, workspace, 1"
       "$mainMod, 2, workspace, 2"
@@ -141,6 +150,9 @@
       ];
     # window rules
     windowrulev2 = [
+      # Special workspace: floating windows by default
+      "float, onworkspace:special:magic"
+
       # Btop in kitty (if you still use this – otherwise you can delete)
       # "fullscreen, class:^(kitty)$, title:^(btop)$"
       # "float, class:^(kitty)$, title:^(btop)$"
