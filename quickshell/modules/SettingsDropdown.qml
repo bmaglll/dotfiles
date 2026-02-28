@@ -34,20 +34,22 @@ Rectangle {
 
         // Volume row
         RowLayout {
+            id: volumeRow
             spacing: 8
             Layout.fillWidth: true
 
-            // Volume icon
+            // Volume icon + label
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: root.muted ? "#ff5555" : root.textColor
                 text: {
-                    if (root.muted || root.volumeFrac <= 0.01) return ""
-                    else if (root.volumeFrac < 0.33) return ""
-                    else if (root.volumeFrac < 0.66) return ""
-                    else return ""
+                    if (root.muted || root.volumeFrac <= 0.01) return "󰝟 Vol"
+                    else if (root.volumeFrac < 0.33) return "󰕿 Vol"
+                    else if (root.volumeFrac < 0.66) return "󰖀 Vol"
+                    else return "󰕾 Vol"
                 }
+                Layout.minimumWidth: 45
             }
 
             Slider {
@@ -85,6 +87,16 @@ Rectangle {
                     radius: 6
                     color: volumeSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
                 }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: function(wheel) {
+                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
+                        volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
+                    }
+                }
             }
 
             Text {
@@ -92,22 +104,24 @@ Rectangle {
                 font.pixelSize: root.fontSize
                 color: root.muted ? "#ff5555" : root.textColor
                 text: Math.round(root.volumeFrac * 100) + "%"
-                Layout.minimumWidth: 35
+                Layout.minimumWidth: 40
                 horizontalAlignment: Text.AlignRight
             }
         }
 
         // Brightness row
         RowLayout {
+            id: brightnessRow
             spacing: 8
             Layout.fillWidth: true
 
-            // Brightness icon
+            // Brightness icon + label
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: root.textColor
-                text: root.brightnessFrac < 0.3 ? "" : ""
+                text: root.brightnessFrac < 0.3 ? "󰃞 Bri" : "󰃠 Bri"
+                Layout.minimumWidth: 45
             }
 
             Slider {
@@ -146,6 +160,17 @@ Rectangle {
                     radius: 6
                     color: brightnessSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
                 }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: function(wheel) {
+                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
+                        var pct = Math.round(newVal * 100)
+                        brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
+                    }
+                }
             }
 
             Text {
@@ -153,7 +178,7 @@ Rectangle {
                 font.pixelSize: root.fontSize
                 color: root.textColor
                 text: Math.round(root.brightnessFrac * 100) + "%"
-                Layout.minimumWidth: 35
+                Layout.minimumWidth: 40
                 horizontalAlignment: Text.AlignRight
             }
         }
