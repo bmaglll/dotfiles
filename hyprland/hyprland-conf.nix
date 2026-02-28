@@ -53,6 +53,7 @@
 
     # exec on startup
     exec-once = [
+      "swaync"
       "quickshell"
       "nm-applet --indicator"
       "clipse -listen"

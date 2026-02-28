@@ -36,6 +36,8 @@
     sioyek
     wiremix
     hyprshot
+    swaynotificationcenter
+    libnotify
 
     chromium
     claude-code 

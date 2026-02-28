@@ -110,7 +110,7 @@ PanelWindow {
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
 		    pollInterval: 800
-		    showPercent: statusCluster.toggled
+		    showPercent: statusCluster.toggled || statusCluster.hovered
                     }
 
                 Battery {
@@ -119,7 +119,7 @@ PanelWindow {
                     colNormal: vars.colWhite
                     colCharging: "#00ff00"
                     colLow: "#ff5555"
-                    showPercent: statusCluster.toggled
+                    showPercent: statusCluster.toggled || statusCluster.hovered
                 }
 
                 Clock {
