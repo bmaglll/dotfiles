@@ -207,6 +207,37 @@
         dnd = { text = "Do Not Disturb"; };
       };
     };
+    style = ''
+      /* Notification icons */
+      .notification-icon {
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 48px;
+        max-height: 48px;
+      }
+
+      /* App icon in notification */
+      .notification-icon image {
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      /* Image/screenshot in notification body */
+      .image {
+        max-width: 64px;
+        max-height: 64px;
+        margin-right: 8px;
+      }
+
+      /* Overall notification size */
+      .notification {
+        padding: 8px;
+      }
+
+      .notification-content {
+        padding: 4px;
+      }
+    '';
   };
 
   # Session env vars

@@ -38,18 +38,18 @@ Rectangle {
             spacing: 8
             Layout.fillWidth: true
 
-            // Volume icon + label
+            // Volume icon
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: root.muted ? "#ff5555" : root.textColor
                 text: {
-                    if (root.muted || root.volumeFrac <= 0.01) return "󰝟 Vol"
-                    else if (root.volumeFrac < 0.33) return "󰕿 Vol"
-                    else if (root.volumeFrac < 0.66) return "󰖀 Vol"
-                    else return "󰕾 Vol"
+                    if (root.muted || root.volumeFrac <= 0.01) return "󰝟"
+                    else if (root.volumeFrac < 0.33) return "󰕿"
+                    else if (root.volumeFrac < 0.66) return "󰖀"
+                    else return "󰕾"
                 }
-                Layout.minimumWidth: 45
+                Layout.minimumWidth: 20
             }
 
             Slider {
@@ -115,13 +115,13 @@ Rectangle {
             spacing: 8
             Layout.fillWidth: true
 
-            // Brightness icon + label
+            // Brightness icon
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: root.textColor
-                text: root.brightnessFrac < 0.3 ? "󰃞 Bri" : "󰃠 Bri"
-                Layout.minimumWidth: 45
+                text: root.brightnessFrac < 0.3 ? "󰃞" : "󰃠"
+                Layout.minimumWidth: 20
             }
 
             Slider {
