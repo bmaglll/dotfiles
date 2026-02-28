@@ -36,13 +36,10 @@ RowLayout {
     // Special workspace indicator
     Text {
         property var specialWs: Hyprland.workspaces.values.find(w => w.name === "special:magic")
-        property bool isSpecialActive: Hyprland.focusedWorkspace?.name?.startsWith("special:") ?? false
 
         text: "●"
 
-        color: isSpecialActive
-               ? vars.colWhite
-               : (specialWs ? vars.colLightGrey : vars.colDarkGrey)
+        color: specialWs ? vars.colLightGrey : vars.colDarkGrey
 
         font.family: vars.fontFamily
         font.pixelSize: vars.iFontSz
