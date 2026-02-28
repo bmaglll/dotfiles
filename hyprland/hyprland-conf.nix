@@ -62,7 +62,6 @@
     # workspace rules
     workspace = [
       "1, persistent:true"
-      "special:magic, on-created-empty:"
     ];
 
     # special workspace animation (vertical slide instead of horizontal)
