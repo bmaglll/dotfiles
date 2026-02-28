@@ -38,10 +38,11 @@ RowLayout {
         property var specialWs: Hyprland.workspaces.values.find(w => w.name === "special:magic")
         property bool isSpecialActive: Hyprland.focusedWorkspace?.name === "special:magic"
 
-        visible: specialWs !== undefined
         text: "●"
 
-        color: isSpecialActive ? vars.colWhite : vars.colLightGrey
+        color: isSpecialActive
+               ? vars.colWhite
+               : (specialWs ? vars.colLightGrey : vars.colDarkGrey)
 
         font.family: vars.fontFamily
         font.pixelSize: vars.iFontSz
