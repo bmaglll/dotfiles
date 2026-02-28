@@ -21,7 +21,7 @@ Item {
 
         text: showDateTime
               ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm:ss AP")
-              : Qt.formatTime(clockRoot.now, "hh:mm AP")
+              : Qt.formatTime(clockRoot.now, "MM-dd-yyyy hh:mm AP")
 
         color: vars.colWhite
         font.family: vars.fontFamily
