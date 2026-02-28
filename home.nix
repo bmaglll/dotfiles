@@ -75,8 +75,10 @@
     enable = true;
     settings = {
       command = "tmux new-session -A -s Main \\; new-window";
+      keybind = "shift+enter=text:\\x1b\\r";
     };
   };
+  xdg.configFile."ghostty/config".force = true;
   ###########################################################################################
   # neovim
   ###########################################################################################
