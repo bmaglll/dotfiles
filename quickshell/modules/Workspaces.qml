@@ -32,5 +32,25 @@ RowLayout {
             }
         }
     }
+
+    // Special workspace indicator
+    Text {
+        property var specialWs: Hyprland.workspaces.values.find(w => w.name === "special:magic")
+        property bool isSpecialActive: Hyprland.focusedWorkspace?.name === "special:magic"
+
+        visible: specialWs !== undefined
+        text: "●"
+
+        color: isSpecialActive ? vars.colWhite : vars.colLightGrey
+
+        font.family: vars.fontFamily
+        font.pixelSize: vars.iFontSz
+        font.bold: true
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: Hyprland.dispatch("togglespecialworkspace magic")
+        }
+    }
 }
 
