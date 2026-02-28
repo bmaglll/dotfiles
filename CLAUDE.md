@@ -20,6 +20,9 @@ sudo nixos-rebuild build --flake ~/nixos-config
 
 # Update flake inputs
 nix flake update
+
+# Reload Quickshell bar (after editing QML files)
+quickshell -r
 ```
 
 ## Architecture
@@ -35,11 +38,11 @@ Home-Manager is integrated within NixOS configuration (`useGlobalPkgs = true`). 
 
 ### Directory Structure
 - `hyprland/` - Hyprland window manager configs imported as Nix attribute sets
-  - `hyprland-conf.nix` - Keybindings, window rules, settings
+  - `hyprland-conf.nix` - Keybindings, window rules, settings (returns a Nix attribute set)
   - `hyprlock.nix` - Lock screen configuration
 - `quickshell/` - QML-based status bar (Wayland panel)
-  - `shell.qml` - Root application
-  - `modules/` - Reusable components (Clock, Battery, Workspaces, etc.)
+  - `shell.qml` - Root application, creates one Bar per screen via Variants
+  - `modules/` - Reusable QML components (Clock, Battery, Workspaces, Tray, etc.)
 - `nvim/` - Neovim configuration (`init.lua`)
 - `shell/` - Shell scripts (includes `nrs.sh` rebuild script)
 - `wallpapers/` - Background images
@@ -55,10 +58,16 @@ Home-Manager is integrated within NixOS configuration (`useGlobalPkgs = true`). 
 
 ## Key Patterns
 
-1. **Modular imports**: Hyprland configs are separate Nix files imported as attribute sets
-2. **XDG config files**: Dotfiles symlinked via Home-Manager's `xdg.configFile`
+1. **Modular imports**: Hyprland configs are separate Nix files imported as attribute sets via `import ./hyprland/hyprland-conf.nix`
+2. **XDG config files**: Dotfiles symlinked via Home-Manager's `xdg.configFile` (e.g., quickshell, nvim)
 3. **Git-driven deployment**: The `nrs` function commits, pushes, then rebuilds
 4. **Single machine config**: Only one host "nixos" defined
+
+## Quickshell Development
+
+Quickshell QML files are symlinked to `~/.config/quickshell/` via `xdg.configFile`. Changes to QML files in this repo take effect immediately without rebuild - just reload quickshell with `quickshell -r` or restart it.
+
+Bar layout: Left (Workspaces) | Center (MprisMini, ActiveWindow) | Right (Tray, StatusCluster with Volume/Battery/Clock)
 
 ## Notes
 

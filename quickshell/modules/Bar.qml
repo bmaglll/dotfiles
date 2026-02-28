@@ -23,6 +23,49 @@ PanelWindow {
     color: "#00ffffff"
     implicitHeight: 24
 
+    // Settings dropdown popup
+    PopupWindow {
+        id: settingsPopup
+        color: "transparent"
+        anchor.window: root
+
+        implicitWidth: settingsDropdown.width
+        implicitHeight: settingsDropdown.height
+
+        anchor.rect: Qt.rect(
+            root.width - settingsDropdown.width - 8,
+            root.implicitHeight + 4,
+            settingsDropdown.width,
+            settingsDropdown.height
+        )
+
+        visible: statusCluster.toggled
+
+        onVisibleChanged: {
+            console.log("settingsPopup visible:", visible)
+            console.log("  anchor.window:", anchor.window)
+            console.log("  implicitWidth:", implicitWidth, "implicitHeight:", implicitHeight)
+            console.log("  dropdown size:", settingsDropdown.width, "x", settingsDropdown.height)
+        }
+
+        SettingsDropdown {
+            id: settingsDropdown
+            fontFamily: vars.fontFamily
+            fontSize: vars.iFontSz
+        }
+    }
+
+    // Click-outside-to-close handler
+    HyprlandFocusGrab {
+        id: focusGrab
+        windows: [settingsPopup]
+        active: statusCluster.toggled
+
+        onCleared: {
+            statusCluster.toggled = false
+        }
+    }
+
     // ---- Color & font variables ----
     QtObject {
         id: vars
@@ -102,8 +145,7 @@ PanelWindow {
 
                 onClicked: function(btn) {
                     console.log("StatusCluster clicked, button:", btn)
-		    // later: open your settings window/popup here
-		    clock.toggleDateTime()
+                    console.log("  statusCluster.toggled is now:", statusCluster.toggled)
                 }
 
                 VolumeDisplay {
