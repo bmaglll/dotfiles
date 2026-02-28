@@ -107,8 +107,8 @@
       "$mainMod, Q, movetoworkspace, empty"
       "$mainMod SHIFT, Q, movetoworkspacesilent, empty"
       # special workspace
-      "$mainMod, S, movetoworkspacesilent, special:magic"
-      "$mainMod SHIFT, S, togglespecialworkspace, magic"
+      "$mainMod, grave, togglespecialworkspace, magic"
+      "$mainMod SHIFT, grave, movetoworkspacesilent, special:magic"
       # workspace switching
       "$mainMod, 1, workspace, 1"
       "$mainMod, 2, workspace, 2"
