@@ -17,7 +17,7 @@ Rectangle {
     width: 250
     height: content.implicitHeight + 24
     radius: 12
-    color: "#cc111111"
+    color: "#99111111"
     border.width: 1
     border.color: "#33ffffff"
 
