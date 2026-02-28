@@ -36,7 +36,7 @@ RowLayout {
     // Special workspace indicator
     Text {
         property var specialWs: Hyprland.workspaces.values.find(w => w.name === "special:magic")
-        property bool isSpecialActive: Hyprland.focusedWorkspace?.name === "special:magic"
+        property bool isSpecialActive: Hyprland.focusedWorkspace?.name?.startsWith("special:") ?? false
 
         text: "●"
 
