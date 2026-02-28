@@ -65,8 +65,7 @@
   mouse = true;
   shortcut = "space";
   extraConfig = ''
-  setw -g mouse on
-  set -g terminal-overrides "xterm*:smcup@:rmcup@"
+  setw -g mouse on 
   '';
   };
   ###########################################################################################
