@@ -56,9 +56,21 @@ Rectangle {
                 Layout.fillWidth: true
                 implicitHeight: volumeSlider.implicitHeight
 
+                MouseArea {
+                    anchors.fill: parent
+                    z: 0
+                    acceptedButtons: Qt.NoButton
+                    onWheel: function(wheel) {
+                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
+                        volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
+                    }
+                }
+
                 Slider {
                     id: volumeSlider
                     anchors.fill: parent
+                    z: 1
                     from: 0
                     to: 1
                     value: root.volumeFrac
@@ -92,17 +104,6 @@ Rectangle {
                         color: volumeSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
                     }
                 }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton
-                    propagateComposedEvents: true
-                    onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
-                        var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
-                        volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
-                    }
-                }
             }
 
             Text {
@@ -134,9 +135,22 @@ Rectangle {
                 Layout.fillWidth: true
                 implicitHeight: brightnessSlider.implicitHeight
 
+                MouseArea {
+                    anchors.fill: parent
+                    z: 0
+                    acceptedButtons: Qt.NoButton
+                    onWheel: function(wheel) {
+                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
+                        var pct = Math.round(newVal * 100)
+                        brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
+                    }
+                }
+
                 Slider {
                     id: brightnessSlider
                     anchors.fill: parent
+                    z: 1
                     from: 0.05
                     to: 1
                     value: root.brightnessFrac
@@ -169,18 +183,6 @@ Rectangle {
                         height: 12
                         radius: 6
                         color: brightnessSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton
-                    propagateComposedEvents: true
-                    onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
-                        var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
-                        var pct = Math.round(newVal * 100)
-                        brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
                     }
                 }
             }
