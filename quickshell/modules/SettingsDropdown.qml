@@ -52,56 +52,47 @@ Rectangle {
                 Layout.minimumWidth: 20
             }
 
-            Item {
+            Slider {
+                id: volumeSlider
                 Layout.fillWidth: true
-                implicitHeight: volumeSlider.implicitHeight
+                from: 0
+                to: 1
+                value: root.volumeFrac
 
-                MouseArea {
-                    anchors.fill: parent
-                    z: 0
-                    acceptedButtons: Qt.NoButton
+                onMoved: {
+                    volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value.toFixed(2)] })
+                }
+
+                background: Rectangle {
+                    x: volumeSlider.leftPadding
+                    y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                    width: volumeSlider.availableWidth
+                    height: 4
+                    radius: 2
+                    color: root.sliderBgColor
+
+                    Rectangle {
+                        width: volumeSlider.visualPosition * parent.width
+                        height: parent.height
+                        radius: 2
+                        color: root.sliderColor
+                    }
+                }
+
+                handle: Rectangle {
+                    x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
+                    y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                    width: 12
+                    height: 12
+                    radius: 6
+                    color: volumeSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                }
+
+                WheelHandler {
                     onWheel: function(wheel) {
                         var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
                         var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
                         volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
-                    }
-                }
-
-                Slider {
-                    id: volumeSlider
-                    anchors.fill: parent
-                    z: 1
-                    from: 0
-                    to: 1
-                    value: root.volumeFrac
-
-                    onMoved: {
-                        volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value.toFixed(2)] })
-                    }
-
-                    background: Rectangle {
-                        x: volumeSlider.leftPadding
-                        y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                        width: volumeSlider.availableWidth
-                        height: 4
-                        radius: 2
-                        color: root.sliderBgColor
-
-                        Rectangle {
-                            width: volumeSlider.visualPosition * parent.width
-                            height: parent.height
-                            radius: 2
-                            color: root.sliderColor
-                        }
-                    }
-
-                    handle: Rectangle {
-                        x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-                        y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                        width: 12
-                        height: 12
-                        radius: 6
-                        color: volumeSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
                     }
                 }
             }
@@ -131,58 +122,49 @@ Rectangle {
                 Layout.minimumWidth: 20
             }
 
-            Item {
+            Slider {
+                id: brightnessSlider
                 Layout.fillWidth: true
-                implicitHeight: brightnessSlider.implicitHeight
+                from: 0.05
+                to: 1
+                value: root.brightnessFrac
 
-                MouseArea {
-                    anchors.fill: parent
-                    z: 0
-                    acceptedButtons: Qt.NoButton
+                onMoved: {
+                    var pct = Math.round(value * 100)
+                    brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
+                }
+
+                background: Rectangle {
+                    x: brightnessSlider.leftPadding
+                    y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
+                    width: brightnessSlider.availableWidth
+                    height: 4
+                    radius: 2
+                    color: root.sliderBgColor
+
+                    Rectangle {
+                        width: brightnessSlider.visualPosition * parent.width
+                        height: parent.height
+                        radius: 2
+                        color: root.sliderColor
+                    }
+                }
+
+                handle: Rectangle {
+                    x: brightnessSlider.leftPadding + brightnessSlider.visualPosition * (brightnessSlider.availableWidth - width)
+                    y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
+                    width: 12
+                    height: 12
+                    radius: 6
+                    color: brightnessSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                }
+
+                WheelHandler {
                     onWheel: function(wheel) {
                         var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
                         var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
                         var pct = Math.round(newVal * 100)
                         brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
-                    }
-                }
-
-                Slider {
-                    id: brightnessSlider
-                    anchors.fill: parent
-                    z: 1
-                    from: 0.05
-                    to: 1
-                    value: root.brightnessFrac
-
-                    onMoved: {
-                        var pct = Math.round(value * 100)
-                        brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
-                    }
-
-                    background: Rectangle {
-                        x: brightnessSlider.leftPadding
-                        y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
-                        width: brightnessSlider.availableWidth
-                        height: 4
-                        radius: 2
-                        color: root.sliderBgColor
-
-                        Rectangle {
-                            width: brightnessSlider.visualPosition * parent.width
-                            height: parent.height
-                            radius: 2
-                            color: root.sliderColor
-                        }
-                    }
-
-                    handle: Rectangle {
-                        x: brightnessSlider.leftPadding + brightnessSlider.visualPosition * (brightnessSlider.availableWidth - width)
-                        y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
-                        width: 12
-                        height: 12
-                        radius: 6
-                        color: brightnessSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
                     }
                 }
             }
