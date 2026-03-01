@@ -192,6 +192,9 @@
       keyboard-shortcuts = true;
       notification-grouping = true;
       image-visibility = "when-available";
+      notification-body-image-height = 24;
+      notification-body-image-width = 24;
+      notification-icon-size = 24;
       transition-time = 200;
       hide-on-clear = false;
       hide-on-action = true;
