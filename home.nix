@@ -186,15 +186,15 @@
       timeout-low = 5;
       timeout-critical = 0;
       fit-to-screen = true;
-      notification-window-width = 550;
-      control-center-width = 550;
+      notification-window-width = 450;
+      control-center-width = 450;
       control-center-height = 420;
       keyboard-shortcuts = true;
       notification-grouping = true;
       image-visibility = "when-available";
-      notification-body-image-height = 24;
-      notification-body-image-width = 24;
-      notification-icon-size = 24;
+      notification-body-image-height = 64;
+      notification-body-image-width = 64;
+      notification-icon-size = 48;
       transition-time = 200;
       hide-on-clear = false;
       hide-on-action = true;
@@ -211,35 +211,35 @@
       };
     };
     style = ''
-      /* Smaller notification icons */
+      /* Notification icons */
       .notification-icon {
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 32px;
-        max-height: 32px;
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 48px;
+        max-height: 48px;
       }
 
       .notification-icon image {
-        min-width: 32px;
-        min-height: 32px;
+        min-width: 48px;
+        min-height: 48px;
       }
 
-      /* Smaller images in body */
+      /* Images in body */
       .image {
-        max-width: 24px;
-        max-height: 24px;
+        max-width: 64px;
+        max-height: 64px;
         margin-right: 6px;
       }
 
       /* Album art / large notification images */
       .notification-image {
-        max-width: 24px;
-        max-height: 24px;
+        max-width: 64px;
+        max-height: 64px;
       }
 
       .body-image {
-        max-width: 24px;
-        max-height: 24px;
+        max-width: 64px;
+        max-height: 64px;
       }
 
       /* Compact notification - minimal vertical space */
