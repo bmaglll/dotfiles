@@ -186,15 +186,15 @@
       timeout-low = 5;
       timeout-critical = 0;
       fit-to-screen = true;
-      notification-window-width = 450;
-      control-center-width = 450;
-      control-center-height = 420;
+      notification-window-width = 500;
+      control-center-width = 500;
+      control-center-height = 600;
       keyboard-shortcuts = true;
       notification-grouping = true;
       image-visibility = "when-available";
-      notification-body-image-height = 64;
-      notification-body-image-width = 64;
-      notification-icon-size = 48;
+      notification-body-image-height = 48;
+      notification-body-image-width = 48;
+      notification-icon-size = 32;
       transition-time = 200;
       hide-on-clear = false;
       hide-on-action = true;
@@ -213,33 +213,33 @@
     style = ''
       /* Notification icons */
       .notification-icon {
-        min-width: 48px;
-        min-height: 48px;
-        max-width: 48px;
-        max-height: 48px;
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 32px;
+        max-height: 32px;
       }
 
       .notification-icon image {
-        min-width: 48px;
-        min-height: 48px;
+        min-width: 32px;
+        min-height: 32px;
       }
 
       /* Images in body */
       .image {
-        max-width: 64px;
-        max-height: 64px;
+        max-width: 48px;
+        max-height: 48px;
         margin-right: 6px;
       }
 
       /* Album art / large notification images */
       .notification-image {
-        max-width: 64px;
-        max-height: 64px;
+        max-width: 48px;
+        max-height: 48px;
       }
 
       .body-image {
-        max-width: 64px;
-        max-height: 64px;
+        max-width: 48px;
+        max-height: 48px;
       }
 
       /* Compact notification - minimal vertical space */
