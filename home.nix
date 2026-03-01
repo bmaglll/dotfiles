@@ -70,6 +70,7 @@
   baseIndex = 1;
   extraConfig = ''
   setw -g mouse on
+  bind BSpace kill-window
   '';
   };
   ###########################################################################################

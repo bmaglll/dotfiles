@@ -58,6 +58,7 @@
       "nm-applet --indicator"
       "clipse -listen"
       "playerctld daemon"
+      "ghostty --class=ghostty.main -e tmux new-session -A -s Main"
     ];
 
     # workspace rules
@@ -191,6 +192,9 @@
       "float, class:(ghostty.claude)"
       "size 900 600, class:(ghostty.claude)"
       "center, class:(ghostty.claude)"
+
+      # Main tmux session in special workspace
+      "workspace special:magic silent, class:(ghostty.main)"
 
       # Hyprland share picker / ProtonVPN
       "float, class:^(hyprland-share-picker)$"
