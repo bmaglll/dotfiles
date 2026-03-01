@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 
@@ -20,17 +19,6 @@ Rectangle {
     color: "#99111111"
     border.width: 1
     border.color: "#33ffffff"
-
-    // DEBUG: Test if mouse events reach the popup at all
-    MouseArea {
-        anchors.fill: parent
-        z: -1  // Behind other content
-        hoverEnabled: true
-        onEntered: console.log("SettingsDropdown: mouse ENTERED popup area")
-        onExited: console.log("SettingsDropdown: mouse EXITED popup area")
-        onClicked: console.log("SettingsDropdown: CLICKED in popup area")
-        onPressed: console.log("SettingsDropdown: PRESSED in popup area")
-    }
 
     // State
     property real volumeFrac: 0.0
@@ -63,45 +51,61 @@ Rectangle {
                 Layout.minimumWidth: 20
             }
 
-            Slider {
+            // Custom slider using MouseArea (QtQuick.Controls Slider has issues in popups)
+            Item {
                 id: volumeSlider
                 Layout.fillWidth: true
-                from: 0
-                to: 1
-                value: root.volumeFrac
+                implicitHeight: 20
 
-                onMoved: {
-                    console.log("Volume slider moved to:", value.toFixed(2))
-                    volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value.toFixed(2)] })
-                }
+                property real value: root.volumeFrac
+                property bool pressed: volumeSliderMouse.pressed
 
-                onPressedChanged: {
-                    console.log("Volume slider pressed:", pressed)
-                }
-
-                background: Rectangle {
-                    x: volumeSlider.leftPadding
-                    y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                    width: volumeSlider.availableWidth
+                Rectangle {
+                    id: volumeTrack
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width
                     height: 4
                     radius: 2
                     color: root.sliderBgColor
 
                     Rectangle {
-                        width: volumeSlider.visualPosition * parent.width
+                        width: root.volumeFrac * parent.width
                         height: parent.height
                         radius: 2
                         color: root.sliderColor
                     }
                 }
 
-                handle: Rectangle {
-                    x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-                    y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                Rectangle {
+                    id: volumeHandle
+                    x: root.volumeFrac * (parent.width - width)
+                    anchors.verticalCenter: parent.verticalCenter
                     width: 12
                     height: 12
                     radius: 6
-                    color: volumeSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                    color: volumeSliderMouse.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                }
+
+                MouseArea {
+                    id: volumeSliderMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onPressed: function(mouse) {
+                        updateVolume(mouse.x)
+                    }
+
+                    onPositionChanged: function(mouse) {
+                        if (pressed) {
+                            updateVolume(mouse.x)
+                        }
+                    }
+
+                    function updateVolume(mouseX) {
+                        var newVal = Math.max(0, Math.min(1, mouseX / width))
+                        console.log("Volume slider:", newVal.toFixed(2))
+                        volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
+                    }
                 }
 
                 WheelHandler {
@@ -138,46 +142,62 @@ Rectangle {
                 Layout.minimumWidth: 20
             }
 
-            Slider {
+            // Custom slider using MouseArea
+            Item {
                 id: brightnessSlider
                 Layout.fillWidth: true
-                from: 0.05
-                to: 1
-                value: root.brightnessFrac
+                implicitHeight: 20
 
-                onMoved: {
-                    console.log("Brightness slider moved to:", value)
-                    var pct = Math.round(value * 100)
-                    brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
-                }
+                property real value: root.brightnessFrac
+                property bool pressed: brightnessSliderMouse.pressed
 
-                onPressedChanged: {
-                    console.log("Brightness slider pressed:", pressed)
-                }
-
-                background: Rectangle {
-                    x: brightnessSlider.leftPadding
-                    y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
-                    width: brightnessSlider.availableWidth
+                Rectangle {
+                    id: brightnessTrack
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width
                     height: 4
                     radius: 2
                     color: root.sliderBgColor
 
                     Rectangle {
-                        width: brightnessSlider.visualPosition * parent.width
+                        width: root.brightnessFrac * parent.width
                         height: parent.height
                         radius: 2
                         color: root.sliderColor
                     }
                 }
 
-                handle: Rectangle {
-                    x: brightnessSlider.leftPadding + brightnessSlider.visualPosition * (brightnessSlider.availableWidth - width)
-                    y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
+                Rectangle {
+                    id: brightnessHandle
+                    x: root.brightnessFrac * (parent.width - width)
+                    anchors.verticalCenter: parent.verticalCenter
                     width: 12
                     height: 12
                     radius: 6
-                    color: brightnessSlider.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                    color: brightnessSliderMouse.pressed ? Qt.lighter(root.sliderColor) : root.sliderColor
+                }
+
+                MouseArea {
+                    id: brightnessSliderMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onPressed: function(mouse) {
+                        updateBrightness(mouse.x)
+                    }
+
+                    onPositionChanged: function(mouse) {
+                        if (pressed) {
+                            updateBrightness(mouse.x)
+                        }
+                    }
+
+                    function updateBrightness(mouseX) {
+                        var newVal = Math.max(0.05, Math.min(1, mouseX / width))
+                        var pct = Math.round(newVal * 100)
+                        console.log("Brightness slider:", pct + "%")
+                        brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
+                    }
                 }
 
                 WheelHandler {
