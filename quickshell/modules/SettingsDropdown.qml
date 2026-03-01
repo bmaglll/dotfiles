@@ -102,9 +102,8 @@ Rectangle {
                     }
 
                     onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var delta = wheel.angleDelta.y > 0 ? 0.01 : -0.01
                         var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
-                        console.log("Volume scroll:", newVal.toFixed(2))
                         volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
                     }
 
@@ -192,10 +191,9 @@ Rectangle {
                     }
 
                     onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                        var delta = wheel.angleDelta.y > 0 ? 0.01 : -0.01
                         var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
                         var pct = Math.round(newVal * 100)
-                        console.log("Brightness scroll:", pct + "%")
                         brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
                     }
 
