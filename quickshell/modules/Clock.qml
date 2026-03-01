@@ -13,15 +13,10 @@ Item {
 
     property date now: new Date()
 
-    function toggleDateTime() {
-        clockText.showDateTime = !clockText.showDateTime
-    }
-
     Text {
         id: clockText
-        property bool showDateTime: false
 
-        text: (showDateTime || clockRoot.showExpanded)
+        text: clockRoot.showExpanded
               ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm:ss AP")
               : Qt.formatTime(clockRoot.now, "hh:mm AP")
 
@@ -35,11 +30,6 @@ Item {
             running: true
             repeat: true
             onTriggered: clockRoot.now = new Date()
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: clockRoot.toggleDateTime()
         }
     }
 }
