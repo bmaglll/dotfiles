@@ -50,25 +50,14 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: Qt.PointingHandCursor
 
-        onPressed: function(m) {
-            if (m.button === Qt.RightButton) {
-                root.rightPressed = true
-            }
-        }
-
-        onReleased: function(m) {
-            if (m.button === Qt.RightButton) {
-                root.rightPressed = false
-            }
-        }
-
         onClicked: function(m) {
             root.clicked(m.button)
 
-            // only toggle on LEFT click
             if (m.button === Qt.LeftButton) {
                 root.toggled = !root.toggled
                 root.toggledChangedByUser(root.toggled)
+            } else if (m.button === Qt.RightButton) {
+                root.rightPressed = !root.rightPressed
             }
         }
     }
