@@ -203,6 +203,9 @@
       #"blurpopups, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
+      # Prevent swaync from closing special workspace when clicking notifications
+      "nofocus, swaync-notification-window"
+      "nofocus, swaync-control-center"
     ];
 
 }
