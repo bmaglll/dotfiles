@@ -4,6 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./laptop_gpu.nix
       inputs.home-manager.nixosModules.default
       # Framework 13 Laptop Flake
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
