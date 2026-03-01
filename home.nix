@@ -180,6 +180,8 @@
       notification-body-image-height = 80;
       notification-body-image-width = 80;
       notification-window-width = 400;
+      hide-on-clear = false;
+      hide-on-action = false;
       scripts = {
         claude-open = {
           exec = "hyprctl dispatch togglespecialworkspace magic";
