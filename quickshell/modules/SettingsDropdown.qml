@@ -60,7 +60,12 @@ Rectangle {
                 value: root.volumeFrac
 
                 onMoved: {
+                    console.log("Volume slider moved to:", value.toFixed(2))
                     volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value.toFixed(2)] })
+                }
+
+                onPressedChanged: {
+                    console.log("Volume slider pressed:", pressed)
                 }
 
                 background: Rectangle {
@@ -130,8 +135,13 @@ Rectangle {
                 value: root.brightnessFrac
 
                 onMoved: {
+                    console.log("Brightness slider moved to:", value)
                     var pct = Math.round(value * 100)
                     brightnessSetProc.exec({ command: ["brightnessctl", "s", pct + "%"] })
+                }
+
+                onPressedChanged: {
+                    console.log("Brightness slider pressed:", pressed)
                 }
 
                 background: Rectangle {
