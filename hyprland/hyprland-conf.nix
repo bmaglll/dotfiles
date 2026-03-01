@@ -63,8 +63,6 @@
     # workspace rules
     workspace = [
       "1, persistent:true"
-      # Prevent special workspace from auto-closing on focus loss
-      "special:magic, persistent:true"
     ];
 
     # special workspace animation (vertical slide instead of horizontal)
@@ -188,6 +186,11 @@
       # Clipse window via Ghostty
       "float, class:(ghostty.clipse)"
       "size 622 600, class:(ghostty.clipse)"
+
+      # Claude Code floating terminal
+      "float, class:(ghostty.claude)"
+      "size 900 600, class:(ghostty.claude)"
+      "center, class:(ghostty.claude)"
 
       # Hyprland share picker / ProtonVPN
       "float, class:^(hyprland-share-picker)$"
