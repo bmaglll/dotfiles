@@ -223,9 +223,20 @@
 
       /* Smaller images in body */
       .image {
+        max-width: 32px;
+        max-height: 32px;
+        margin-right: 6px;
+      }
+
+      /* Album art / large notification images */
+      .notification-image {
         max-width: 48px;
         max-height: 48px;
-        margin-right: 6px;
+      }
+
+      .body-image {
+        max-width: 32px;
+        max-height: 32px;
       }
 
       /* Compact notification - minimal vertical space */
