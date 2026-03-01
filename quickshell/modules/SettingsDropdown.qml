@@ -102,7 +102,7 @@ Rectangle {
                     }
 
                     onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.02 : -0.02
+                        var delta = wheel.angleDelta.y > 0 ? 0.01 : -0.01
                         var newVal = Math.max(0, Math.min(1, root.volumeFrac + delta))
                         root.volumeFrac = newVal  // Immediate UI update
                         volumeSetProc.exec({ command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", newVal.toFixed(2)] })
@@ -192,7 +192,7 @@ Rectangle {
                     }
 
                     onWheel: function(wheel) {
-                        var delta = wheel.angleDelta.y > 0 ? 0.02 : -0.02
+                        var delta = wheel.angleDelta.y > 0 ? 0.01 : -0.01
                         var newVal = Math.max(0.05, Math.min(1, root.brightnessFrac + delta))
                         root.brightnessFrac = newVal  // Immediate UI update
                         var pct = Math.round(newVal * 100)
