@@ -6,6 +6,7 @@ Item {
     Layout.alignment: Qt.AlignVCenter
 
     property var vars
+    property bool showExpanded: false
 
     implicitWidth: clockText.implicitWidth
     implicitHeight: clockText.implicitHeight
@@ -20,7 +21,7 @@ Item {
         id: clockText
         property bool showDateTime: false
 
-        text: showDateTime
+        text: (showDateTime || clockRoot.showExpanded)
               ? Qt.formatDateTime(clockRoot.now, "MM-dd-yyyy  hh:mm:ss AP")
               : Qt.formatTime(clockRoot.now, "hh:mm AP")
 

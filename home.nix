@@ -180,6 +180,13 @@
       notification-body-image-height = 80;
       notification-body-image-width = 80;
       notification-window-width = 400;
+      scripts = {
+        claude-open = {
+          exec = "hyprctl dispatch togglespecialworkspace magic";
+          app-name = "Claude Code";
+          run-on = "action";
+        };
+      };
     };
   };
 

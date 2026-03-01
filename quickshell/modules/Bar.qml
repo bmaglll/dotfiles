@@ -169,6 +169,7 @@ PanelWindow {
                 Clock {
 		    id: clock
 		    vars: vars
+		    showExpanded: statusCluster.rightPressed
                 }
             }
         }
