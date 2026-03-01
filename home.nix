@@ -170,9 +170,16 @@
     ./icons/spotify-linux-32.png;
 
   ###########################################################################################
-  # Swaync (notification center) - using defaults
+  # Swaync (notification center)
   ###########################################################################################
-  services.swaync.enable = true;
+  services.swaync = {
+    enable = true;
+    settings = {
+      notification-icon-size = 48;
+      notification-body-image-height = 80;
+      notification-body-image-width = 80;
+    };
+  };
 
   # Session env vars
   home.sessionVariables = {
