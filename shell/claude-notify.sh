@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
-# Claude Code notification with click-to-open action
-# Usage: claude-notify.sh "message"
-
-MESSAGE="${1:-Needs your attention}"
+# Read JSON from stdin and extract session_id
+INPUT=$(cat)
+SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // empty' | tail -c 7)
 ICON="/home/bmag/nixos-config/icons/claude.svg"
 
-# Send notification with action, run in background so hook doesn't block
-(
-    ACTION=$(notify-send -a 'Claude Code' -i "$ICON" 'Claude Code' "$MESSAGE" \
-        --action='open=Open' 2>/dev/null)
-
-    if [ "$ACTION" = "open" ]; then
-        ghostty --class=ghostty.claude -e tmux attach -t Main
-    fi
-) &
+notify-send -a "Claude Code" -i "$ICON" "Claude [$SESSION_ID]" "Needs your attention"

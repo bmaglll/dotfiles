@@ -38,6 +38,7 @@
     hyprshot
     swaynotificationcenter
     libnotify
+    jq
 
     chromium
     claude-code 
@@ -182,13 +183,6 @@
       notification-window-width = 400;
       hide-on-clear = false;
       hide-on-action = false;
-      scripts = {
-        claude-open = {
-          exec = "hyprctl dispatch togglespecialworkspace magic";
-          app-name = "Claude Code";
-          run-on = "action";
-        };
-      };
     };
   };
 
