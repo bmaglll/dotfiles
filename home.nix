@@ -263,6 +263,19 @@
       .summary {
         margin: 0;
         padding: 0;
+        font-size: 13px;
+      }
+
+      .body {
+        font-size: 12px;
+      }
+
+      .app-name {
+        font-size: 11px;
+      }
+
+      .time {
+        font-size: 10px;
       }
 
       .time {
