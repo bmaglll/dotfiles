@@ -137,7 +137,7 @@
       # Clipse pop-up with Ghostty
       "SUPER, V, exec, ghostty --class=ghostty.clipse -e clipse"
       # main Hyprland binds (now using ghostty + nautilus)
-      "$mainMod, RETURN, exec, $terminal"
+      "$mainMod, RETURN, exec, ghostty -e tmux new-session"
       "$mainMod, W, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
