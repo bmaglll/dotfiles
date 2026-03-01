@@ -21,6 +21,17 @@ Rectangle {
     border.width: 1
     border.color: "#33ffffff"
 
+    // DEBUG: Test if mouse events reach the popup at all
+    MouseArea {
+        anchors.fill: parent
+        z: -1  // Behind other content
+        hoverEnabled: true
+        onEntered: console.log("SettingsDropdown: mouse ENTERED popup area")
+        onExited: console.log("SettingsDropdown: mouse EXITED popup area")
+        onClicked: console.log("SettingsDropdown: CLICKED in popup area")
+        onPressed: console.log("SettingsDropdown: PRESSED in popup area")
+    }
+
     // State
     property real volumeFrac: 0.0
     property bool muted: false
