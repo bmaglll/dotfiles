@@ -16,7 +16,8 @@ Item {
     property int innerSpacing: 6
 
     // toggle state
-    property bool toggled: false   // <-- NEW
+    property bool toggled: false
+    property bool rightPressed: false  // for showing info without dropdown
 
     signal clicked(int button)
     signal toggledChangedByUser(bool toggled)
@@ -48,6 +49,18 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: Qt.PointingHandCursor
+
+        onPressed: function(m) {
+            if (m.button === Qt.RightButton) {
+                root.rightPressed = true
+            }
+        }
+
+        onReleased: function(m) {
+            if (m.button === Qt.RightButton) {
+                root.rightPressed = false
+            }
+        }
 
         onClicked: function(m) {
             root.clicked(m.button)
