@@ -63,6 +63,8 @@
     # workspace rules
     workspace = [
       "1, persistent:true"
+      # Prevent special workspace from auto-closing on focus loss
+      "special:magic, persistent:true"
     ];
 
     # special workspace animation (vertical slide instead of horizontal)
@@ -203,9 +205,6 @@
       #"blurpopups, quickshell"
       #"ignore_alpha 0.3,quickshell"
       #"noanim,quickshell"
-      # Prevent swaync from closing special workspace when clicking notifications
-      "nofocus, swaync-notification-window"
-      "nofocus, swaync-control-center"
     ];
 
 }
