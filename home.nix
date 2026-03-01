@@ -55,6 +55,7 @@
     # nrs: commit + push + rebuild
     initExtra = ''
     source ~/nixos-config/shell/nrs.sh
+    PS1='[\D{%H:%M:%S}] \w \$ '
   '';
   };
   ###########################################################################################
