@@ -186,9 +186,9 @@
       timeout-low = 5;
       timeout-critical = 0;
       fit-to-screen = true;
-      notification-window-width = 550;
-      control-center-width = 550;
-      control-center-height = 420;
+      notification-window-width = 500;
+      control-center-width = 500;
+      control-center-height = 600;
       keyboard-shortcuts = true;
       notification-grouping = true;
       image-visibility = "when-available";
