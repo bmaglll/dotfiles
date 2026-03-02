@@ -188,6 +188,11 @@
       "size 722 600, match:class ^(discord)"
       "float on, match:class ^(protonvpn-app)$"
 
+      # Polkit popup
+      "float on, match:class ^(polkit-gnome-authentication-agent-1)$"
+      "size 400 200, match:class ^(polkit-gnome-authentication-agent-1)$"
+      "center on, match:class ^(polkit-gnome-authentication-agent-1)$"
+
       # Ghostty opacity
       "opacity 0.9 1.0, match:class ^(ghostty)$"
     ];
