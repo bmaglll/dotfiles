@@ -186,7 +186,7 @@
       scripts = {
         notification-sound = {
           exec = "bash /home/bmag/nixos-config/sounds/notification-sound.sh";
-          app-name = ".*";
+          app-name = "Claude Code";
         };
       };
     };
