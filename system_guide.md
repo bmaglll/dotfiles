@@ -88,6 +88,10 @@ This config is designed around separation of concerns:
 │   ├── claude.svg             # Claude notification icon
 │   └── spotify-linux-32.png   # Spotify tray icon override
 │
+├── sounds/
+│   ├── notification.wav       # Wii system sound — global notification chime
+│   └── notification-sound.sh  # Wrapper script: pw-play the WAV file
+│
 ├── wallpapers/                # Background images (ngc2899.png, hptau.jpg, etc.)
 │
 └── old-config/                # Pre-NixOS configs (Arch pkglists, old waybar/kitty/hypr)
@@ -299,6 +303,26 @@ Configured via Home-Manager `services.swaync` in `home.nix`:
 - 48px notification icons
 - 400px wide notification window
 - Notifications persist (no auto-hide on clear/action)
+- **Custom notification sound**: Wii system sound (`sounds/notification.wav`) plays on every notification via SwayNC's scripting system
+
+### Notification Sound
+
+SwayNC's `scripts` config in `home.nix` runs a shell command when notifications match:
+```nix
+scripts = {
+  notification-sound = {
+    exec = "bash /home/bmag/nixos-config/sounds/notification-sound.sh";
+    app-name = ".*";   # matches all notifications
+  };
+};
+```
+
+The script (`sounds/notification-sound.sh`) plays the sound via PipeWire:
+```bash
+pw-play ~/nixos-config/sounds/notification.wav
+```
+
+To make it app-specific instead of global, change `app-name` from `".*"` to a regex matching the target app (e.g., `"Claude Code"` for Claude-only). Only one script fires per notification, so for multiple app-specific sounds, use separate script entries or a single script that branches on `$SWAYNC_APP_NAME`.
 
 Started by Hyprland's `exec-once` chain (first in the list so it's ready for all other services).
 
