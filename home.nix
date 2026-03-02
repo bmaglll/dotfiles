@@ -151,16 +151,11 @@
     enable = true;
 
     settings = {
-      ipc = "on";
-      splash = false;
-      splash_offset = 2;
-
-      preload = [
-        "/home/bmag/nixos-config/wallpapers/ngc2899.png"
-      ];
-
       wallpaper = [
-        "eDP-1,/home/bmag/nixos-config/wallpapers/ngc2899.png"
+        {
+          monitor = "eDP-1";
+          path = "/home/bmag/nixos-config/wallpapers/ngc2899.png";
+        }
       ];
     };
   };
