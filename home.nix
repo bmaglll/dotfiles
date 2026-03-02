@@ -183,6 +183,12 @@
       notification-window-width = 400;
       hide-on-clear = false;
       hide-on-action = false;
+      scripts = {
+        notification-sound = {
+          exec = "bash /home/bmag/nixos-config/sounds/notification-sound.sh";
+          app-name = ".*";
+        };
+      };
     };
   };
 
