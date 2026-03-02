@@ -72,7 +72,7 @@
   extraConfig = ''
   setw -g mouse on
   bind BSpace kill-window
-  set -g status-left-style "fg=#b388ff,bold"
+  set -g status-style "bg=#b388ff,fg=#000000"
   '';
   };
   ###########################################################################################
