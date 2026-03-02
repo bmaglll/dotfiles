@@ -160,7 +160,7 @@
       ];
 
       wallpaper = [
-        "eDP-1,/home/bmag/nixos-config/wallpapers/ngc2899.png"
+        ",/home/bmag/nixos-config/wallpapers/ngc2899.png"
       ];
     };
   };
