@@ -23,6 +23,6 @@ nrs() {
   fi
 
   git push
-  sudo nixos-rebuild switch --flake ~/nixos-config
+  sudo nixos-rebuild switch --flake ~/nixos-config#lap-nix
 }
 

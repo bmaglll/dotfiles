@@ -5,7 +5,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./laptop_gpu.nix
-      inputs.home-manager.nixosModules.default
       # Framework 13 Laptop Flake
       inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ];
@@ -18,7 +17,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
   # Network Host Name
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "lap-nix";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -144,7 +143,7 @@
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "bmag" = import ./home.nix;
+      "bmag" = import ../../home.nix;
     };
   };
     
