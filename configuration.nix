@@ -86,7 +86,7 @@
     settings = {
       default_session = {
         # tuigreet is the login UI
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd start-hyprland";
         user = "bmag";
       };
   };
