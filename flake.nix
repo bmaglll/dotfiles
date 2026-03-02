@@ -16,12 +16,18 @@
   };
 
   outputs = { self, nixpkgs, nixos-hardware, ... }@inputs: {
-    # use "nixos", or your hostname as the name of the configuration
-    # it's a better practice than "default" shown in the video
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.lap-nix = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        ./configuration.nix
+        ./hosts/lap-nix/configuration.nix
+        inputs.home-manager.nixosModules.default
+      ];
+    };
+
+    nixosConfigurations.desk-nix = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./hosts/desk-nix/configuration.nix
         inputs.home-manager.nixosModules.default
       ];
     };
