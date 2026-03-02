@@ -153,7 +153,7 @@
     settings = {
       ipc = "on";
       splash = false;
-      splash_offset = 2.0;
+      splash_offset = 2;
 
       preload = [
         "/home/bmag/nixos-config/wallpapers/ngc2899.png"
