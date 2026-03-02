@@ -112,7 +112,7 @@
     package = null;
     portalPackage = null;
 
-    settings = import ./hyprland/hyprland-conf.nix;
+    settings = import ./hyprland/hyprland-conf.nix { inherit pkgs; };
   };
   ###########################################################################################
   # Hyprlock
