@@ -176,6 +176,7 @@
   hyprlock
   hypridle
   libfprint
+  polkit_gnome
   ];
   # Fonts
   fonts = {

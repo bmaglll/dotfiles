@@ -59,6 +59,7 @@
       "clipse -listen"
       "playerctld daemon"
       "ghostty --class=ghostty.main -e tmux new-session -A -s Main"
+      "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
     ];
 
     # workspace rules
