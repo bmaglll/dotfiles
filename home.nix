@@ -151,6 +151,8 @@
     enable = true;
 
     settings = {
+      splash = false;
+
       wallpaper = [
         {
           monitor = "eDP-1";
