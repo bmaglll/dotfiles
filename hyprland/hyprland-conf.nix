@@ -154,65 +154,44 @@
       ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
       ];
     # window rules
-    windowrulev2 = [
-      # Special workspace: floating windows by default, orange border, slight transparency
-      "float, onworkspace:special:magic"
-      "bordercolor rgba(b388ffee), onworkspace:special:magic"
-      "opacity 0.7, onworkspace:special:magic"
+    windowrule = [
+      # Special workspace: floating windows by default, purple border, slight transparency
+      "float on, match:workspace special:magic"
+      "border_color rgba(b388ffee), match:workspace special:magic"
+      "opacity 0.7, match:workspace special:magic"
 
-      # Btop in kitty (if you still use this – otherwise you can delete)
-      # "fullscreen, class:^(kitty)$, title:^(btop)$"
-      # "float, class:^(kitty)$, title:^(btop)$"
-      
-      #The regex ^Picture-in-Picture$ ensures an exact match.
-      "float,title:^Picture-in-Picture$"
-      
-      # 2. Set the 16:9 size (e.g., 640 width, 360 height).
-      # You can adjust these numbers, but keep the 16:9 ratio.
-      "size 640 360,title:^Picture-in-Picture$"
-      
-      # 3. Move the window to the bottom-right corner.
-      # 100% moves it to the edge, and the subtraction provides a small gap.
-      # Example: move 100%-650 100%-390
-      # Note: Hyprland uses the format "X Y" for move.
-      "move 100%-650 100%-390,title:^Picture-in-Picture$"
+      # Picture-in-Picture: floating, pinned, bottom-right corner
+      "float on, match:title ^Picture-in-Picture$"
+      "size 640 360, match:title ^Picture-in-Picture$"
+      "move 100%-650 100%-390, match:title ^Picture-in-Picture$"
+      "pin on, match:title ^Picture-in-Picture$"
+      "no_anim on, match:title ^Picture-in-Picture$"
+      "keep_aspect_ratio on, match:title ^Picture-in-Picture$"
 
-      # 4. Optional: Pin the window to show it on all workspaces.
-      "pin,title:^Picture-in-Picture$"
-
-      # 5. Optional: Disable window animations for a snappier feel.
-      "noanim,title:^Picture-in-Picture$"
-
-          # Optional: Enable aspect ratio lock if resizing
-      "keepaspectratio,title:^Picture-in-Picture$"	
       # Clipse window via Ghostty
-      "float, class:(ghostty.clipse)"
-      "size 622 600, class:(ghostty.clipse)"
+      "float on, match:class (ghostty.clipse)"
+      "size 622 600, match:class (ghostty.clipse)"
 
       # Claude Code floating terminal
-      "float, class:(ghostty.claude)"
-      "size 900 600, class:(ghostty.claude)"
-      "center, class:(ghostty.claude)"
+      "float on, match:class (ghostty.claude)"
+      "size 900 600, match:class (ghostty.claude)"
+      "center on, match:class (ghostty.claude)"
 
       # Main tmux session in special workspace
-      "workspace special:magic silent, class:(ghostty.main)"
+      "workspace special:magic silent, match:class (ghostty.main)"
 
-      # Hyprland share picker / ProtonVPN
-      "float, class:^(hyprland-share-picker)$"
-      "center, class:^(hyprland-share-picker)$"
-      "float, class:^(discord)$"
-      "size 722 600, class:^(discord)"
-      "float, class:^(protonvpn-app)$"
-      # OBS (uncomment if you want this behavior)
-      # "float, class:^(com\\.obsproject\\.Studio)$"
-      # "center, class:^(com\\.obsproject\\.Studio)$"
-      "opacity 0.9 1.0, class:^(ghostty)$"
-      ];
+      # Hyprland share picker / ProtonVPN / Discord
+      "float on, match:class ^(hyprland-share-picker)$"
+      "center on, match:class ^(hyprland-share-picker)$"
+      "float on, match:class ^(discord)$"
+      "size 722 600, match:class ^(discord)"
+      "float on, match:class ^(protonvpn-app)$"
+
+      # Ghostty opacity
+      "opacity 0.9 1.0, match:class ^(ghostty)$"
+    ];
     layerrule = [
-      "blur, quickshell"
-      #"blurpopups, quickshell"
-      #"ignore_alpha 0.3,quickshell"
-      #"noanim,quickshell"
+      "blur on, match:namespace quickshell"
     ];
 
 }
