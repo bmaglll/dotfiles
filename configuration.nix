@@ -154,7 +154,16 @@
     openFirewall = true;  # opens TCP/UDP 53317 for you
   };
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    preferences = {
+      "media.ffmpeg.vaapi.enabled" = true;
+      "media.hardware-video-decoding.force-enabled" = true;
+      "media.ffvpx.enabled" = false;
+      "media.rdd-ffmpeg.enabled" = true;
+      "gfx.webrender.all" = true;
+    };
+  };
 
   # Allow unfree packages
 

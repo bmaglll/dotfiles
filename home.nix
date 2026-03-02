@@ -8,6 +8,7 @@
   # User packages
   ###########################################################################################
   home.packages = with pkgs; [
+    # User Added
     nautilus
     brightnessctl
     clipse
@@ -37,9 +38,9 @@
     wiremix
     hyprshot
     swaynotificationcenter
+    # Added by Claude
     libnotify
     jq
-
     chromium
     claude-code 
   ];
