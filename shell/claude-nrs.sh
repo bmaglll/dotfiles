@@ -29,6 +29,6 @@ git push
 # Create a new tmux window for the rebuild and capture its index
 WIN=$(tmux new-window -t Main -P -F '#{window_index}')
 
-# Send rebuild command to the new window
-tmux send-keys -t "Main:${WIN}" 'pkexec nixos-rebuild switch --flake ~/nixos-config' Enter
+# Send rebuild command — auto-close window on success, stay open on failure
+tmux send-keys -t "Main:${WIN}" 'pkexec nixos-rebuild switch --flake ~/nixos-config && exit' Enter
 echo "Rebuild sent to Main:${WIN} — approve polkit popup"
