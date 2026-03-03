@@ -182,7 +182,7 @@
       notification-icon-size = 48;
       notification-body-image-height = 80;
       notification-body-image-width = 80;
-      notification-window-width = 200;
+      notification-window-width = 300;
       hide-on-clear = false;
       hide-on-action = false;
       scripts = {
