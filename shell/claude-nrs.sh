@@ -17,14 +17,17 @@ else
   git add -A
 fi
 
-# Commit (exit early if nothing to commit)
+# Commit (skip if nothing to commit)
 if ! git commit -m "$MSG"; then
-  echo "Nothing to commit"
-  exit 0
+  echo "Nothing new to commit"
 fi
 
-# Push
-git push
+# Push if there are unpushed commits
+if [ -n "$(git log @{u}..HEAD 2>/dev/null)" ]; then
+  git push
+else
+  echo "Nothing to push"
+fi
 
 # Create a new tmux window for the rebuild and capture its index
 WIN=$(tmux new-window -t Main -P -F '#{window_index}')
