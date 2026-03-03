@@ -194,7 +194,7 @@
 
       # Polkit popup
       "float on, match:class ^(polkit-gnome-authentication-agent-1)$"
-      "size 400 200, match:class ^(polkit-gnome-authentication-agent-1)$"
+      "maxsize 400 200, match:class ^(polkit-gnome-authentication-agent-1)$"
       "center on, match:class ^(polkit-gnome-authentication-agent-1)$"
 
       # Ghostty opacity
