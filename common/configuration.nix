@@ -129,7 +129,6 @@
     git
     hyprlock
     hypridle
-    hyprpolkitagent
   ];
 
   # Fonts
