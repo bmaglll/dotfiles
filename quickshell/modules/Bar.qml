@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 
@@ -22,50 +21,6 @@ PanelWindow {
 
     color: "#00ffffff"
     implicitHeight: 24
-
-    // Settings dropdown popup
-    PopupWindow {
-        id: settingsPopup
-        color: "transparent"
-        anchor.window: root
-
-        // Fixed dimensions to avoid Hyprland input region bug
-        implicitWidth: 250
-        implicitHeight: 100
-
-        anchor.rect: Qt.rect(
-            root.width - 250 - 8,
-            root.implicitHeight + 4,
-            250,
-            100
-        )
-
-        visible: statusCluster.toggled
-
-        onVisibleChanged: {
-            console.log("settingsPopup visible:", visible)
-            console.log("  anchor.window:", anchor.window)
-            console.log("  implicitWidth:", implicitWidth, "implicitHeight:", implicitHeight)
-            console.log("  dropdown size:", settingsDropdown.width, "x", settingsDropdown.height)
-        }
-
-        SettingsDropdown {
-            id: settingsDropdown
-            fontFamily: vars.fontFamily
-            fontSize: vars.iFontSz
-        }
-    }
-
-    // Click-outside-to-close handler
-    HyprlandFocusGrab {
-        id: focusGrab
-        windows: [settingsPopup]
-        active: statusCluster.toggled
-
-        onCleared: {
-            statusCluster.toggled = false
-        }
-    }
 
     // ---- Color & font variables ----
     QtObject {
@@ -145,8 +100,6 @@ PanelWindow {
                 innerSpacing: 8
 
                 onClicked: function(btn) {
-                    console.log("StatusCluster clicked, button:", btn)
-                    console.log("  statusCluster.toggled is now:", statusCluster.toggled)
                 }
 
                 VolumeDisplay {
