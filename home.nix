@@ -73,6 +73,7 @@
   setw -g mouse on
   bind BSpace kill-window
   set -g status-style "bg=#b388ff,fg=#000000"
+  set -g renumber-windows on
   '';
   };
   ###########################################################################################
@@ -155,7 +156,7 @@
 
       wallpaper = [
         {
-          monitor = "eDP-1";
+          monitor = "";
           path = "/home/bmag/nixos-config/wallpapers/ngc2899.png";
         }
       ];
