@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 
@@ -70,9 +71,8 @@ PanelWindow {
             
               // This calculation ensures the title doesn't overlap other blocks
               chopLength: {
-                var space = Math.floor(bar.width - (rightBlocks.implicitWidth + leftBlocks.implicitWidth))
-                // You may need to adjust the divisor (e.g., /8 or /10) based on font size.
-                return Math.floor(space / activeWindowTitleDisplay.font.pixelSize); 
+                var space = Math.floor(root.width - (rightRow.implicitWidth + leftRow.implicitWidth))
+                return Math.floor(space / vars.iFontSz)
               }
 	    }
         }
@@ -110,13 +110,12 @@ PanelWindow {
                     }
 
                 Battery {
-                    id: battery
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
                     colNormal: vars.colWhite
                     colCharging: "#00ff00"
                     colLow: "#ff5555"
-                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed || isLow
+                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
                 }
 
                 Clock {
