@@ -196,8 +196,12 @@
       .notification-row {
         padding: 6px 0;
       }
-      .notification-row .close-button {
-        display: none;
+      .close-button {
+        min-width: 0;
+        min-height: 0;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
       }
     '';
   };
