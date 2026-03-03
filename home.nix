@@ -114,7 +114,7 @@
     package = null;
     portalPackage = null;
 
-    settings = import ./hyprland/hyprland-conf.nix { inherit pkgs; };
+    settings = import ./hyprland/hyprland-conf.nix;
   };
   ###########################################################################################
   # Hyprlock
@@ -190,6 +190,28 @@
           app-name = "Claude Code";
         };
       };
+    };
+  };
+
+  ###########################################################################################
+  # Polkit agent (hyprpolkitagent via systemd)
+  ###########################################################################################
+  systemd.user.services.hyprpolkitagent = {
+    Unit = {
+      Description = "Hyprland Polkit Authentication Agent";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    Service = {
+      ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+      Slice = "session.slice";
+      TimeoutStopSec = "5s";
+      Restart = "on-failure";
+      RestartSec = "3";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 

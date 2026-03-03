@@ -1,4 +1,3 @@
-{ pkgs }:
 {
 
     # variables
@@ -60,7 +59,6 @@
       "clipse -listen"
       "playerctld daemon"
       "ghostty --class=ghostty.main -e tmux new-session -A -s Main"
-      "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
     ];
 
     # workspace rules
