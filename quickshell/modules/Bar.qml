@@ -102,6 +102,13 @@ PanelWindow {
                 onClicked: function(btn) {
                 }
 
+                CpuMonitor {
+                    fontFamily: vars.fontFamily
+                    fontSize: vars.iFontSz
+                    pollInterval: 2000
+                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
+                }
+
                 VolumeDisplay {
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
