@@ -196,6 +196,9 @@
       .notification-row {
         padding: 6px 0;
       }
+      .notification-row .close-button {
+        display: none;
+      }
     '';
   };
 
