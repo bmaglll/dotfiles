@@ -109,6 +109,13 @@ PanelWindow {
                     showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
                 }
 
+                RamMonitor {
+                    fontFamily: vars.fontFamily
+                    fontSize: vars.iFontSz
+                    pollInterval: 2000
+                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
+                }
+
                 VolumeDisplay {
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
