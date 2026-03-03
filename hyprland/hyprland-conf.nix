@@ -156,8 +156,7 @@
       ];
     # window rules
     windowrule = [
-      # Special workspace: floating windows by default, purple border, slight transparency
-      "float on, match:workspace special:magic"
+      # Special workspace: purple border, slight transparency
       "border_color rgba(b388ffee), match:workspace special:magic"
       "opacity 0.7, match:workspace special:magic"
 
