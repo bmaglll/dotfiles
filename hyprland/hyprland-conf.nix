@@ -177,6 +177,11 @@
       "size 900 600, match:class (ghostty.claude)"
       "center on, match:class (ghostty.claude)"
 
+      # Nautilus file manager: floating, centered
+      "float on, match:class ^(org.gnome.Nautilus)$"
+      "size 650 450, match:class ^(org.gnome.Nautilus)$"
+      "center on, match:class ^(org.gnome.Nautilus)$"
+
       # Main tmux session in special workspace
       "workspace special:magic silent, match:class (ghostty.main)"
 
