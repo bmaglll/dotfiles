@@ -57,6 +57,7 @@
     # nrs: commit + push + rebuild
     initExtra = ''
     source ~/nixos-config/shell/nrs.sh
+    export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/1000/hypr/ 2>/dev/null | head -1)
     PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
   '';
   };
