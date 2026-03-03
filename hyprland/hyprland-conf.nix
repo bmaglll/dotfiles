@@ -60,7 +60,7 @@
       "clipse -listen"
       "playerctld daemon"
       "ghostty --class=ghostty.main -e tmux new-session -A -s Main"
-      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+      "systemctl --user start hyprpolkitagent"
     ];
 
     # workspace rules
@@ -193,9 +193,8 @@
       "float on, match:class ^(protonvpn-app)$"
 
       # Polkit popup
-      "float on, match:class ^(polkit-gnome-authentication-agent-1)$"
-      "maxsize 400 200, match:class ^(polkit-gnome-authentication-agent-1)$"
-      "center on, match:class ^(polkit-gnome-authentication-agent-1)$"
+      "float on, match:class ^(hyprpolkitagent)$"
+      "center on, match:class ^(hyprpolkitagent)$"
 
       # Ghostty opacity
       "opacity 0.9 1.0, match:class ^(ghostty)$"

@@ -129,7 +129,7 @@
     git
     hyprlock
     hypridle
-    polkit_gnome
+    hyprpolkitagent
   ];
 
   # Fonts
