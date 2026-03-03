@@ -46,15 +46,8 @@ Text { // Renamed from BarText to standard Text for compatibility
         }
 
         // Add a handler for when the process finishes
-        onExited: {
+        onExited: (exitCode, exitStatus) => {
             isFetching = false;
-            // The activeWindowTitle will already be set via stdout: SplitParser
-            
-            // --- CRITICAL ADDITION: Handle no output/error case ---
-            // If the command failed (exitCode !== 0) or produced no output, 
-            // we should assume no active window is focused and clear the text.
-            // Note: This often isn't needed if stdout: SplitParser is robust, but 
-            // it provides a clear fallback.
             if (exitCode !== 0) {
                 activeWindowTitleDisplay.activeWindowTitle = "";
             }
