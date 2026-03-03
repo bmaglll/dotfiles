@@ -60,7 +60,7 @@
       "clipse -listen"
       "playerctld daemon"
       "ghostty --class=ghostty.main -e tmux new-session -A -s Main"
-      "systemctl --user start hyprpolkitagent"
+      "hyprpolkitagent"
     ];
 
     # workspace rules
