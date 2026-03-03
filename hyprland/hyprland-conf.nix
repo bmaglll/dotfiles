@@ -179,7 +179,7 @@
 
       # Nautilus file manager: floating, centered
       "float on, match:class ^(org.gnome.Nautilus)$"
-      "size 650 450, match:class ^(org.gnome.Nautilus)$"
+      "size 700 500, match:class ^(org.gnome.Nautilus)$"
       "center on, match:class ^(org.gnome.Nautilus)$"
 
       # Main tmux session in special workspace
