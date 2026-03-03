@@ -14,7 +14,9 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#00ffffff"
+        color: mouse.pressed ? Qt.rgba(1, 1, 1, 0.16)
+             : mouse.containsMouse ? Qt.rgba(1, 1, 1, 0.10)
+             : "transparent"
         radius: 4
     }
 
@@ -79,8 +81,10 @@ Item {
     }
 
     MouseArea {
+        id: mouse
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
 
         onClicked: {
             if (!root.player)
