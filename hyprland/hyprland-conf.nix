@@ -180,6 +180,11 @@
       "size 700 500, match:class ^(org.gnome.Nautilus)$"
       "center on, match:class ^(org.gnome.Nautilus)$"
 
+      # File picker dialogs (e.g. Chromium "Open File")
+      "float on, match:title ^(Open File)$"
+      "size 700 500, match:title ^(Open File)$"
+      "center on, match:title ^(Open File)$"
+
       # Main tmux session in special workspace
       "workspace special:magic silent, match:class (ghostty.main)"
 
