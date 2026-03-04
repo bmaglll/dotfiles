@@ -243,10 +243,14 @@
         background-color: rgba(30, 30, 46, 0.6);
         color: #cdd6f4;
         font-size: 14px;
+        outline: none;
+        box-shadow: none;
       }
 
       #input:focus {
         border-bottom-color: rgba(205, 214, 244, 0.5);
+        outline: none;
+        box-shadow: none;
       }
 
       /* Results list */
