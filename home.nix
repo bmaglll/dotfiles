@@ -230,7 +230,7 @@
         font-family: "JetBrainsMono Nerd Font", monospace;
         background-color: rgba(17, 17, 27, 0.85);
         border-radius: 12px;
-        border: 2px solid rgba(51, 204, 255, 0.4);
+        border: 2px solid rgba(205, 214, 244, 0.2);
       }
 
       /* Input field */
@@ -238,7 +238,7 @@
         margin: 8px 12px;
         padding: 8px 12px;
         border: none;
-        border-bottom: 2px solid rgba(51, 204, 255, 0.3);
+        border-bottom: 2px solid rgba(205, 214, 244, 0.2);
         border-radius: 8px;
         background-color: rgba(30, 30, 46, 0.6);
         color: #cdd6f4;
@@ -246,7 +246,7 @@
       }
 
       #input:focus {
-        border-bottom-color: #33ccff;
+        border-bottom-color: rgba(205, 214, 244, 0.5);
       }
 
       /* Results list */
@@ -266,8 +266,8 @@
       }
 
       #entry:selected {
-        background-color: rgba(51, 204, 255, 0.2);
-        color: #33ccff;
+        background-color: rgba(205, 214, 244, 0.12);
+        color: #e0e4f0;
       }
 
       /* App icon */
@@ -281,7 +281,7 @@
       }
 
       #text:selected {
-        color: #33ccff;
+        color: #e0e4f0;
       }
     '';
   };
