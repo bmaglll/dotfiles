@@ -205,7 +205,6 @@
     layerrule = [
       "blur on, match:namespace quickshell"
       "blur on, match:namespace wofi"
-      "ignorezero on, match:namespace wofi"
     ];
 
 }
