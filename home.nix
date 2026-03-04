@@ -24,7 +24,6 @@
     grimblast
     tmux
     btop
-    wofi
     discord
     hyprpaper
     hyprsunset
@@ -202,6 +201,87 @@
         padding: 0;
         margin: 0;
         opacity: 0;
+      }
+    '';
+  };
+
+  ###########################################################################################
+  # Wofi (app launcher)
+  ###########################################################################################
+  programs.wofi = {
+    enable = true;
+    settings = {
+      width = 500;
+      height = 350;
+      location = "center";
+      show = "drun";
+      prompt = "Search...";
+      allow_markup = true;
+      no_actions = true;
+      insensitive = true;
+      allow_images = true;
+      image_size = 24;
+      gtk_dark = true;
+      layer = "overlay";
+    };
+    style = ''
+      /* Main window */
+      window {
+        font-family: "JetBrainsMono Nerd Font", monospace;
+        background-color: rgba(17, 17, 27, 0.85);
+        border-radius: 12px;
+        border: 2px solid rgba(51, 204, 255, 0.4);
+      }
+
+      /* Input field */
+      #input {
+        margin: 8px 12px;
+        padding: 8px 12px;
+        border: none;
+        border-bottom: 2px solid rgba(51, 204, 255, 0.3);
+        border-radius: 8px;
+        background-color: rgba(30, 30, 46, 0.6);
+        color: #cdd6f4;
+        font-size: 14px;
+      }
+
+      #input:focus {
+        border-bottom-color: #33ccff;
+      }
+
+      /* Results list */
+      #inner-box {
+        margin: 4px 8px;
+      }
+
+      #outer-box {
+        padding: 4px;
+      }
+
+      /* Each result row */
+      #entry {
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #cdd6f4;
+      }
+
+      #entry:selected {
+        background-color: rgba(51, 204, 255, 0.2);
+        color: #33ccff;
+      }
+
+      /* App icon */
+      #img {
+        margin-right: 8px;
+      }
+
+      /* Result text */
+      #text {
+        color: #cdd6f4;
+      }
+
+      #text:selected {
+        color: #33ccff;
       }
     '';
   };
