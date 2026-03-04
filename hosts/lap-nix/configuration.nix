@@ -15,6 +15,16 @@
   # Hostname
   networking.hostName = "lap-nix";
 
+  # Hibernate resume
+  boot.resumeDevice = "/dev/disk/by-uuid/51e79868-d770-4c23-ba7d-f9754f95bc41";
+  boot.kernelParams = [ "resume_offset=39610368" ];
+
+  # Lid close triggers suspend-then-hibernate
+  services.logind = {
+    lidSwitch = "suspend-then-hibernate";
+    lidSwitchExternalPower = "suspend-then-hibernate";
+  };
+
   # Laptop power management
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true;

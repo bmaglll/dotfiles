@@ -142,6 +142,11 @@
           on-timeout = "pidof hyprlock || hyprlock";
           on-resume = "";
         }
+        {
+          timeout = 900;  # 15 min idle → suspend-then-hibernate
+          on-timeout = "systemctl suspend-then-hibernate";
+          on-resume = "";
+        }
       ];
     };
   };
