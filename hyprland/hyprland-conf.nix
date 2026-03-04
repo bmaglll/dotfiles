@@ -147,6 +147,10 @@
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       ];
+    # lock on lid close
+    bindl = [
+      ", switch:Lid Switch, exec, pidof hyprlock || hyprlock"
+    ];
     # repeat-on-hold audio binds
     binde = [
       ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
