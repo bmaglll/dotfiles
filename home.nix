@@ -228,7 +228,7 @@
       /* Main window */
       window {
         font-family: "JetBrainsMono Nerd Font", monospace;
-        background-color: rgba(17, 17, 27, 0.85);
+        background-color: rgba(40, 40, 58, 0.65);
         border-radius: 12px;
         border: 2px solid rgba(205, 214, 244, 0.2);
       }
