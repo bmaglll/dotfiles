@@ -143,7 +143,7 @@
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, Z, togglefloating,"
-      "$mainMod, Space, exec, $menu"
+      "$mainMod, Space, exec, pkill wofi || $menu"
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       ];
