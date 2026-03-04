@@ -144,5 +144,10 @@
     ];
   };
 
+  # Suspend-then-hibernate: suspend immediately, hibernate after 90 min
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=90min
+  '';
+
   system.stateVersion = "25.05";
 }
