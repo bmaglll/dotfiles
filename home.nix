@@ -37,11 +37,16 @@
     wiremix
     hyprshot
     swaynotificationcenter
+    # Python environment with packages
+    (python312.withPackages (ps: [
+      ps.playwright
+      ps.anthropic
+    ]))
     # Added by Claude
     libnotify
     jq
     chromium
-    claude-code 
+    claude-code
   ];
   ###########################################################################################
   # Bash 
