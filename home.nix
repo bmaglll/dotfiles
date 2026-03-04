@@ -212,7 +212,7 @@
     enable = true;
     settings = {
       width = 500;
-      height = 350;
+      height = 175;
       location = "center";
       show = "drun";
       prompt = "Search...";
