@@ -23,7 +23,7 @@
       color = "rgba(255, 255, 255, 1.0)";
       font_size = 18;
       font_family = "JetBrainsMono Nerd Font";
-      position = "0, 10";
+      position = "0, 4";
       halign = "center";
       valign = "top";
     }
