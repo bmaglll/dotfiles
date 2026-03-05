@@ -18,23 +18,12 @@
   label = [
     {
       monitor = "eDP-1";
-      # Bold time at the top
-      text = "<b>$TIME</b>";
+      # Date and time side by side at top
+      text = "cmd[update:1000] echo \"$(date +'%A, %B %-d')  <b>$TIME</b>\"";
       color = "rgba(255, 255, 255, 1.0)";
-      font_size = 28;
+      font_size = 24;
       font_family = "JetBrainsMono Nerd Font";
-      position = "0, 40";
-      halign = "center";
-      valign = "top";
-    }
-    {
-      monitor = "eDP-1";
-      # Date below the time
-      text = "cmd[update:60000] echo \"$(date +'%A, %B %-d')\"";
-      color = "rgba(255, 255, 255, 0.7)";
-      font_size = 16;
-      font_family = "JetBrainsMono Nerd Font";
-      position = "0, 0";
+      position = "0, 10";
       halign = "center";
       valign = "top";
     }
