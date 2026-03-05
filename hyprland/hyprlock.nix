@@ -30,7 +30,7 @@
     {
       monitor = "eDP-1";
       # Date below the time
-      text = ''cmd[update:60000] date +"%A, %B %-d"'';
+      text = "cmd[update:60000] date +'%A, %B %-d'";
       color = "rgba(255, 255, 255, 0.7)";
       font_size = 16;
       font_family = "JetBrainsMono Nerd Font";
