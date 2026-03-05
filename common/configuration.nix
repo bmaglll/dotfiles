@@ -114,9 +114,7 @@
     preferences = {
       "media.ffmpeg.vaapi.enabled" = true;
       "media.hardware-video-decoding.force-enabled" = true;
-      "media.ffvpx.enabled" = false;
       "media.rdd-ffmpeg.enabled" = true;
-      "gfx.webrender.all" = true;
     };
   };
 
