@@ -327,7 +327,6 @@
 
   # Session env vars
   home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
   };
 
   # Let Home Manager manage itself
