@@ -29,6 +29,17 @@
     }
     {
       monitor = "eDP-1";
+      # Date below the time
+      text = ''cmd[update:60000] date +"%A, %B %-d"'';
+      color = "rgba(255, 255, 255, 0.7)";
+      font_size = 16;
+      font_family = "JetBrainsMono Nerd Font";
+      position = "0, 75";
+      halign = "center";
+      valign = "top";
+    }
+    {
+      monitor = "eDP-1";
       # Bold fail reason under the input field, red
       text = "<b>$FAIL</b>";
       color = "rgba(204, 34, 34, 1.0)";
