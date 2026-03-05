@@ -19,9 +19,9 @@
     {
       monitor = "eDP-1";
       # Date and time side by side at top
-      text = "cmd[update:1000] echo \"$(date +'%A, %B %-d')  <b>$TIME</b>\"";
+      text = "cmd[update:1000] echo \"$(date +'%A, %B %-d  -  %-I:%M %p')\"";
       color = "rgba(255, 255, 255, 1.0)";
-      font_size = 24;
+      font_size = 18;
       font_family = "JetBrainsMono Nerd Font";
       position = "0, 10";
       halign = "center";
