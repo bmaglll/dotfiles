@@ -124,11 +124,12 @@ PanelWindow {
                     }
 
                 Battery {
+                    vars: vars
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
-                    colNormal: vars.colWhite
                     colCharging: "#00ff00"
                     colLow: "#ff5555"
+                    colWarning: "#ffaa00"
                     showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
                 }
 
