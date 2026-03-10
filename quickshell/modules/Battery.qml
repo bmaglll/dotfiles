@@ -6,12 +6,13 @@ Item {
     id: batteryRoot
     Layout.alignment: Qt.AlignVCenter
 
-    // parameters passed from shell.qml
+    // parameters passed from Bar.qml
+    property var vars
     property string fontFamily
     property int fontSize
-    property color colNormal
     property color colCharging
     property color colLow
+    property color colWarning
 
     // UI behavior
     property bool showPercent: false
@@ -31,17 +32,19 @@ Item {
         dev && (dev.state === UPowerDeviceState.Charging
                 || dev.state === UPowerDeviceState.PendingCharge)
 
-    readonly property bool isLow: perc >= 0 && perc <= 30
+    readonly property bool isLow: perc >= 0 && perc <= 25
+    readonly property bool isWarning: perc >= 26 && perc <= 35
     readonly property bool isCritical: perc >= 0 && perc <= 15
 
     // flashing when critically low and not charging
-    opacity: 1.0
-    NumberAnimation on opacity {
-        from: 1.0
-        to: 0.3
-        duration: 600
-        loops: Animation.Infinite
+    opacity: flashAnim.running ? flashAnim.currentValue : 1.0
+    SequentialAnimation {
+        id: flashAnim
         running: batteryRoot.isCritical && !batteryRoot.isCharging
+        loops: Animation.Infinite
+        property real currentValue: 1.0
+        NumberAnimation { target: flashAnim; property: "currentValue"; from: 1.0; to: 0.3; duration: 600 }
+        NumberAnimation { target: flashAnim; property: "currentValue"; from: 0.3; to: 1.0; duration: 600 }
     }
 
     // icon
@@ -54,7 +57,9 @@ Item {
 
         color: batteryRoot.isCharging
                ? colCharging
-               : (batteryRoot.isLow ? colLow : colNormal)
+               : batteryRoot.isLow ? colLow
+               : batteryRoot.isWarning ? colWarning
+               : vars.colWhite
 
         font.family: fontFamily
         font.pixelSize: fontSize
@@ -73,7 +78,9 @@ Item {
 
         color: batteryRoot.isCharging
                ? colCharging
-               : (batteryRoot.isLow ? colLow : colNormal)
+               : batteryRoot.isLow ? colLow
+               : batteryRoot.isWarning ? colWarning
+               : vars.colWhite
 
         font.family: fontFamily
         font.pixelSize: fontSize
