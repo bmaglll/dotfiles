@@ -142,6 +142,8 @@
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on && (pidof hyprlock || hyprlock)";
         inhibit_if_fullscreen = true;
       };
 

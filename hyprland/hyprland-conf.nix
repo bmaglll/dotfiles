@@ -149,7 +149,7 @@
       ];
     # lock on lid close
     bindl = [
-      ", switch:Lid Switch, exec, pidof hyprlock || hyprlock"
+      ", switch:Lid Switch, exec, loginctl lock-session"
     ];
     # repeat-on-hold audio binds
     binde = [
@@ -161,9 +161,12 @@
       # Floating windows: orange border
       "border_color rgba(ff9500ee), match:float 1"
 
-      # Special workspace: purple border, transparency (overrides float orange for magic)
+      # Special workspace: purple border, transparency
       "border_color rgba(b388ffee), match:workspace special:magic"
       "opacity 0.7, match:workspace special:magic"
+
+      # Floating on magic: orange overrides purple
+      "border_color rgba(ff9500ee), match:float 1, match:workspace special:magic"
 
       # Picture-in-Picture: floating, pinned, bottom-right corner
       "float on, match:title ^Picture-in-Picture$"
