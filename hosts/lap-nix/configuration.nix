@@ -20,9 +20,9 @@
   boot.kernelParams = [ "resume_offset=39610368" ];
 
   # Lid close triggers suspend-then-hibernate
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    lidSwitchExternalPower = "suspend-then-hibernate";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
   };
 
   # Laptop power management
