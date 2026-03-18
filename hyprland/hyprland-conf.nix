@@ -162,7 +162,7 @@
       "border_color rgba(b388ffee), match:workspace special:magic"
 
       # Floating windows: orange border (after special workspace so it takes priority)
-      "border_color rgba(ff9500ee), match:floating 1"
+      "border_color rgba(ff9500ee), match:float 1"
       "opacity 0.7, match:workspace special:magic"
 
       # Picture-in-Picture: floating, pinned, bottom-right corner
