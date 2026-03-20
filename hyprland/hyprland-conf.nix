@@ -147,9 +147,9 @@
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       ];
-    # lock + suspend on lid close (logind HandleLidSwitch is "ignore")
+    # lock on lid close
     bindl = [
-      ", switch:on:Lid Switch, exec, loginctl lock-session && sleep 3 && systemctl suspend-then-hibernate"
+      ", switch:Lid Switch, exec, pidof hyprlock || hyprlock"
     ];
     # repeat-on-hold audio binds
     binde = [
