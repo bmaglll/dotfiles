@@ -149,7 +149,7 @@
       ];
     # lock + suspend on lid close (logind HandleLidSwitch is "ignore")
     bindl = [
-      ", switch:Lid Switch, exec, loginctl lock-session && sleep 3 && systemctl suspend-then-hibernate"
+      ", switch:on:Lid Switch, exec, loginctl lock-session && sleep 3 && systemctl suspend-then-hibernate"
     ];
     # repeat-on-hold audio binds
     binde = [
