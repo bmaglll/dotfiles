@@ -147,5 +147,18 @@
     HibernateDelaySec=90min
   '';
 
+  # Allow suspend/hibernate without interactive auth (needed for hypridle when session is locked)
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.login1.hibernate" ||
+           action.id == "org.freedesktop.login1.hibernate-multiple-sessions" ||
+           action.id == "org.freedesktop.login1.suspend-then-hibernate" ||
+           action.id == "org.freedesktop.login1.suspend-then-hibernate-multiple-sessions") &&
+          subject.isInGroup("users")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
   system.stateVersion = "25.05";
 }
