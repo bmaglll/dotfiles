@@ -142,8 +142,8 @@
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
-        after_sleep_cmd = "pkill -x hyprlock; sleep 2; hyprctl dispatch dpms on; hyprlock";
+        before_sleep_cmd = "loginctl lock-session && systemctl --user stop hyprpaper.service";
+        after_sleep_cmd = "pkill -x hyprlock; sleep 2; systemctl --user restart hyprpaper.service; hyprctl dispatch dpms on; hyprlock";
         inhibit_if_fullscreen = true;
       };
 
