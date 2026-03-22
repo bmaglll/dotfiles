@@ -19,11 +19,10 @@
   boot.resumeDevice = "/dev/disk/by-uuid/51e79868-d770-4c23-ba7d-f9754f95bc41";
   boot.kernelParams = [ "resume_offset=39610368" ];
 
-  # Lid close handled by Hyprland bindl (lock + suspend), not logind
-  # Prevents logind from re-suspending immediately on resume when lid is still closed
+  # Lid close triggers suspend-then-hibernate
   services.logind.settings.Login = {
-    HandleLidSwitch = "ignore";
-    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
   };
 
   # Laptop power management
