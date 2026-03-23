@@ -216,11 +216,12 @@
         font-size: 12px;
       }
       .close-button {
-        min-width: 0;
-        min-height: 0;
+        min-width: 1px;
+        min-height: 1px;
         padding: 0;
         margin: 0;
-        margin-right: -48px;
+        border: none;
+        background: transparent;
         opacity: 0;
       }
     '';
