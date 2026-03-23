@@ -15,6 +15,9 @@
   # Hostname
   networking.hostName = "lap-nix";
 
+  # Open port for UniFi Protect webhook listener
+  networking.firewall.allowedTCPPorts = [ 9999 ];
+
   # Hibernate resume
   boot.resumeDevice = "/dev/disk/by-uuid/51e79868-d770-4c23-ba7d-f9754f95bc41";
   boot.kernelParams = [ "resume_offset=39610368" ];
