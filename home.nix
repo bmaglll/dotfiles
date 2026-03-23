@@ -81,6 +81,7 @@
   setw -g mouse on
   bind BSpace kill-window
   set -g status-style "bg=#b388ff,fg=#000000"
+  set -g status-right ""
   set -g renumber-windows on
   set -as terminal-features ",xterm-ghostty:sync"
   '';
