@@ -193,8 +193,8 @@
     enable = true;
     settings = {
       notification-icon-size = 36;
-      notification-body-image-height = 80;
-      notification-body-image-width = 80;
+      notification-body-image-height = 36;
+      notification-body-image-width = 36;
       notification-window-width = 300;
       hide-on-clear = false;
       hide-on-action = false;
