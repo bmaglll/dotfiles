@@ -345,7 +345,7 @@
       After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "/run/current-system/sw/bin/python3 /home/bmag/projects/personal/pip-ui-cam/protect-notify.py";
+      ExecStart = "/etc/profiles/per-user/bmag/bin/python3 /home/bmag/projects/personal/pip-ui-cam/protect-notify.py";
       EnvironmentFile = "/home/bmag/projects/personal/pip-ui-cam/.env";
       Restart = "on-failure";
       RestartSec = "10";
