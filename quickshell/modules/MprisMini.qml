@@ -118,7 +118,7 @@ Item {
 
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 12
-            font.bold: true
+            font.bold: false
             color: "white"
             verticalAlignment: Text.AlignVCenter
         }
@@ -144,7 +144,7 @@ Item {
 
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 12
-            font.bold: true
+            font.bold: false
             color: "white"
 
             // This ensures "..." is shown when the text exceeds the 200px width.

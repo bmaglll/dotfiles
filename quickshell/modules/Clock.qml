@@ -24,7 +24,7 @@ Item {
         color: vars.colWhite
         font.family: vars.fontFamily
         font.pixelSize: vars.iFontSz
-        font.bold: true
+        font.bold: false
 
         Timer {
             interval: 1000
