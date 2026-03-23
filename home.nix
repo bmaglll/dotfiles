@@ -224,6 +224,9 @@
         background: transparent;
         opacity: 0;
       }
+      .notification-row .notification-background {
+        padding: 6px 4px;
+      }
     '';
   };
 
