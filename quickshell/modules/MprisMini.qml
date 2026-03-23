@@ -15,9 +15,9 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: mouse.pressed ? Qt.rgba(1, 1, 1, 0.16)
-             : mouse.containsMouse ? Qt.rgba(1, 1, 1, 0.10)
+             : mouse.containsMouse ? Qt.rgba(1, 1, 1, 0.12)
              : "transparent"
-        radius: 4
+        radius: 10
     }
 
     // Model/list from Quickshell
