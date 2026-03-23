@@ -192,7 +192,7 @@
   services.swaync = {
     enable = true;
     settings = {
-      notification-icon-size = 48;
+      notification-icon-size = 28;
       notification-body-image-height = 80;
       notification-body-image-width = 80;
       notification-window-width = 300;
@@ -208,12 +208,6 @@
     style = ''
       .notification-row {
         padding: 6px 0;
-      }
-      .notification-row .notification-icon {
-        min-width: 24px;
-        min-height: 24px;
-        max-width: 24px;
-        max-height: 24px;
       }
       .close-button {
         min-width: 0;
