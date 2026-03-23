@@ -65,15 +65,9 @@ PanelWindow {
 
 	    }
 
-            ActiveWindow {
-              Layout.leftMargin: 10
-              Layout.fillWidth: true // Allow it to take up the middle space
-            
-              // This calculation ensures the title doesn't overlap other blocks
-              chopLength: {
-                var space = Math.floor(root.width - (rightRow.implicitWidth + leftRow.implicitWidth))
-                return Math.floor(space / vars.iFontSz)
-              }
+	    Clock {
+		id: clock
+		vars: vars
 	    }
         }
 
@@ -133,11 +127,6 @@ PanelWindow {
                     showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
                 }
 
-                Clock {
-		    id: clock
-		    vars: vars
-		    showExpanded: statusCluster.rightPressed
-                }
             }
         }
     }
