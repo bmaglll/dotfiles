@@ -218,6 +218,8 @@
       .close-button {
         min-width: 0;
         min-height: 0;
+        max-width: 0;
+        max-height: 0;
         padding: 0;
         margin: 0;
         opacity: 0;
