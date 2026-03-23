@@ -209,6 +209,12 @@
       .notification-row {
         padding: 6px 0;
       }
+      .notification-row .notification-content .summary {
+        font-size: 14px;
+      }
+      .notification-row .notification-content .body {
+        font-size: 12px;
+      }
       .close-button {
         min-width: 1px;
         min-height: 1px;
