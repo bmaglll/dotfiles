@@ -193,8 +193,8 @@
     enable = true;
     settings = {
       notification-icon-size = 36;
-      notification-body-image-height = 36;
-      notification-body-image-width = 36;
+      notification-body-image-height = 80;
+      notification-body-image-width = 80;
       notification-window-width = 300;
       hide-on-clear = false;
       hide-on-action = false;
@@ -214,10 +214,6 @@
       }
       .notification-row .notification-content .body {
         font-size: 12px;
-      }
-      .notification-row .notification-background .notification .notification-default-action .notification-content .image {
-        -gtk-icon-size: 36px;
-        margin: 4px;
       }
       .close-button {
         min-width: 1px;
