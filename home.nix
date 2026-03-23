@@ -220,9 +220,8 @@
         min-height: 0;
         padding: 0;
         margin: 0;
-        font-size: 0;
+        margin-right: -48px;
         opacity: 0;
-        -gtk-icon-size: 0;
       }
     '';
   };
