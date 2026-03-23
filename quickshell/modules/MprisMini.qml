@@ -117,7 +117,8 @@ Item {
         }
 
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 10
+            font.pixelSize: 12
+            font.bold: true
             color: "white"
             verticalAlignment: Text.AlignVCenter
         }
@@ -125,9 +126,9 @@ Item {
         // Artist and Title Text (The one we are limiting)
         Text {
             Layout.alignment: Qt.AlignVCenter
-            
+
             // 🛑 FIX: Set a fixed width. Change 200 to your desired pixel width.
-            Layout.preferredWidth: 200 
+            Layout.preferredWidth: 200
             // 🛑 FIX: Removed Layout.fillWidth: true, as it conflicts with preferredWidth.
 
             text: {
@@ -142,7 +143,8 @@ Item {
             }
 
             font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 10
+            font.pixelSize: 12
+            font.bold: true
             color: "white"
 
             // This ensures "..." is shown when the text exceeds the 200px width.
