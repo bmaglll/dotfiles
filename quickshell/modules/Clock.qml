@@ -7,6 +7,7 @@ Item {
 
     property var vars
     property bool showExpanded: false
+    property bool _toggled: false
 
     implicitWidth: clockText.implicitWidth
     implicitHeight: clockText.implicitHeight
@@ -16,7 +17,7 @@ Item {
     Text {
         id: clockText
 
-        text: clockRoot.showExpanded
+        text: (clockRoot.showExpanded || clockRoot._toggled)
               ? Qt.formatDateTime(clockRoot.now, "ddd MMM dd yyyy  hh:mm:ss AP")
               : Qt.formatTime(clockRoot.now, "hh:mm AP")
 
@@ -31,5 +32,11 @@ Item {
             repeat: true
             onTriggered: clockRoot.now = new Date()
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: clockRoot._toggled = !clockRoot._toggled
     }
 }
