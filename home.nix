@@ -215,6 +215,10 @@
       .notification-row .notification-content .body {
         font-size: 12px;
       }
+      .notification-row .notification-content .image {
+        -gtk-icon-size: 36px;
+        margin: 4px;
+      }
       .close-button {
         min-width: 1px;
         min-height: 1px;
