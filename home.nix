@@ -210,10 +210,10 @@
         padding: 6px 0;
       }
       .notification-row .notification-icon {
-        min-width: 24px;
-        min-height: 24px;
-        max-width: 24px;
-        max-height: 24px;
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 48px;
+        max-height: 48px;
       }
       .close-button {
         min-width: 0;
