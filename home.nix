@@ -59,7 +59,9 @@
   programs.bash = {
     enable = true;
 
-    shellAliases = { };
+    shellAliases = {
+      lucas-cam = "~/projects/personal/pip-ui-cam/lucas-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
+    };
 
     # nrs: commit + push + rebuild
     initExtra = ''
@@ -329,6 +331,24 @@
       TimeoutStopSec = "5s";
       Restart = "on-failure";
       RestartSec = "3";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
+  # UniFi Protect motion notification webhook listener
+  systemd.user.services.protect-notify = {
+    Unit = {
+      Description = "UniFi Protect Webhook Notification Listener";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "/run/current-system/sw/bin/python3 /home/bmag/projects/personal/pip-ui-cam/protect-notify.py";
+      EnvironmentFile = "/home/bmag/projects/personal/pip-ui-cam/.env";
+      Restart = "on-failure";
+      RestartSec = "10";
     };
     Install = {
       WantedBy = [ "graphical-session.target" ];
