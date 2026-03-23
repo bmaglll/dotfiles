@@ -18,7 +18,7 @@ Item {
         id: clockText
 
         text: (clockRoot.showExpanded || clockRoot._toggled)
-              ? Qt.formatDateTime(clockRoot.now, "ddd MMM dd yyyy  hh:mm:ss AP")
+              ? Qt.formatDateTime(clockRoot.now, "ddd MMM dd yyyy  -  hh:mm:ss AP")
               : Qt.formatTime(clockRoot.now, "hh:mm AP")
 
         color: vars.colWhite
