@@ -38,12 +38,8 @@
     hyprshot
     swaynotificationcenter
     ffmpeg
-    # Python environment with packages
-    (python312.withPackages (ps: [
-      ps.playwright
-      ps.anthropic
-    ]))
-    # Added by Claude
+    yazi
+    obs-studio
     libnotify
     jq
     chromium
@@ -51,6 +47,13 @@
     mpv
     gh
     obs-studio
+
+    # Python environment with packages
+    (python312.withPackages (ps: [
+      ps.playwright
+      ps.anthropic
+    ]))
+    # Added by Claude
   ];
   ###########################################################################################
   # Bash 
