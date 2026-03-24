@@ -5,7 +5,9 @@ import Quickshell.Services.Mpris
 
 Item {
     id: root
-    
+
+    property var vars
+
     // vanish if no valid players exist
     visible: player !== null
 
@@ -14,10 +16,10 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: mouse.pressed ? Qt.rgba(1, 1, 1, 0.16)
-             : mouse.containsMouse ? Qt.rgba(1, 1, 1, 0.12)
+        color: mouse.pressed ? vars.pressedBg
+             : mouse.containsMouse ? vars.hoverBg
              : "transparent"
-        radius: 10
+        radius: vars.hoverRadius
     }
 
     // Model/list from Quickshell

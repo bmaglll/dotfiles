@@ -36,6 +36,11 @@ PanelWindow {
         // Font settings
         property string fontFamily: "JetBrainsMono Nerd Font"
         property int iFontSz: 12
+
+        // Hover effect
+        readonly property color hoverBg:   Qt.rgba(1, 1, 1, 0.12)
+        readonly property color pressedBg: Qt.rgba(1, 1, 1, 0.16)
+        readonly property int hoverRadius: 10
     }
 
     RowLayout {
@@ -62,7 +67,7 @@ PanelWindow {
 	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
 	    MprisMini {
-
+		vars: vars
 	    }
 
 	    Clock {
@@ -87,8 +92,9 @@ PanelWindow {
                 fontSize: vars.iFontSz
 
                 // optional styling tweaks
-                hoverBg: Qt.rgba(1, 1, 1, 0.12)
-                radius: 10
+                hoverBg: vars.hoverBg
+                activeBg: vars.pressedBg
+                radius: vars.hoverRadius
                 paddingX: 10
                 paddingY: 2
                 innerSpacing: 8
