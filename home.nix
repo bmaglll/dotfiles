@@ -37,6 +37,7 @@
     wiremix
     hyprshot
     swaynotificationcenter
+    ffmpeg
     # Python environment with packages
     (python312.withPackages (ps: [
       ps.playwright
