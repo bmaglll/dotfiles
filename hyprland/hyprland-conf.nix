@@ -170,8 +170,8 @@
 
       # Picture-in-Picture: floating, pinned, bottom-right corner
       "float on, match:title ^Picture-in-Picture$"
-      "size 640 360, match:title ^Picture-in-Picture$"
-      "move 100%-650 100%-390, match:title ^Picture-in-Picture$"
+      "size 480 270, match:title ^Picture-in-Picture$"
+      "move 100%-490 100%-300, match:title ^Picture-in-Picture$"
       "pin on, match:title ^Picture-in-Picture$"
       "no_anim on, match:title ^Picture-in-Picture$"
       "keep_aspect_ratio on, match:title ^Picture-in-Picture$"
