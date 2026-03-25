@@ -64,7 +64,7 @@
     enable = true;
 
     shellAliases = {
-      lucas-cam = "~/projects/personal/pip-ui-cam/lucas-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
+      lucas-cam = "~/projects/personal/unifi-pip-notifications/lucas-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
     };
 
     # nrs: commit + push + rebuild
@@ -349,8 +349,8 @@
       After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "/etc/profiles/per-user/bmag/bin/python3 /home/bmag/projects/personal/pip-ui-cam/protect-notify.py";
-      EnvironmentFile = "/home/bmag/projects/personal/pip-ui-cam/.env";
+      ExecStart = "/etc/profiles/per-user/bmag/bin/python3 /home/bmag/projects/personal/unifi-pip-notifications/protect-notify.py";
+      EnvironmentFile = "/home/bmag/projects/personal/unifi-pip-notifications/.env";
       Restart = "on-failure";
       RestartSec = "10";
     };
