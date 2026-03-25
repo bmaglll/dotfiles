@@ -146,6 +146,8 @@
       "$mainMod, Space, exec, pkill wofi || $menu"
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
+      # Unifi camera dashboard
+      "$mainMod SHIFT, U, exec, ~/projects/personal/unifi-pip-notifications/cam-dashboard.sh"
       ];
     # lock on lid close
     bindl = [
@@ -204,6 +206,10 @@
       "float on, match:class ^(discord)$"
       "size 722 600, match:class ^(discord)"
       "float on, match:class ^(protonvpn-app)$"
+
+      # Unifi camera dashboard
+      "float on, match:title ^(Camera Dashboard)$"
+      "center on, match:title ^(Camera Dashboard)$"
 
       # Polkit popup
       "float on, match:class ^(hyprpolkitagent)$"
