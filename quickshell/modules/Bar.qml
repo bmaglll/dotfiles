@@ -57,6 +57,10 @@ PanelWindow {
             Workspaces {
                 vars: vars
             }
+
+            MprisMini {
+                vars: vars
+            }
         }
 
         // ----- CENTER: clock -----
@@ -64,10 +68,6 @@ PanelWindow {
             id: centerRow
             spacing: 4
             anchors.centerIn: parent
-
-            MprisMini {
-                vars: vars
-            }
 
             Clock {
                 id: clock
