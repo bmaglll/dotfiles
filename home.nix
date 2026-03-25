@@ -52,6 +52,7 @@
     (python312.withPackages (ps: [
       ps.playwright
       ps.anthropic
+      ps.pygobject3
     ]))
     # Added by Claude
   ];
@@ -64,7 +65,7 @@
     enable = true;
 
     shellAliases = {
-      lucas-cam = "~/projects/personal/unifi-pip-notifications/lucas-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
+      lucas-cam = "~/projects/personal/unifi-pip-notifications/open-pip-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
     };
 
     # nrs: commit + push + rebuild
