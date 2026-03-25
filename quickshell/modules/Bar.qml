@@ -43,55 +43,54 @@ PanelWindow {
         readonly property int hoverRadius: 10
     }
 
-    RowLayout {
+    Item {
         anchors.fill: parent
         anchors.margins: 2
-        spacing: 0
 
         // ----- LEFT: workspaces -----
         RowLayout {
             id: leftRow
             spacing: 0
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
 
             Workspaces {
                 vars: vars
             }
         }
 
-        // ----- CENTER: (empty for now) -----
+        // ----- CENTER: clock -----
         RowLayout {
             id: centerRow
             spacing: 4
-            Layout.fillWidth: true
-	    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            anchors.centerIn: parent
 
-	    MprisMini {
-		vars: vars
-	    }
+            MprisMini {
+                vars: vars
+            }
 
-	    Clock {
-		id: clock
-		vars: vars
-	    }
+            Clock {
+                id: clock
+                vars: vars
+            }
         }
 
-        // ----- RIGHT: tray + battery + clock -----
+        // ----- RIGHT: tray + status -----
         RowLayout {
             id: rightRow
             spacing: 4
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
 
             Tray {
                 panelWindow: root
             }
 
-	    StatusCluster {
-		id: statusCluster
+            StatusCluster {
+                id: statusCluster
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
 
-                // optional styling tweaks
                 hoverBg: vars.hoverBg
                 activeBg: vars.pressedBg
                 radius: vars.hoverRadius
@@ -119,9 +118,9 @@ PanelWindow {
                 VolumeDisplay {
                     fontFamily: vars.fontFamily
                     fontSize: vars.iFontSz
-		    pollInterval: 800
-		    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
-                    }
+                    pollInterval: 800
+                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
+                }
 
                 Battery {
                     vars: vars
@@ -132,7 +131,6 @@ PanelWindow {
                     colWarning: "#ffaa00"
                     showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
                 }
-
             }
         }
     }
