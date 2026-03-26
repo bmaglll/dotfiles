@@ -147,7 +147,7 @@
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       # Unifi camera dashboard
-      "$mainMod SHIFT, U, exec, bash -lc ~/projects/personal/unifi-cams/unifi-dashboard.sh"
+      "$mainMod SHIFT, U, exec, python3 ~/projects/personal/unifi-cams/unifi-dashboard.py"
       ];
     # lock on lid close
     bindl = [
