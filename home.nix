@@ -54,7 +54,14 @@
       ps.anthropic
       ps.pygobject3
     ]))
-    # Added by Claude
+    # GTK4 + GStreamer (UniFi camera dashboard)
+    gtk4
+    gdk-pixbuf
+    gobject-introspection
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-rs
+    gst_all_1.gst-libav
   ];
   ###########################################################################################
   # Bash 
