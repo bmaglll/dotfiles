@@ -93,11 +93,6 @@
 
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  # GStreamer typelib/plugin paths (gstreamer.dev typelibs aren't auto-linked into system profile)
-  environment.shellInit = ''
-    export GI_TYPELIB_PATH="${pkgs.gst_all_1.gstreamer.dev}/lib/girepository-1.0''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
-    export GST_PLUGIN_PATH_1_0="${pkgs.gst_all_1.gst-plugins-rs}/lib/gstreamer-1.0''${GST_PLUGIN_PATH_1_0:+:$GST_PLUGIN_PATH_1_0}"
-  '';
 
   home-manager = {
     useGlobalPkgs = true;
@@ -132,19 +127,6 @@
     git
     hyprlock
     hypridle
-
-    # GTK4 + GStreamer (UniFi camera dashboard)
-    gtk4
-    gdk-pixbuf
-    gobject-introspection
-    gst_all_1.gstreamer
-    gst_all_1.gstreamer.dev
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-plugins-rs
-    gst_all_1.gst-libav
   ];
 
   # Fonts
