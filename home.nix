@@ -65,7 +65,7 @@
     enable = true;
 
     shellAliases = {
-      lucas-cam = "~/projects/personal/unifi-pip-notifications/open-pip-cam.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
+      lucas-cam = "~/projects/personal/unifi-cams/unifi-stream.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
     };
 
     # nrs: commit + push + rebuild
@@ -91,6 +91,7 @@
   set -g status-right ""
   set -g renumber-windows on
   set -as terminal-features ",xterm-ghostty:sync"
+  set -g allow-passthrough on
   '';
   };
   ###########################################################################################
@@ -342,16 +343,16 @@
     };
   };
 
-  # UniFi Protect motion notification webhook listener
-  systemd.user.services.protect-notify = {
+  # UniFi Cams motion notification webhook listener
+  systemd.user.services.unifi-notify = {
     Unit = {
-      Description = "UniFi Protect Webhook Notification Listener";
+      Description = "UniFi Cams Webhook Notification Listener";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "/etc/profiles/per-user/bmag/bin/python3 /home/bmag/projects/personal/unifi-pip-notifications/protect-notify.py";
-      EnvironmentFile = "/home/bmag/projects/personal/unifi-pip-notifications/.env";
+      ExecStart = "/etc/profiles/per-user/bmag/bin/python3 /home/bmag/projects/personal/unifi-cams/unifi-notify.py";
+      EnvironmentFile = "/home/bmag/projects/personal/unifi-cams/.env";
       Restart = "on-failure";
       RestartSec = "10";
     };
