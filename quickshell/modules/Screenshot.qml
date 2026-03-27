@@ -52,7 +52,6 @@ Item {
         width: 230
         height: popupContent.height
         color: "transparent"
-        grabFocus: true
 
         anchor {
             window: root.panelWindow
