@@ -14,9 +14,15 @@ Item {
     property color colLow
     property color colWarning
 
+    // hover
+    property color hoverBg: "transparent"
+    property int hoverRadius: 10
+    property int paddingH: 6
+    property int paddingV: 2
+
     // size based on text
-    implicitWidth: icon.width + percent.width + 6
-    implicitHeight: percent.implicitHeight
+    implicitWidth: bg.width
+    implicitHeight: bg.height
 
     // power device
     property var dev: UPower.displayDevice
@@ -44,44 +50,57 @@ Item {
         NumberAnimation { target: flashAnim; property: "currentValue"; from: 0.3; to: 1.0; duration: 600 }
     }
 
-    // icon
-    Text {
-        id: icon
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+    Rectangle {
+        id: bg
+        width: row.implicitWidth + batteryRoot.paddingH * 2
+        height: row.implicitHeight + batteryRoot.paddingV * 2
+        radius: batteryRoot.hoverRadius
+        color: mouse.containsMouse ? batteryRoot.hoverBg : "transparent"
 
-        text: batteryRoot.perc >= 0 ? batteryIcon(batteryRoot.perc) : ""
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.NoButton
+        }
 
-        color: batteryRoot.isCharging
-               ? colCharging
-               : batteryRoot.isLow ? colLow
-               : batteryRoot.isWarning ? colWarning
-               : vars.colWhite
+        Row {
+            id: row
+            spacing: 4
+            anchors.centerIn: parent
 
-        font.family: fontFamily
-        font.pixelSize: fontSize
-        font.bold: true
-    }
+            Text {
+                id: icon
+                text: batteryRoot.perc >= 0 ? batteryIcon(batteryRoot.perc) : ""
 
-    // percentage text
-    Text {
-        id: percent
-        visible: true
-        anchors.left: icon.right
-        anchors.leftMargin: 4
-        anchors.verticalCenter: parent.verticalCenter
+                color: batteryRoot.isCharging
+                       ? colCharging
+                       : batteryRoot.isLow ? colLow
+                       : batteryRoot.isWarning ? colWarning
+                       : vars.colWhite
 
-        text: batteryRoot.perc >= 0 ? batteryRoot.perc + "%" : ""
+                font.family: fontFamily
+                font.pixelSize: fontSize
+                font.bold: true
+            }
 
-        color: batteryRoot.isCharging
-               ? colCharging
-               : batteryRoot.isLow ? colLow
-               : batteryRoot.isWarning ? colWarning
-               : vars.colWhite
+            Text {
+                id: percent
+                visible: true
+                text: batteryRoot.perc >= 0 ? batteryRoot.perc + "%" : ""
 
-        font.family: fontFamily
-        font.pixelSize: fontSize
-        font.bold: true
+                color: batteryRoot.isCharging
+                       ? colCharging
+                       : batteryRoot.isLow ? colLow
+                       : batteryRoot.isWarning ? colWarning
+                       : vars.colWhite
+
+                font.family: fontFamily
+                font.pixelSize: fontSize
+                font.bold: true
+            }
+        }
     }
 
     function batteryIcon(p) {

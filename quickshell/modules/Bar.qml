@@ -90,18 +90,24 @@ PanelWindow {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 pollInterval: 2000
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
             }
 
             RamMonitor {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 pollInterval: 2000
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
             }
 
             VolumeDisplay {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 pollInterval: 800
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
             }
 
             Battery {
@@ -111,6 +117,8 @@ PanelWindow {
                 colCharging: "#00ff00"
                 colLow: "#ff5555"
                 colWarning: "#ffaa00"
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
             }
         }
     }

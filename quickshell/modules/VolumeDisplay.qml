@@ -13,47 +13,68 @@ Item {
     property color colNormal: "white"
     property color colMuted: "#ff5555"
 
+    // hover
+    property color hoverBg: "transparent"
+    property int hoverRadius: 10
+    property int paddingH: 6
+    property int paddingV: 2
+
     // polling
     property int pollInterval: 800
-
-    // UI behavior — percent always visible
 
     // state
     property real volumeFrac: 0.0
     property bool muted: false
 
-    implicitWidth: row.implicitWidth
-    implicitHeight: row.implicitHeight
+    implicitWidth: bg.width
+    implicitHeight: bg.height
 
-    Row {
-        id: row
-        spacing: root.gap
+    Rectangle {
+        id: bg
+        width: row.implicitWidth + root.paddingH * 2
+        height: row.implicitHeight + root.paddingV * 2
+        radius: root.hoverRadius
+        color: mouse.containsMouse ? root.hoverBg : "transparent"
 
-        Text {
-            id: iconText
-            font.family: root.fontFamily
-            font.pixelSize: root.fontSize
-            color: root.muted ? root.colMuted : root.colNormal
-            text: {
-                if (root.muted || root.volumeFrac <= 0.01) {
-                    return "󰝟"
-                } else if (root.volumeFrac < 0.33) {
-                    return "󰕿"
-                } else if (root.volumeFrac < 0.66) {
-                    return "󰖀"
-                } else {
-                    return "󰕾"
-                }
-            }
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.NoButton
         }
 
-        Text {
-            id: pctText
-            visible: true
-            font.family: root.fontFamily
-            font.pixelSize: root.fontSize
-            color: root.muted ? root.colMuted : root.colNormal
-            text: Math.round(root.volumeFrac * 100) + "%"
+        Row {
+            id: row
+            spacing: root.gap
+            anchors.centerIn: parent
+
+            Text {
+                id: iconText
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: root.muted ? root.colMuted : root.colNormal
+                text: {
+                    if (root.muted || root.volumeFrac <= 0.01) {
+                        return "󰝟"
+                    } else if (root.volumeFrac < 0.33) {
+                        return "󰕿"
+                    } else if (root.volumeFrac < 0.66) {
+                        return "󰖀"
+                    } else {
+                        return "󰕾"
+                    }
+                }
+            }
+
+            Text {
+                id: pctText
+                visible: true
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: root.muted ? root.colMuted : root.colNormal
+                text: Math.round(root.volumeFrac * 100) + "%"
+            }
         }
     }
 
