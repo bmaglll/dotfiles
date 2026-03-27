@@ -16,7 +16,7 @@ Item {
     // hover
     property color hoverBg: "transparent"
     property int hoverRadius: 10
-    property int paddingH: 3
+    property int paddingH: 5
     property int paddingV: 2
 
     // polling
