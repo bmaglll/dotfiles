@@ -238,7 +238,7 @@
 
   # Wofi dmenu style (no search bar)
   xdg.configFile."wofi/dmenu.css".text = ''
-    #input { display: none; }
+    #input { margin: -1000px 5px; }
     window {
       font-family: "JetBrainsMono Nerd Font", monospace;
       background-color: rgba(17, 17, 27, 0.85);
