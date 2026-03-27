@@ -132,13 +132,20 @@
   # Fonts
   fonts = {
     enableDefaultPackages = true;
-    fontconfig.enable = true;
+    fontconfig = {
+      enable = true;
+      defaultFonts.emoji = [ "Apple Color Emoji" ];
+    };
     packages = with pkgs; [
       noto-fonts
       font-awesome
       roboto
       liberation_ttf
       nerd-fonts.jetbrains-mono
+      (pkgs.runCommand "apple-emoji" {} ''
+        mkdir -p $out/share/fonts/truetype
+        cp ${../fonts/AppleColorEmoji-Linux.ttf} $out/share/fonts/truetype/
+      '')
     ];
   };
 
