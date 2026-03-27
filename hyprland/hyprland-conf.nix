@@ -144,6 +144,7 @@
       "$mainMod, E, exec, $fileManager"
       "$mainMod, Z, togglefloating,"
       "$mainMod, Space, exec, pkill wofi || $menu"
+      "$mainMod, period, exec, rofimoji --selector wofi --action copy"
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       # Unifi camera dashboard

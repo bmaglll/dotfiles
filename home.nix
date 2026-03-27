@@ -38,6 +38,7 @@
     hyprshot
     swaynotificationcenter
     ffmpeg
+    rofimoji
     yazi
     obs-studio
     libnotify
