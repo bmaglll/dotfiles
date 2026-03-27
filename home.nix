@@ -240,19 +240,12 @@
   # Wofi dmenu style (no search bar)
   xdg.configFile."wofi/dmenu.css".text = ''
     #input {
-      margin: 4px 12px 0px 12px;
-      padding: 2px 8px;
+      margin: 0;
+      padding: 0;
       border: none;
-      border-radius: 0;
-      outline: none;
-      box-shadow: none;
-      background: transparent;
-      background-color: transparent;
-      color: rgba(205, 214, 244, 0.5);
-      font-size: 11px;
-      font-weight: bold;
-      caret-color: transparent;
       min-height: 0;
+      height: 0;
+      opacity: 0;
     }
     #input:focus {
       border: none;

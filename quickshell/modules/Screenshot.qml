@@ -14,6 +14,8 @@ Item {
     property int paddingH: 5
     property int paddingV: 2
 
+    property var panelWindow
+
     implicitWidth: bg.width
     implicitHeight: bg.height
 
@@ -30,19 +32,7 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                screenshotMenu.exec({
-                    command: ["sh", "-c",
-                        'sel=$(echo -e "Fullscreen (clipboard)\\nRegion (clipboard)\\nWindow (clipboard)\\nFullscreen (save)\\nRegion (save)\\nWindow (save)" | wofi --dmenu --cache-file=/dev/null -p Screenshot -s ~/.config/wofi/dmenu.css -H 220 -W 300 -l center); ' +
-                        'case "$sel" in ' +
-                        '"Fullscreen (clipboard)") hyprshot -m output --clipboard-only ;; ' +
-                        '"Region (clipboard)") hyprshot -m region --clipboard-only ;; ' +
-                        '"Window (clipboard)") hyprshot -m window --clipboard-only ;; ' +
-                        '"Fullscreen (save)") hyprshot -m output ;; ' +
-                        '"Region (save)") hyprshot -m region ;; ' +
-                        '"Window (save)") hyprshot -m window ;; ' +
-                        'esac'
-                    ]
-                })
+                popup.visible = !popup.visible
             }
         }
 
@@ -56,5 +46,88 @@ Item {
         }
     }
 
-    Process { id: screenshotMenu }
+    PopupWindow {
+        id: popup
+        visible: false
+
+        anchor {
+            window: root.panelWindow
+            rect.x: root.mapToItem(root.panelWindow.contentItem, 0, 0).x - (popupContent.width - root.width) / 2
+            rect.y: root.mapToItem(root.panelWindow.contentItem, 0, 0).y + root.height
+            edges: Edges.Bottom
+        }
+
+        color: "transparent"
+
+        Rectangle {
+            id: popupContent
+            width: menuColumn.width + 24
+            height: menuColumn.height + 20
+            color: Qt.rgba(17/255, 17/255, 27/255, 0.85)
+            radius: 12
+            border.width: 2
+            border.color: Qt.rgba(205/255, 214/255, 244/255, 0.2)
+
+            Column {
+                id: menuColumn
+                anchors.centerIn: parent
+                spacing: 2
+
+                Text {
+                    text: "Screenshot"
+                    font.family: root.fontFamily
+                    font.pixelSize: 11
+                    font.bold: true
+                    color: Qt.rgba(1, 1, 1, 0.5)
+                    leftPadding: 12
+                    bottomPadding: 4
+                }
+
+                Repeater {
+                    model: [
+                        { label: "Fullscreen (clipboard)", cmd: "hyprshot -m output --clipboard-only" },
+                        { label: "Region (clipboard)",     cmd: "hyprshot -m region --clipboard-only" },
+                        { label: "Window (clipboard)",     cmd: "hyprshot -m window --clipboard-only" },
+                        { label: "Fullscreen (save)",      cmd: "hyprshot -m output" },
+                        { label: "Region (save)",          cmd: "hyprshot -m region" },
+                        { label: "Window (save)",          cmd: "hyprshot -m window" }
+                    ]
+
+                    delegate: Rectangle {
+                        id: entryBg
+                        width: entryText.implicitWidth + 24
+                        height: entryText.implicitHeight + 12
+                        radius: 8
+                        color: entryMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
+
+                        Text {
+                            id: entryText
+                            anchors.centerIn: parent
+                            text: modelData.label
+                            font.family: root.fontFamily
+                            font.pixelSize: 13
+                            color: "#cdd6f4"
+                        }
+
+                        MouseArea {
+                            id: entryMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                popup.visible = false
+                                screenshotProc.exec({ command: ["sh", "-c", modelData.cmd] })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Keys.onEscapePressed: {
+            popup.visible = false
+        }
+    }
+
+    Process { id: screenshotProc }
 }
