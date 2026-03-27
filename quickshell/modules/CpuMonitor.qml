@@ -17,8 +17,7 @@ Item {
     // polling
     property int pollInterval: 2000
 
-    // UI behavior
-    property bool showPercent: false
+    // UI behavior — percent always visible
 
     // thresholds (percentage)
     property real warningThreshold: 70
@@ -55,7 +54,7 @@ Item {
 
         Text {
             id: pctText
-            visible: root.showPercent
+            visible: true
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: root.iconColor

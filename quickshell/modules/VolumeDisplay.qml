@@ -16,8 +16,7 @@ Item {
     // polling
     property int pollInterval: 800
 
-    // UI behavior
-    property bool showPercent: false   // <-- NEW
+    // UI behavior — percent always visible
 
     // state
     property real volumeFrac: 0.0
@@ -50,7 +49,7 @@ Item {
 
         Text {
             id: pctText
-            visible: root.showPercent
+            visible: true
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: root.muted ? root.colMuted : root.colNormal
