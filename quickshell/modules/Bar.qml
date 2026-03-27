@@ -86,6 +86,13 @@ PanelWindow {
                 panelWindow: root
             }
 
+            Screenshot {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
+            }
+
             Resources {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
