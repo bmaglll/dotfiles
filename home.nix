@@ -379,6 +379,7 @@
 
   # Session env vars
   home.sessionVariables = {
+    HYPRSHOT_DIR = "$HOME/Pictures/Screenshots";
   };
 
   # Let Home Manager manage itself

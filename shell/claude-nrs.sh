@@ -33,5 +33,5 @@ fi
 WIN=$(tmux new-window -t Main -P -F '#{window_index}')
 
 # Send rebuild command — auto-close window on success, stay open on failure
-tmux send-keys -t "Main:${WIN}" 'pkexec nixos-rebuild switch --flake ~/nixos-config#lap-nix && exit' Enter
+tmux send-keys -t "Main:${WIN}" 'pkexec nixos-rebuild switch --flake ~/nixos-config#lap-nix && notify-send "NixOS Rebuild" "Switch successful" && exit || notify-send -u critical "NixOS Rebuild" "Switch failed"' Enter
 echo "Rebuild sent to Main:${WIN} — approve polkit popup"
