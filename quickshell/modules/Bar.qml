@@ -79,6 +79,7 @@ PanelWindow {
                 fontSize: vars.iFontSz
                 hoverBg: vars.hoverBg
                 hoverRadius: vars.hoverRadius
+                panelWindow: root
             }
         }
 
