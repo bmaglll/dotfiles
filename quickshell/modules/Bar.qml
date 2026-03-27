@@ -78,7 +78,7 @@ PanelWindow {
         // ----- RIGHT: tray + status -----
         RowLayout {
             id: rightRow
-            spacing: 8
+            spacing: 4
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
 
