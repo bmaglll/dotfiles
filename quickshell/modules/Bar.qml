@@ -78,7 +78,7 @@ PanelWindow {
         // ----- RIGHT: tray + status -----
         RowLayout {
             id: rightRow
-            spacing: 4
+            spacing: 8
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
 
@@ -86,51 +86,31 @@ PanelWindow {
                 panelWindow: root
             }
 
-            StatusCluster {
-                id: statusCluster
+            CpuMonitor {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
+                pollInterval: 2000
+            }
 
-                hoverBg: vars.hoverBg
-                activeBg: vars.pressedBg
-                radius: vars.hoverRadius
-                paddingX: 10
-                paddingY: 2
-                innerSpacing: 8
+            RamMonitor {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                pollInterval: 2000
+            }
 
-                onClicked: function(btn) {
-                }
+            VolumeDisplay {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                pollInterval: 800
+            }
 
-                CpuMonitor {
-                    fontFamily: vars.fontFamily
-                    fontSize: vars.iFontSz
-                    pollInterval: 2000
-                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
-                }
-
-                RamMonitor {
-                    fontFamily: vars.fontFamily
-                    fontSize: vars.iFontSz
-                    pollInterval: 2000
-                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
-                }
-
-                VolumeDisplay {
-                    fontFamily: vars.fontFamily
-                    fontSize: vars.iFontSz
-                    pollInterval: 800
-                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
-                }
-
-                Battery {
-                    vars: vars
-                    fontFamily: vars.fontFamily
-                    fontSize: vars.iFontSz
-                    colCharging: "#00ff00"
-                    colLow: "#ff5555"
-                    colWarning: "#ffaa00"
-                    showPercent: statusCluster.toggled || statusCluster.hovered || statusCluster.rightPressed
-                }
+            Battery {
+                vars: vars
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                colCharging: "#00ff00"
+                colLow: "#ff5555"
+                colWarning: "#ffaa00"
             }
         }
     }
