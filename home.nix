@@ -267,7 +267,6 @@
     padding-left = 12
     padding-top = 8
 
-    hide-input = true
     drun-launch = true
   '';
 
