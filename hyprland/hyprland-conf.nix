@@ -4,7 +4,7 @@
     "$mainMod" = "SUPER";
     "$terminal" = "ghostty";
     "$fileManager" = "nautilus";
-    "$menu" = "wofi --show drun";  # change if you use something else (rofi, tofi, etc.)
+    "$menu" = "tofi-drun";
     # windows
     general = {
       gaps_in = 5;
@@ -143,7 +143,7 @@
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, Z, togglefloating,"
-      "$mainMod, Space, exec, pkill wofi || $menu"
+      "$mainMod, Space, exec, pkill tofi || $menu"
       "$mainMod, F, fullscreen, 1"
       "SUPER, L, exec, hyprlock"
       # Unifi camera dashboard
