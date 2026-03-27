@@ -236,6 +236,22 @@
     '';
   };
 
+  # Wofi dmenu style (no search bar)
+  xdg.configFile."wofi/dmenu.css".text = ''
+    #input { display: none; }
+    window {
+      font-family: "JetBrainsMono Nerd Font", monospace;
+      background-color: rgba(17, 17, 27, 0.85);
+      border-radius: 12px;
+      border: 2px solid rgba(205, 214, 244, 0.2);
+    }
+    #inner-box { margin: 4px 8px; }
+    #outer-box { padding: 4px; }
+    #entry { padding: 6px 12px; border-radius: 8px; color: #cdd6f4; }
+    #entry:selected { background-color: rgba(205, 214, 244, 0.12); color: #e0e4f0; }
+    #text { color: #cdd6f4; }
+    #text:selected { color: #e0e4f0; }
+  '';
   ###########################################################################################
   # Wofi (app launcher)
   ###########################################################################################
