@@ -243,11 +243,21 @@
       padding: 2px 8px;
       border: none;
       border-radius: 0;
+      outline: none;
+      box-shadow: none;
+      background: transparent;
       background-color: transparent;
       color: rgba(205, 214, 244, 0.5);
       font-size: 11px;
       font-weight: bold;
       caret-color: transparent;
+      min-height: 0;
+    }
+    #input:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+      background: transparent;
     }
     window {
       font-family: "JetBrainsMono Nerd Font", monospace;
