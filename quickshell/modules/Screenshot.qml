@@ -49,19 +49,25 @@ Item {
     PopupWindow {
         id: popup
         visible: false
+        width: 230
+        height: popupContent.height
+        color: "transparent"
+        grabFocus: true
 
         anchor {
             window: root.panelWindow
-            rect.x: root.mapToItem(root.panelWindow.contentItem, 0, 0).x - (popupContent.width - root.width) / 2
-            rect.y: root.mapToItem(root.panelWindow.contentItem, 0, 0).y + root.height
-            edges: Edges.Bottom
+            edges: Edges.Top | Edges.Left
+            gravity: Edges.Bottom | Edges.Right
+            onAnchoring: {
+                var pos = root.mapToItem(root.panelWindow.contentItem, 0, 0)
+                anchor.rect.x = pos.x + (root.width / 2) - (popup.width / 2)
+                anchor.rect.y = pos.y + root.height
+            }
         }
-
-        color: "transparent"
 
         Rectangle {
             id: popupContent
-            width: menuColumn.width + 24
+            width: popup.width
             height: menuColumn.height + 20
             color: Qt.rgba(17/255, 17/255, 27/255, 0.85)
             radius: 12
@@ -70,7 +76,10 @@ Item {
 
             Column {
                 id: menuColumn
-                anchors.centerIn: parent
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: 10
                 spacing: 2
 
                 Text {
@@ -79,8 +88,8 @@ Item {
                     font.pixelSize: 11
                     font.bold: true
                     color: Qt.rgba(1, 1, 1, 0.5)
-                    leftPadding: 12
-                    bottomPadding: 4
+                    leftPadding: 4
+                    bottomPadding: 2
                 }
 
                 Repeater {
@@ -94,15 +103,16 @@ Item {
                     ]
 
                     delegate: Rectangle {
-                        id: entryBg
-                        width: entryText.implicitWidth + 24
+                        width: menuColumn.width
                         height: entryText.implicitHeight + 12
                         radius: 8
                         color: entryMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
                         Text {
                             id: entryText
-                            anchors.centerIn: parent
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.leftMargin: 12
                             text: modelData.label
                             font.family: root.fontFamily
                             font.pixelSize: 13
@@ -122,10 +132,6 @@ Item {
                     }
                 }
             }
-        }
-
-        Keys.onEscapePressed: {
-            popup.visible = false
         }
     }
 
