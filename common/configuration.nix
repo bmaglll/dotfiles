@@ -12,6 +12,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = 2;  # 2 = disable
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
