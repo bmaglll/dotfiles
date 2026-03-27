@@ -23,6 +23,6 @@ nrs() {
   fi
 
   git push
-  sudo nixos-rebuild switch --flake ~/nixos-config#lap-nix
+  sudo nixos-rebuild switch --flake ~/nixos-config#lap-nix && notify-send "NixOS Rebuild" "Switch successful" || notify-send -u critical "NixOS Rebuild" "Switch failed"
 }
 
