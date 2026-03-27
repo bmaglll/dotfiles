@@ -38,7 +38,7 @@
     hyprshot
     swaynotificationcenter
     ffmpeg
-    rofimoji
+    fzf
     yazi
     obs-studio
     libnotify
@@ -101,6 +101,7 @@
   programs.ghostty = {
     enable = true;
     settings = {
+      font-family = ["JetBrainsMono Nerd Font" "Apple Color Emoji"];
       command = "tmux new-session -A -s Main \\; new-window";
       keybind = "shift+enter=text:\\x1b\\r";
     };
