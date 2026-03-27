@@ -183,6 +183,11 @@
       "float on, match:class (ghostty.clipse)"
       "size 622 600, match:class (ghostty.clipse)"
 
+      # Emoji picker via Ghostty
+      "float on, match:class (ghostty.emoji)"
+      "size 622 400, match:class (ghostty.emoji)"
+      "center on, match:class (ghostty.emoji)"
+
       # Claude Code floating terminal
       "float on, match:class (ghostty.claude)"
       "size 900 600, match:class (ghostty.claude)"
