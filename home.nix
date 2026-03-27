@@ -41,6 +41,7 @@
     yazi
     obs-studio
     libnotify
+    tofi
     jq
     chromium
     claude-code
@@ -237,89 +238,38 @@
   };
 
   ###########################################################################################
-  # Wofi (app launcher)
+  # Tofi (app launcher)
   ###########################################################################################
-  programs.wofi = {
-    enable = true;
-    settings = {
-      width = 500;
-      height = 175;
-      location = "center";
-      show = "drun";
-      prompt = "Search...";
-      allow_markup = true;
-      no_actions = true;
-      insensitive = true;
-      allow_images = true;
-      image_size = 24;
-      gtk_dark = true;
-      layer = "overlay";
-    };
-    style = ''
-      /* Main window */
-      window {
-        font-family: "JetBrainsMono Nerd Font", monospace;
-        background-color: rgba(17, 17, 27, 0.85);
-        border-radius: 12px;
-        border: 2px solid rgba(205, 214, 244, 0.2);
-      }
+  xdg.configFile."tofi/config".text = ''
+    font = JetBrainsMono Nerd Font
+    font-size = 14
 
-      /* Input field */
-      #input {
-        margin: 8px 12px;
-        padding: 8px 12px;
-        border: none;
-        border-bottom: 2px solid rgba(205, 214, 244, 0.2);
-        border-radius: 8px;
-        background-color: rgba(30, 30, 46, 0.6);
-        color: #cdd6f4;
-        font-size: 14px;
-        outline: none;
-        box-shadow: none;
-      }
+    background-color = #11111bdd
+    text-color = #cdd6f4
+    selection-color = #e0e4f0
+    selection-background = #cdd6f41f
 
-      #input:focus {
-        border-bottom-color: rgba(205, 214, 244, 0.5);
-        outline: none;
-        box-shadow: none;
-      }
+    border-width = 2
+    border-color = #cdd6f433
 
-      /* Results list */
-      #inner-box {
-        margin: 4px 8px;
-      }
+    outline-width = 0
 
-      #outer-box {
-        padding: 4px;
-      }
+    corner-radius = 12
 
-      /* Each result row */
-      #entry {
-        padding: 6px 12px;
-        border-radius: 8px;
-        color: #cdd6f4;
-      }
+    width = 500
+    height = 175
 
-      #entry:selected {
-        background-color: rgba(205, 214, 244, 0.12);
-        color: #e0e4f0;
-      }
+    anchor = center
 
-      /* App icon */
-      #img {
-        margin-right: 8px;
-      }
+    prompt-text = "Search: "
 
-      /* Result text */
-      #text {
-        color: #cdd6f4;
-      }
+    result-spacing = 8
+    padding-left = 12
+    padding-top = 8
 
-      #text:selected {
-        color: #e0e4f0;
-      }
-    '';
-  };
+    hide-input = true
+    drun-launch = true
+  '';
 
   ###########################################################################################
   # Polkit agent (hyprpolkitagent via systemd)

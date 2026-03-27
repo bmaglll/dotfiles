@@ -32,7 +32,7 @@ Item {
             onClicked: {
                 screenshotMenu.exec({
                     command: ["sh", "-c",
-                        'sel=$(echo -e "Fullscreen (clipboard)\\nRegion (clipboard)\\nWindow (clipboard)\\nFullscreen (save)\\nRegion (save)\\nWindow (save)" | wofi --dmenu -p Screenshot --hide-search); ' +
+                        'sel=$(echo -e "Fullscreen (clipboard)\\nRegion (clipboard)\\nWindow (clipboard)\\nFullscreen (save)\\nRegion (save)\\nWindow (save)" | tofi --prompt-text "Screenshot: " --hide-input true); ' +
                         'case "$sel" in ' +
                         '"Fullscreen (clipboard)") hyprshot -m output --clipboard-only ;; ' +
                         '"Region (clipboard)") hyprshot -m region --clipboard-only ;; ' +
