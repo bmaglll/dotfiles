@@ -52,7 +52,7 @@ Item {
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: "white"
-            text: "\u{f03d8}"
+            text: "\u{eada}"
         }
     }
 
