@@ -86,15 +86,7 @@ PanelWindow {
                 panelWindow: root
             }
 
-            CpuMonitor {
-                fontFamily: vars.fontFamily
-                fontSize: vars.iFontSz
-                pollInterval: 2000
-                hoverBg: vars.hoverBg
-                hoverRadius: vars.hoverRadius
-            }
-
-            RamMonitor {
+            Resources {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 pollInterval: 2000
