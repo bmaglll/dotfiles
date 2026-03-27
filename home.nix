@@ -209,7 +209,7 @@
       hide-on-action = false;
       scripts = {
         notification-sound = {
-          exec = "bash /home/bmag/nixos-config/sounds/notification-sound.sh";
+          exec = "bash /home/bmag/nixos-config/shell/notification-sound.sh";
           app-name = "Claude Code";
         };
       };
