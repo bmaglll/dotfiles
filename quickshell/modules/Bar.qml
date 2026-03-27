@@ -73,6 +73,13 @@ PanelWindow {
                 id: clock
                 vars: vars
             }
+
+            Screenshot {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
+            }
         }
 
         // ----- RIGHT: tray + status -----
@@ -84,13 +91,6 @@ PanelWindow {
 
             Tray {
                 panelWindow: root
-            }
-
-            Screenshot {
-                fontFamily: vars.fontFamily
-                fontSize: vars.iFontSz
-                hoverBg: vars.hoverBg
-                hoverRadius: vars.hoverRadius
             }
 
             Resources {
