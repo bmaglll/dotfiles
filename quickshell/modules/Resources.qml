@@ -27,17 +27,24 @@ Item {
     property real warningThreshold: 70
     property real criticalThreshold: 90
 
-    // state
+    // CPU state
     property real cpuPercent: 0.0
-
-    // previous /proc/stat values for delta calculation
     property var prevIdle: 0
     property var prevTotal: 0
     property bool hasPrev: false
 
-    readonly property color iconColor: {
+    // RAM state
+    property real ramPercent: 0.0
+
+    readonly property color cpuColor: {
         if (root.cpuPercent >= root.criticalThreshold) return root.colCritical
         if (root.cpuPercent >= root.warningThreshold) return root.colWarning
+        return root.colNormal
+    }
+
+    readonly property color ramColor: {
+        if (root.ramPercent >= root.criticalThreshold) return root.colCritical
+        if (root.ramPercent >= root.warningThreshold) return root.colWarning
         return root.colNormal
     }
 
@@ -56,7 +63,9 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            acceptedButtons: Qt.NoButton
+            onClicked: {
+                btopLauncher.exec({ command: ["hyprctl", "dispatch", "exec", "[float;size 80% 80%;center] ghostty -e btop"] })
+            }
         }
 
         Row {
@@ -65,23 +74,36 @@ Item {
             anchors.centerIn: parent
 
             Text {
-                id: iconText
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
-                color: root.iconColor
-                text: "\u{f0ee0}"  // nf-md-cpu_64_bit
+                color: root.cpuColor
+                text: "\u{f0ee0}"
             }
 
             Text {
-                id: pctText
-                visible: true
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
-                color: root.iconColor
+                color: root.cpuColor
                 text: Math.round(root.cpuPercent) + "%"
+            }
+
+            Text {
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: root.ramColor
+                text: "\u{efc5}"
+            }
+
+            Text {
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: root.ramColor
+                text: Math.round(root.ramPercent) + "%"
             }
         }
     }
+
+    Process { id: btopLauncher }
 
     Process {
         id: statProc
@@ -114,6 +136,28 @@ Item {
         }
     }
 
+    Process {
+        id: memProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var lines = this.text.trim().split("\n")
+                var total = 0
+                var available = 0
+
+                for (var i = 0; i < lines.length; i++) {
+                    var parts = lines[i].split(/\s+/)
+                    if (parts[0] === "MemTotal:")
+                        total = parseInt(parts[1])
+                    else if (parts[0] === "MemAvailable:")
+                        available = parseInt(parts[1])
+                }
+
+                if (total > 0)
+                    root.ramPercent = (1.0 - available / total) * 100
+            }
+        }
+    }
+
     Timer {
         interval: root.pollInterval
         repeat: true
@@ -121,9 +165,10 @@ Item {
         triggeredOnStart: true
 
         onTriggered: {
-            if (!statProc.running) {
+            if (!statProc.running)
                 statProc.exec({ command: ["head", "-1", "/proc/stat"] })
-            }
+            if (!memProc.running)
+                memProc.exec({ command: ["head", "-3", "/proc/meminfo"] })
         }
     }
 }
