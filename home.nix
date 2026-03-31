@@ -116,7 +116,7 @@
     plugins = {
       smart-enter = pkgs.writeTextFile {
         name = "smart-enter";
-        destination = "/init.lua";
+        destination = "/main.lua";
         text = ''
           return {
             entry = function()
