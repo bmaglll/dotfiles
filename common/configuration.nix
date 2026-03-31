@@ -151,7 +151,7 @@
   };
 
   # Suspend-then-hibernate: suspend immediately, hibernate after 90 min
-  systemd.sleep.extraConfig = ''
+  systemd.sleep.settings.Sleep = ''
     HibernateDelaySec=90min
   '';
 
