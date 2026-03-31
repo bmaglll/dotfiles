@@ -150,9 +150,7 @@
       # Unifi camera dashboard
       "$mainMod SHIFT, U, exec, bash -lc ~/projects/personal/unifi-cams/unifi-dashboard.sh"
       ];
-    # lock on lid close
     bindl = [
-      ", switch:Lid Switch, exec, pidof hyprlock || hyprlock"
     ];
     # repeat-on-hold audio binds
     binde = [
