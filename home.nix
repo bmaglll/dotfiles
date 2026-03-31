@@ -112,10 +112,13 @@
   ###########################################################################################
   programs.yazi = {
     enable = true;
+    enableBashIntegration = true;
     settings = {
       mgr = {
         sort_by = "mtime";
         sort_reverse = true;
+        show_hidden = true;
+        ratio = [2 4 3];
       };
       opener = {
         browser = [
