@@ -113,19 +113,19 @@
   programs.yazi = {
     enable = true;
     settings = {
-      manager = {
-        sort_by = "modified";
+      mgr = {
+        sort_by = "mtime";
         sort_reverse = true;
       };
       opener = {
         browser = [
-          { run = ''chromium "$@"''; desc = "Open in Chromium"; }
+          { run = ''chromium %s''; desc = "Open in Chromium"; orphan = true; }
         ];
       };
       open = {
         prepend_rules = [
-          { name = "*.html"; use = ["browser"]; }
-          { name = "*.htm"; use = ["browser"]; }
+          { url = "*.html"; use = ["browser"]; }
+          { url = "*.htm"; use = ["browser"]; }
           { mime = "text/html"; use = ["browser"]; }
         ];
       };
