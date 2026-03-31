@@ -42,7 +42,7 @@ Item {
             font.family: root.fontFamily
             font.pixelSize: root.fontSize
             color: "white"
-            text: "\u{eada}"
+            text: "\u{f030}"
         }
     }
 
