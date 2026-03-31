@@ -143,6 +143,7 @@
         sort_reverse = true;
         show_hidden = true;
         ratio = [2 4 3];
+        linemode = "mtime";
       };
       opener = {
         browser = [
