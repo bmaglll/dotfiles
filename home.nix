@@ -113,6 +113,29 @@
   programs.yazi = {
     enable = true;
     enableBashIntegration = true;
+    plugins = {
+      smart-enter = pkgs.writeTextFile {
+        name = "smart-enter";
+        destination = "/init.lua";
+        text = ''
+          return {
+            entry = function()
+              local h = cx.active.current.hovered
+              if h and h.cha.is_dir then
+                ya.manager_emit("enter", {})
+              else
+                ya.manager_emit("open", {})
+              end
+            end,
+          }
+        '';
+      };
+    };
+    keymap = {
+      mgr.prepend_keymap = [
+        { on = ["<Enter>"]; run = "plugin --sync smart-enter"; desc = "Enter directory or open file"; }
+      ];
+    };
     settings = {
       mgr = {
         sort_by = "mtime";
