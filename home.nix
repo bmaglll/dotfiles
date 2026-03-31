@@ -118,13 +118,14 @@
         name = "smart-enter";
         destination = "/main.lua";
         text = ''
+          --- @sync entry
           return {
-            entry = function()
+            entry = function(state)
               local h = cx.active.current.hovered
               if h and h.cha.is_dir then
-                ya.manager_emit("enter", {})
+                ya.emit("enter", {})
               else
-                ya.manager_emit("open", {})
+                ya.emit("open", {})
               end
             end,
           }
@@ -133,7 +134,7 @@
     };
     keymap = {
       mgr.prepend_keymap = [
-        { on = ["<Enter>"]; run = "plugin --sync smart-enter"; desc = "Enter directory or open file"; }
+        { on = ["<Enter>"]; run = "plugin smart-enter"; desc = "Enter directory or open file"; }
       ];
     };
     settings = {
