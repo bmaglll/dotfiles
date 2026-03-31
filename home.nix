@@ -39,7 +39,7 @@
     swaynotificationcenter
     ffmpeg
     fzf
-    yazi
+    # yazi - managed via programs.yazi below
     obs-studio
     libnotify
     jq
@@ -107,6 +107,30 @@
     };
   };
   xdg.configFile."ghostty/config".force = true;
+  ###########################################################################################
+  # Yazi (file manager)
+  ###########################################################################################
+  programs.yazi = {
+    enable = true;
+    settings = {
+      manager = {
+        sort_by = "modified";
+        sort_reverse = true;
+      };
+      opener = {
+        browser = [
+          { run = ''chromium "$@"''; desc = "Open in Chromium"; }
+        ];
+      };
+      open = {
+        prepend_rules = [
+          { name = "*.html"; use = "browser"; }
+          { name = "*.htm"; use = "browser"; }
+          { mime = "text/html"; use = "browser"; }
+        ];
+      };
+    };
+  };
   ###########################################################################################
   # neovim
   ###########################################################################################
