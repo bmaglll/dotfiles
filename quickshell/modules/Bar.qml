@@ -94,6 +94,14 @@ PanelWindow {
                 panelWindow: root
             }
 
+            Privacy {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                pollInterval: 2000
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
+            }
+
             Resources {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
