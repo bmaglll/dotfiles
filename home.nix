@@ -124,9 +124,9 @@
       };
       open = {
         prepend_rules = [
-          { name = "*.html"; use = "browser"; }
-          { name = "*.htm"; use = "browser"; }
-          { mime = "text/html"; use = "browser"; }
+          { name = "*.html"; use = ["browser"]; }
+          { name = "*.htm"; use = ["browser"]; }
+          { mime = "text/html"; use = ["browser"]; }
         ];
       };
     };
@@ -177,6 +177,8 @@
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
         inhibit_if_fullscreen = true;
       };
 
@@ -187,7 +189,7 @@
           on-resume = "";
         }
         {
-          timeout = 900;  # 15 min idle → suspend-then-hibernate
+          timeout = 900;
           on-timeout = "systemctl suspend-then-hibernate";
           on-resume = "";
         }
