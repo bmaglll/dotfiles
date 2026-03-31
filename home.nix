@@ -261,6 +261,7 @@
       notification-body-image-height = 150;
       notification-body-image-width = 280;
       notification-window-width = 300;
+      timeout = 5;
       hide-on-clear = false;
       hide-on-action = false;
       scripts = {
