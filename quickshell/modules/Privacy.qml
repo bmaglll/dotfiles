@@ -99,6 +99,8 @@ Item {
 
                 root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)
+
+                console.log("Privacy:", s, "micConn:", root.micConnected, "camConn:", root.camConnected, "micAct:", root.micActive, "camAct:", root.camActive)
             }
         }
     }
