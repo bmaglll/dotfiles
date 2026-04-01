@@ -34,17 +34,6 @@ Item {
     implicitWidth: bg.width
     implicitHeight: bg.height
 
-    // flash animation when any device is in use
-    opacity: flashAnim.running ? flashAnim.currentValue : 1.0
-    SequentialAnimation {
-        id: flashAnim
-        running: root.anyActive
-        loops: Animation.Infinite
-        property real currentValue: 1.0
-        NumberAnimation { target: flashAnim; property: "currentValue"; from: 1.0; to: 0.3; duration: 600 }
-        NumberAnimation { target: flashAnim; property: "currentValue"; from: 0.3; to: 1.0; duration: 600 }
-    }
-
     Rectangle {
         id: bg
         width: row.implicitWidth + root.paddingH * 2
@@ -72,6 +61,16 @@ Item {
                      : root.micConnected ? root.colNormal
                      : root.colDisconnected
                 text: root.micConnected ? "\uf130" : "\uf131"
+                opacity: micFlash.running ? micFlash.currentValue : 1.0
+
+                SequentialAnimation {
+                    id: micFlash
+                    running: root.micActive
+                    loops: Animation.Infinite
+                    property real currentValue: 1.0
+                    NumberAnimation { target: micFlash; property: "currentValue"; from: 1.0; to: 0.3; duration: 600 }
+                    NumberAnimation { target: micFlash; property: "currentValue"; from: 0.3; to: 1.0; duration: 600 }
+                }
             }
 
             Text {
@@ -81,6 +80,16 @@ Item {
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
                 text: root.camConnected ? "\uf03d" : "󰗆"
+                opacity: camFlash.running ? camFlash.currentValue : 1.0
+
+                SequentialAnimation {
+                    id: camFlash
+                    running: root.camActive
+                    loops: Animation.Infinite
+                    property real currentValue: 1.0
+                    NumberAnimation { target: camFlash; property: "currentValue"; from: 1.0; to: 0.3; duration: 600 }
+                    NumberAnimation { target: camFlash; property: "currentValue"; from: 0.3; to: 1.0; duration: 600 }
+                }
             }
         }
     }
