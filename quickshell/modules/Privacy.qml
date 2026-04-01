@@ -127,7 +127,7 @@ Item {
                     command: ["sh", "-c",
                         "pw_out=$(pw-cli list-objects Node 2>/dev/null); " +
                         "mic=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Audio\"'); " +
-                        "vid=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Video\"'); " +
+                        "vid=$(ls -la /proc/[0-9]*/fd/* 2>/dev/null | grep -c /dev/video); " +
                         "mic_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Audio/Source\"'); " +
                         "cam_hw=$(ls /dev/video* 2>/dev/null | wc -l); " +
                         "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0}\""
