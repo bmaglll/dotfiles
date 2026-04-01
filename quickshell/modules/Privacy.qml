@@ -30,6 +30,7 @@ Item {
     property bool camActive: false
     readonly property bool anyActive: micActive || camActive
 
+    Layout.alignment: Qt.AlignVCenter
     implicitWidth: bg.width
     implicitHeight: bg.height
 
