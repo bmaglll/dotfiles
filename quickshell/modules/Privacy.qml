@@ -25,6 +25,7 @@ Item {
 
     // state
     property bool micConnected: false
+    property bool micMuted: false
     property bool micActive: false
     property bool camConnected: false
     property bool camActive: false
@@ -58,9 +59,10 @@ Item {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: root.micActive ? root.colAlert
+                     : root.micMuted ? root.colDisconnected
                      : root.micConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.micConnected ? "\uf130" : "\uf131"
+                text: root.micMuted ? "\uf131" : "\uf130"
                 opacity: micFlash.running ? micFlash.currentValue : 1.0
 
                 SequentialAnimation {
@@ -79,7 +81,7 @@ Item {
                 color: root.camActive ? root.colAlert
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.camConnected ? "\uf03d" : "\udb81\udd68"
+                text: root.camConnected ? "\uf03d" : "\uedad"
                 opacity: camFlash.running ? camFlash.currentValue : 1.0
 
                 SequentialAnimation {
@@ -107,6 +109,9 @@ Item {
                 root.micConnected = (micHwMatch !== null && parseInt(micHwMatch[1]) > 0)
                 root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
 
+                var micMuteMatch = s.match(/mic_mute:(\d+)/)
+                root.micMuted = (micMuteMatch !== null && parseInt(micMuteMatch[1]) > 0)
+
                 root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)
 
@@ -130,7 +135,8 @@ Item {
                         "vid=$(ls -la /proc/[0-9]*/fd/* 2>/dev/null | grep -c /dev/video); " +
                         "mic_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Audio/Source\"'); " +
                         "cam_hw=$(ls /dev/video* 2>/dev/null | wc -l); " +
-                        "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0}\""
+                        "mic_mute=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | grep -c MUTED); " +
+                        "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0} mic_mute:${mic_mute:-0}\""
                     ]
                 })
             }
