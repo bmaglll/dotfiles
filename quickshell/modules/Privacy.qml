@@ -79,7 +79,7 @@ Item {
                 color: root.camActive ? root.colAlert
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.camConnected ? "\udb81\udd68" : "\uedad"
+                text: root.camConnected ? "\uf03d" : "\udb81\udd68"
                 opacity: camFlash.running ? camFlash.currentValue : 1.0
 
                 SequentialAnimation {
