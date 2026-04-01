@@ -11,6 +11,8 @@ Item {
     property int fontSize: 12
     property int gap: 4
     property color colAlert: "#ff5555"
+    property color colNormal: "white"
+    property color colDisconnected: "#606060"
 
     // hover
     property color hoverBg: "transparent"
@@ -22,15 +24,16 @@ Item {
     property int pollInterval: 2000
 
     // state
+    property bool micConnected: false
     property bool micActive: false
+    property bool camConnected: false
     property bool camActive: false
     readonly property bool anyActive: micActive || camActive
 
-    visible: root.anyActive
-    implicitWidth: root.anyActive ? bg.width : 0
-    implicitHeight: root.anyActive ? bg.height : 0
+    implicitWidth: bg.width
+    implicitHeight: bg.height
 
-    // flash animation when active
+    // flash animation when any device is in use
     opacity: flashAnim.running ? flashAnim.currentValue : 1.0
     SequentialAnimation {
         id: flashAnim
@@ -62,19 +65,21 @@ Item {
             anchors.centerIn: parent
 
             Text {
-                visible: root.micActive
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
-                color: root.colAlert
-                text: ""
+                color: root.micActive ? root.colAlert
+                     : root.micConnected ? root.colNormal
+                     : root.colDisconnected
+                text: root.micConnected ? "" : ""
             }
 
             Text {
-                visible: root.camActive
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
-                color: root.colAlert
-                text: ""
+                color: root.camActive ? root.colAlert
+                     : root.camConnected ? root.colNormal
+                     : root.colDisconnected
+                text: root.camConnected ? "" : "󰗆"
             }
         }
     }
@@ -86,10 +91,14 @@ Item {
                 var s = this.text.trim()
                 var micMatch = s.match(/mic:(\d+)/)
                 var vidMatch = s.match(/vid:(\d+)/)
-                var camMatch = s.match(/cam:(\d+)/)
+                var micHwMatch = s.match(/mic_hw:(\d+)/)
+                var camHwMatch = s.match(/cam_hw:(\d+)/)
+
+                root.micConnected = (micHwMatch !== null && parseInt(micHwMatch[1]) > 0)
                 root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
+
+                root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)
-                                 || (camMatch !== null && parseInt(camMatch[1]) > 0)
             }
         }
     }
@@ -107,8 +116,9 @@ Item {
                         "pw_out=$(pw-cli list-objects Node 2>/dev/null); " +
                         "mic=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Audio\"'); " +
                         "vid=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Video\"'); " +
-                        "cam=$(awk '/^uvcvideo/{print $3}' /proc/modules 2>/dev/null); " +
-                        "echo \"mic:${mic:-0} vid:${vid:-0} cam:${cam:-0}\""
+                        "mic_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Audio/Source\"'); " +
+                        "cam_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Video/Source\"'); " +
+                        "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0}\""
                     ]
                 })
             }
