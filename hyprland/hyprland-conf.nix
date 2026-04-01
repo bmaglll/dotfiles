@@ -142,7 +142,8 @@
       # main Hyprland binds (now using ghostty + nautilus)
       "$mainMod, RETURN, exec, ghostty -e tmux new-session"
       "$mainMod, W, killactive,"
-      "$mainMod, M, exit,"
+      "CTRL ALT, escape, exit,"
+      "$mainMod, M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, Z, togglefloating,"
       "$mainMod, Space, exec, pkill wofi || $menu"
