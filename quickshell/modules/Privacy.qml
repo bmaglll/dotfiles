@@ -123,7 +123,8 @@ Item {
                 root.micHwPresent = (micHwMatch !== null && parseInt(micHwMatch[1]) > 0)
                 root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
                 root.micMuted = (micMuteMatch !== null && parseInt(micMuteMatch[1]) > 0)
-                root.micHwOn = !(hwSwitchMatch !== null && hwSwitchMatch[1] === "off")
+                // If software muted, capture reads silence — can't detect hw switch, assume on
+                root.micHwOn = root.micMuted || !(hwSwitchMatch !== null && hwSwitchMatch[1] === "off")
 
                 root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)
