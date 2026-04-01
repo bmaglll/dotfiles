@@ -74,12 +74,13 @@ Item {
             }
 
             Text {
-                font.family: root.fontFamily
+                font.family: "Font Awesome 7 Free Solid"
                 font.pixelSize: root.fontSize
+                font.weight: Font.Black
                 color: root.camActive ? root.colAlert
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.camConnected ? "\uf03d" : "󰗆"
+                text: root.camConnected ? "\uf03d" : "\uf4e2"
                 opacity: camFlash.running ? camFlash.currentValue : 1.0
 
                 SequentialAnimation {
