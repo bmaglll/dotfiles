@@ -79,7 +79,7 @@ Item {
                 color: root.camActive ? root.colAlert
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.camConnected ? "󰕨" : "󰗆"
+                text: root.camConnected ? "󰕧" : "󰗆"
                 opacity: camFlash.running ? camFlash.currentValue : 1.0
 
                 SequentialAnimation {
@@ -129,7 +129,7 @@ Item {
                         "mic=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Audio\"'); " +
                         "vid=$(echo \"$pw_out\" | grep -c 'media.class = \"Stream/Input/Video\"'); " +
                         "mic_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Audio/Source\"'); " +
-                        "cam_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Video/Source\"'); " +
+                        "cam_hw=$(ls /dev/video* 2>/dev/null | wc -l); " +
                         "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0}\""
                     ]
                 })
