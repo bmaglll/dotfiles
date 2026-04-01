@@ -71,7 +71,7 @@ Item {
                 color: root.micActive ? root.colAlert
                      : root.micConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.micConnected ? "" : ""
+                text: root.micConnected ? "\uf130" : "\uf131"
             }
 
             Text {
@@ -80,7 +80,7 @@ Item {
                 color: root.camActive ? root.colAlert
                      : root.camConnected ? root.colNormal
                      : root.colDisconnected
-                text: root.camConnected ? "" : "󰗆"
+                text: root.camConnected ? "\uf03d" : "󰗆"
             }
         }
     }
