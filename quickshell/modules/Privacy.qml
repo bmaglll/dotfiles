@@ -11,6 +11,7 @@ Item {
     property int fontSize: 12
     property int gap: 4
     property color colAlert: "#ff5555"
+    property color colAmber: "#ffaa00"
     property color colNormal: "white"
     property color colDisconnected: "#606060"
 
@@ -23,12 +24,16 @@ Item {
     // polling
     property int pollInterval: 2000
 
-    // state
-    property bool micConnected: false
-    property bool micMuted: false
-    property bool micActive: false
+    // mic state
+    property bool micHwPresent: false   // Audio/Source exists in PipeWire
+    property bool micHwOn: true         // hardware switch allows signal (fail-open)
+    property bool micMuted: false       // software mute via wpctl
+    property bool micActive: false      // Stream/Input/Audio exists
+
+    // cam state
     property bool camConnected: false
     property bool camActive: false
+
     readonly property bool anyActive: micActive || camActive
 
     Layout.alignment: Qt.AlignVCenter
@@ -55,19 +60,25 @@ Item {
             spacing: root.gap
             anchors.centerIn: parent
 
+            // Mic icon — 6 states
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
-                color: root.micActive ? root.colAlert
-                     : root.micMuted ? root.colDisconnected
-                     : root.micConnected ? root.colNormal
-                     : root.colDisconnected
-                text: root.micMuted ? "\uf131" : "\uf130"
+                text: (!root.micHwOn || root.micMuted) ? "\uf131" : "\uf130"
+                color: {
+                    if (!root.micHwOn)
+                        return root.colDisconnected
+                    if (root.micMuted)
+                        return root.colAmber
+                    if (root.micActive)
+                        return root.colAlert
+                    return root.colNormal
+                }
                 opacity: micFlash.running ? micFlash.currentValue : 1.0
 
                 SequentialAnimation {
                     id: micFlash
-                    running: root.micActive
+                    running: root.micActive && root.micHwOn
                     loops: Animation.Infinite
                     property real currentValue: 1.0
                     NumberAnimation { target: micFlash; property: "currentValue"; from: 1.0; to: 0.3; duration: 600 }
@@ -75,6 +86,7 @@ Item {
                 }
             }
 
+            // Cam icon
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
@@ -105,17 +117,18 @@ Item {
                 var vidMatch = s.match(/vid:(\d+)/)
                 var micHwMatch = s.match(/mic_hw:(\d+)/)
                 var camHwMatch = s.match(/cam_hw:(\d+)/)
-
-                root.micConnected = (micHwMatch !== null && parseInt(micHwMatch[1]) > 0)
-                root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
-
                 var micMuteMatch = s.match(/mic_mute:(\d+)/)
+                var hwSwitchMatch = s.match(/hw_switch:(\w+)/)
+
+                root.micHwPresent = (micHwMatch !== null && parseInt(micHwMatch[1]) > 0)
+                root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
                 root.micMuted = (micMuteMatch !== null && parseInt(micMuteMatch[1]) > 0)
+                root.micHwOn = !(hwSwitchMatch !== null && hwSwitchMatch[1] === "off")
 
                 root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)
 
-                console.log("Privacy:", s, "micConn:", root.micConnected, "camConn:", root.camConnected, "micAct:", root.micActive, "camAct:", root.camActive)
+                console.log("Privacy:", s, "micHwOn:", root.micHwOn, "micMuted:", root.micMuted, "micAct:", root.micActive, "camConn:", root.camConnected, "camAct:", root.camActive)
             }
         }
     }
@@ -136,7 +149,8 @@ Item {
                         "mic_hw=$(echo \"$pw_out\" | grep -c 'media.class = \"Audio/Source\"'); " +
                         "cam_hw=$(ls /dev/video* 2>/dev/null | wc -l); " +
                         "mic_mute=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | grep -c MUTED); " +
-                        "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0} mic_mute:${mic_mute:-0}\""
+                        "hw_switch=$(framework-mic-switch 2>/dev/null || echo 'hw_switch:error'); " +
+                        "echo \"mic:${mic:-0} vid:${vid:-0} mic_hw:${mic_hw:-0} cam_hw:${cam_hw:-0} mic_mute:${mic_mute:-0} ${hw_switch}\""
                     ]
                 })
             }

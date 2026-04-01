@@ -8,6 +8,21 @@
   # User packages
   ###########################################################################################
   home.packages = with pkgs; [
+    # Framework mic hardware switch detector
+    (stdenv.mkDerivation {
+      pname = "framework-mic-switch";
+      version = "1.0.0";
+      src = ./quickshell/tools;
+      buildInputs = [ alsa-lib ];
+      buildPhase = ''
+        $CC -O2 -Wall -o framework-mic-switch framework-mic-switch.c -lasound
+      '';
+      installPhase = ''
+        mkdir -p $out/bin
+        cp framework-mic-switch $out/bin/
+      '';
+    })
+
     # User Added
     nautilus
     brightnessctl
