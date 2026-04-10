@@ -60,6 +60,7 @@
     jq
     chromium
     claude-code
+    moonlight-qt
     mpv
     gh
     obs-studio
