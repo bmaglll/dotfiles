@@ -1,0 +1,130 @@
+import QtQuick
+import QtQuick.Layouts
+import Quickshell
+import Quickshell.Io
+
+Item {
+    id: root
+
+    // styling
+    property string fontFamily: "JetBrainsMono Nerd Font"
+    property int fontSize: 12
+    property int gap: 4
+
+    // hover
+    property color hoverBg: "transparent"
+    property int hoverRadius: 10
+    property int paddingH: 5
+    property int paddingV: 2
+
+    // polling
+    property int pollInterval: 500
+
+    // state
+    property real rxSpeed: 0.0
+    property real txSpeed: 0.0
+    property var prevRx: 0
+    property var prevTx: 0
+    property var prevTime: 0
+    property bool hasPrev: false
+
+    function formatSpeed(bytesPerSec) {
+        if (bytesPerSec >= 1073741824)
+            return (bytesPerSec / 1073741824).toFixed(1) + "GB/s"
+        if (bytesPerSec >= 1048576)
+            return (bytesPerSec / 1048576).toFixed(1) + "MB/s"
+        if (bytesPerSec >= 1024)
+            return (bytesPerSec / 1024).toFixed(1) + "KB/s"
+        return bytesPerSec.toFixed(1) + "B/s"
+    }
+
+    implicitWidth: bg.width
+    implicitHeight: bg.height
+
+    Rectangle {
+        id: bg
+        width: row.implicitWidth + root.paddingH * 2
+        height: row.implicitHeight + root.paddingV * 2
+        radius: root.hoverRadius
+        color: mouse.containsMouse ? root.hoverBg : "transparent"
+
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.NoButton
+        }
+
+        Row {
+            id: row
+            spacing: root.gap
+            anchors.centerIn: parent
+
+            Text {
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: "white"
+                text: "\u2193" + formatSpeed(root.rxSpeed)
+            }
+
+            Text {
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: "white"
+                text: "\u2191" + formatSpeed(root.txSpeed)
+            }
+        }
+    }
+
+    Process {
+        id: netProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var now = Date.now()
+                var lines = this.text.trim().split("\n")
+                var totalRx = 0
+                var totalTx = 0
+
+                for (var i = 2; i < lines.length; i++) {
+                    var line = lines[i].trim()
+                    var colonIdx = line.indexOf(":")
+                    if (colonIdx < 0) continue
+
+                    var iface = line.substring(0, colonIdx).trim()
+                    if (iface === "lo") continue
+
+                    var fields = line.substring(colonIdx + 1).trim().split(/\s+/)
+                    if (fields.length < 10) continue
+
+                    totalRx += parseInt(fields[0])
+                    totalTx += parseInt(fields[8])
+                }
+
+                if (root.hasPrev) {
+                    var elapsed = (now - root.prevTime) / 1000
+                    if (elapsed > 0) {
+                        root.rxSpeed = (totalRx - root.prevRx) / elapsed
+                        root.txSpeed = (totalTx - root.prevTx) / elapsed
+                    }
+                }
+
+                root.prevRx = totalRx
+                root.prevTx = totalTx
+                root.prevTime = now
+                root.hasPrev = true
+            }
+        }
+    }
+
+    Timer {
+        interval: root.pollInterval
+        repeat: true
+        running: true
+        triggeredOnStart: true
+
+        onTriggered: {
+            if (!netProc.running)
+                netProc.exec({ command: ["cat", "/proc/net/dev"] })
+        }
+    }
+}
