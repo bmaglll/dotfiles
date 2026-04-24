@@ -21,12 +21,19 @@ Item {
     property int pollInterval: 500
 
     // state
+    property bool expanded: false
+    property string ifaceName: ""
+    property bool isWifi: false
     property real rxSpeed: 0.0
     property real txSpeed: 0.0
     property var prevRx: 0
     property var prevTx: 0
     property var prevTime: 0
     property bool hasPrev: false
+
+    // NerdFont icons
+    readonly property string wifiIcon: "\u{f1eb}"      //
+    readonly property string ethernetIcon: "\u{f0200}"  // 󰈀
 
     function formatSpeed(bytesPerSec) {
         if (bytesPerSec >= 1073741824)
@@ -52,7 +59,8 @@ Item {
             id: mouse
             anchors.fill: parent
             hoverEnabled: true
-            acceptedButtons: Qt.NoButton
+            cursorShape: Qt.PointingHandCursor
+            onClicked: root.expanded = !root.expanded
         }
 
         Row {
@@ -64,18 +72,45 @@ Item {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: "\u2193" + formatSpeed(root.rxSpeed)
+                text: root.ifaceName
+                visible: root.ifaceName !== ""
             }
 
             Text {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: "\u2191" + formatSpeed(root.txSpeed)
+                text: root.isWifi ? root.wifiIcon : root.ethernetIcon
+                visible: root.ifaceName !== ""
+            }
+
+            Text {
+                font.family: root.fontFamily
+                font.pixelSize: root.fontSize
+                color: "white"
+                text: "\u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
+                visible: root.expanded && root.ifaceName !== ""
             }
         }
     }
 
+    // Detect active interface from default route
+    Process {
+        id: ifaceProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var line = this.text.trim()
+                // "default via X.X.X.X dev wlan0 ..."
+                var m = line.match(/dev\s+(\S+)/)
+                if (m && m.length >= 2) {
+                    root.ifaceName = m[1]
+                    root.isWifi = (m[1].indexOf("wl") === 0)
+                }
+            }
+        }
+    }
+
+    // Read /proc/net/dev for throughput
     Process {
         id: netProc
         stdout: StdioCollector {
@@ -116,12 +151,23 @@ Item {
         }
     }
 
+    // Poll interface name every 5 seconds, throughput at pollInterval
     Timer {
-        interval: root.pollInterval
+        interval: 5000
         repeat: true
         running: true
         triggeredOnStart: true
+        onTriggered: {
+            if (!ifaceProc.running)
+                ifaceProc.exec({ command: ["ip", "route", "show", "default"] })
+        }
+    }
 
+    Timer {
+        interval: root.pollInterval
+        repeat: true
+        running: root.expanded
+        triggeredOnStart: true
         onTriggered: {
             if (!netProc.running)
                 netProc.exec({ command: ["cat", "/proc/net/dev"] })
