@@ -43,16 +43,16 @@ PanelWindow {
         readonly property int hoverRadius: 10
     }
 
-    RowLayout {
+    Item {
         anchors.fill: parent
         anchors.margins: 2
-        spacing: 0
 
         // ----- LEFT: workspaces -----
         RowLayout {
             id: leftRow
             spacing: 0
-            Layout.alignment: Qt.AlignVCenter
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
 
             Workspaces {
                 vars: vars
@@ -63,13 +63,18 @@ PanelWindow {
             }
         }
 
-        Item { Layout.fillWidth: true }
-
         // ----- CENTER: clock -----
         RowLayout {
             id: centerRow
             spacing: 4
-            Layout.alignment: Qt.AlignVCenter
+            anchors.verticalCenter: parent.verticalCenter
+            x: Math.max(
+                leftRow.x + leftRow.width + 8,
+                Math.min(
+                    (parent.width - width) / 2,
+                    rightRow.x - width - 8
+                )
+            )
 
             Clock {
                 id: clock
@@ -85,13 +90,12 @@ PanelWindow {
             }
         }
 
-        Item { Layout.fillWidth: true }
-
         // ----- RIGHT: tray + status -----
         RowLayout {
             id: rightRow
             spacing: 4
-            Layout.alignment: Qt.AlignVCenter
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
 
             Tray {
                 panelWindow: root
