@@ -102,6 +102,14 @@ PanelWindow {
                 hoverRadius: vars.hoverRadius
             }
 
+            Network {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                pollInterval: 500
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
+            }
+
             Resources {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
