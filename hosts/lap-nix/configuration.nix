@@ -15,6 +15,23 @@
   # Hostname
   networking.hostName = "lap-nix";
 
+  # Use iwd backend for better roaming on multi-AP UniFi network
+  networking.networkmanager.wifi.backend = "iwd";
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General = {
+        # Enable built-in roaming with signal-based AP selection
+        RoamRetryInterval = 15;
+      };
+      Rank = {
+        # Prefer 5GHz/6GHz bands over 2.4GHz
+        BandModifier5Ghz = 2.0;
+        BandModifier6Ghz = 2.0;
+      };
+    };
+  };
+
   # Open port for UniFi Protect webhook listener
   networking.firewall.allowedTCPPorts = [ 9999 ];
 

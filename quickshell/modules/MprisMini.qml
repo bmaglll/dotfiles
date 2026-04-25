@@ -76,9 +76,9 @@ Item {
     // Debug: see when active player changes
     onPlayerChanged: {
         if (player) {
-            console.log("MprisMini: active player now", player.dbusName, "identity =", player.identity);
+            //console.log("MprisMini: active player now", player.dbusName, "identity =", player.identity);
         } else {
-            console.log("MprisMini: no active player");
+            //console.log("MprisMini: no active player");
           }
     }
 
