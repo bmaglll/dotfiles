@@ -23,6 +23,7 @@ Item {
     // state
     property bool expanded: false
     property string ifaceName: ""
+    property string ssid: ""
     property bool isWifi: false
     property real rxSpeed: 0.0
     property real txSpeed: 0.0
@@ -32,8 +33,8 @@ Item {
     property bool hasPrev: false
 
     // NerdFont icons
-    readonly property string wifiIcon: "\u{f1eb}"      //
-    readonly property string ethernetIcon: "\u{f0200}"  // 󰈀
+    readonly property string wifiIcon: "\u{f1eb}"
+    readonly property string ethernetIcon: "\u{f0200}"
 
     function formatSpeed(bytesPerSec) {
         if (bytesPerSec >= 1073741824)
@@ -72,7 +73,11 @@ Item {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: root.ifaceName
+                text: {
+                    if (root.ifaceName === "") return ""
+                    var label = root.isWifi && root.ssid !== "" ? root.ssid : root.ifaceName
+                    return label
+                }
                 visible: root.ifaceName !== ""
             }
 
@@ -88,23 +93,41 @@ Item {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: "\u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
+                text: ": " + root.ifaceName + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
                 visible: root.expanded && root.ifaceName !== ""
             }
         }
     }
 
-    // Detect active interface from default route
+    // Detect active interface and connection name
     Process {
         id: ifaceProc
         stdout: StdioCollector {
             onStreamFinished: {
                 var line = this.text.trim()
-                // "default via X.X.X.X dev wlan0 ..."
                 var m = line.match(/dev\s+(\S+)/)
                 if (m && m.length >= 2) {
                     root.ifaceName = m[1]
                     root.isWifi = (m[1].indexOf("wl") === 0)
+                    if (!connNameProc.running)
+                        connNameProc.exec({ command: ["nmcli", "-t", "-f", "NAME,DEVICE", "connection", "show", "--active"] })
+                }
+            }
+        }
+    }
+
+    Process {
+        id: connNameProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var lines = this.text.trim().split("\n")
+                root.ssid = ""
+                for (var i = 0; i < lines.length; i++) {
+                    var parts = lines[i].split(":")
+                    if (parts.length >= 2 && parts[1] === root.ifaceName) {
+                        root.ssid = parts[0]
+                        break
+                    }
                 }
             }
         }
@@ -151,7 +174,7 @@ Item {
         }
     }
 
-    // Poll interface name every 5 seconds, throughput at pollInterval
+    // Poll interface/SSID every 5 seconds, throughput at pollInterval
     Timer {
         interval: 5000
         repeat: true
