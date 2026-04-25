@@ -119,7 +119,7 @@ Item {
                     if (!connNameProc.running)
                         connNameProc.exec({ command: ["nmcli", "-t", "-f", "NAME,DEVICE", "connection", "show", "--active"] })
                     if (root.isWifi && !signalProc.running)
-                        signalProc.exec({ command: ["iw", "dev", m[1], "link"] })
+                        signalProc.exec({ command: ["cat", "/proc/net/wireless"] })
                     else
                         root.signalDbm = ""
                 }
@@ -148,7 +148,7 @@ Item {
         id: signalProc
         stdout: StdioCollector {
             onStreamFinished: {
-                var m = this.text.match(/signal:\s*(-?\d+)\s*dBm/)
+                var m = this.text.match(/wlan\S*:\s+\S+\s+\S+\s+(-?\d+)\./)
                 root.signalDbm = (m && m.length >= 2) ? m[1] : ""
             }
         }
