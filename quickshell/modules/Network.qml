@@ -31,6 +31,7 @@ Item {
     property var prevTx: 0
     property var prevTime: 0
     property bool hasPrev: false
+    property string signalDbm: ""
 
     // NerdFont icons
     readonly property string wifiIcon: "\u{f1eb}"
@@ -93,7 +94,13 @@ Item {
                 font.family: root.fontFamily
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: ": " + root.ifaceName + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
+                text: {
+                    var parts = []
+                    if (root.isWifi && root.signalDbm !== "")
+                        parts.push("dBm " + root.signalDbm)
+                    parts.push(root.ifaceName)
+                    return ": " + parts.join(" : ") + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
+                }
                 visible: root.expanded && root.ifaceName !== ""
             }
         }
@@ -111,6 +118,10 @@ Item {
                     root.isWifi = (m[1].indexOf("wl") === 0)
                     if (!connNameProc.running)
                         connNameProc.exec({ command: ["nmcli", "-t", "-f", "NAME,DEVICE", "connection", "show", "--active"] })
+                    if (root.isWifi && !signalProc.running)
+                        signalProc.exec({ command: ["iw", "dev", m[1], "link"] })
+                    else
+                        root.signalDbm = ""
                 }
             }
         }
@@ -129,6 +140,16 @@ Item {
                         break
                     }
                 }
+            }
+        }
+    }
+
+    Process {
+        id: signalProc
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var m = this.text.match(/signal:\s*(-?\d+)\s*dBm/)
+                root.signalDbm = (m && m.length >= 2) ? m[1] : ""
             }
         }
     }
