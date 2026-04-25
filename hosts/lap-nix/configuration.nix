@@ -21,8 +21,10 @@
     enable = true;
     settings = {
       General = {
-        # Enable built-in roaming with signal-based AP selection
         RoamRetryInterval = 15;
+        # Roam threshold - only roam when signal is this weak (dBm)
+        RoamThreshold = "-70";
+        RoamThreshold5G = "-76";
       };
       Rank = {
         # Prefer 5GHz/6GHz bands over 2.4GHz
