@@ -4209,3 +4209,15 @@
 [33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
 [33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
 [33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[32m  INFO[0m: Launching config: "/nix/store/6m0hk9nx505d2v4zqpsd6r6dkcbpl48i-hm_quickshell/shell.qml"
+[32m  INFO[0m: Shell ID: "ec5d27c840f9d66b6262cb80b949a5df" Path ID "ec5d27c840f9d66b6262cb80b949a5df"
+[32m  INFO[0m: Saving logs to "/run/user/1000/quickshell/by-id/1nt441l4et/log.qslog"
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[32m  INFO[0m: Configuration Loaded

@@ -107,7 +107,7 @@ Item {
                     if (root.isWifi && root.signalDbm !== "")
                         parts.push("dBm " + padLeft(root.signalDbm, 4))
                     parts.push(root.ifaceName)
-                    return ": " + parts.join(" : ") + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
+                    return parts.join(" : ") + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
                 }
                 visible: root.expanded && root.ifaceName !== ""
             }
