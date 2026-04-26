@@ -4193,3 +4193,19 @@
 [33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
 [33m  WARN[0m: Hyprland event socket error: QLocalSocket::PeerClosedError
 [33m  WARN[0m: The Wayland connection broke. Did the Wayland compositor die?
+[32m  INFO[0m: Launching config: "/nix/store/f9rx2i2x93vwcchfq4c2n7xmmgl3095a-hm_quickshell/shell.qml"
+[32m  INFO[0m: Shell ID: "e1a5fc6fd38dbbb5a1dac8cee1ab55d5" Path ID "e1a5fc6fd38dbbb5a1dac8cee1ab55d5"
+[32m  INFO[0m: Saving logs to "/run/user/1000/quickshell/by-id/2jm1e544et/log.qslog"
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[32m  INFO[0m: Configuration Loaded
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating properties of org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2 via GetAll
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating properties of org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player via GetAll
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
