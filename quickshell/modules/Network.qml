@@ -148,7 +148,7 @@ Item {
         id: signalProc
         stdout: StdioCollector {
             onStreamFinished: {
-                var m = this.text.match(/wlan\S*:\s+\S+\s+\S+\s+(-?\d+)\./)
+                var m = this.text.match(/\w+:\s+\S+\s+\S+\s+(-?\d+)\./)
                 root.signalDbm = (m && m.length >= 2) ? m[1] : ""
             }
         }
