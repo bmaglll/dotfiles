@@ -37,14 +37,22 @@ Item {
     readonly property string wifiIcon: "\u{f1eb}"
     readonly property string ethernetIcon: "\u{f0200}"
 
+    function padLeft(text, totalWidth) {
+        while (text.length < totalWidth) text = " " + text
+        return text
+    }
+
     function formatSpeed(bytesPerSec) {
+        var result
         if (bytesPerSec >= 1073741824)
-            return (bytesPerSec / 1073741824).toFixed(1) + "GB/s"
-        if (bytesPerSec >= 1048576)
-            return (bytesPerSec / 1048576).toFixed(1) + "MB/s"
-        if (bytesPerSec >= 1024)
-            return (bytesPerSec / 1024).toFixed(1) + "KB/s"
-        return bytesPerSec.toFixed(1) + "B/s"
+            result = (bytesPerSec / 1073741824).toFixed(1) + "GB/s"
+        else if (bytesPerSec >= 1048576)
+            result = (bytesPerSec / 1048576).toFixed(1) + "MB/s"
+        else if (bytesPerSec >= 1024)
+            result = (bytesPerSec / 1024).toFixed(1) + "KB/s"
+        else
+            result = bytesPerSec.toFixed(1) + "B/s"
+        return padLeft(result, 9)
     }
 
     implicitWidth: bg.width
@@ -97,7 +105,7 @@ Item {
                 text: {
                     var parts = []
                     if (root.isWifi && root.signalDbm !== "")
-                        parts.push("dBm " + root.signalDbm)
+                        parts.push("dBm " + padLeft(root.signalDbm, 4))
                     parts.push(root.ifaceName)
                     return ": " + parts.join(" : ") + " \u2193" + formatSpeed(root.rxSpeed) + " \u2191" + formatSpeed(root.txSpeed)
                 }
