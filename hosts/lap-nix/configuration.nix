@@ -20,7 +20,7 @@
 
   # Hibernate resume
   boot.resumeDevice = "/dev/disk/by-uuid/51e79868-d770-4c23-ba7d-f9754f95bc41";
-  boot.kernelParams = [ "resume_offset=39610368" "pcie_aspm.policy=performance" ];
+  boot.kernelParams = [ "resume_offset=39610368" "pcie_aspm.policy=performance" "amdgpu.sg_display=0" ];
 
   # Lid close triggers suspend-then-hibernate
   services.logind.settings.Login = {
