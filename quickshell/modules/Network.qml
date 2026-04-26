@@ -87,7 +87,7 @@ Item {
                     var label = root.isWifi && root.ssid !== "" ? root.ssid : root.ifaceName
                     return label
                 }
-                visible: root.ifaceName !== ""
+                visible: root.ifaceName !== "" && !root.expanded
             }
 
             Text {
@@ -95,7 +95,7 @@ Item {
                 font.pixelSize: root.fontSize
                 color: "white"
                 text: root.isWifi ? root.wifiIcon : root.ethernetIcon
-                visible: root.ifaceName !== ""
+                visible: root.ifaceName !== "" && !root.expanded
             }
 
             Text {
