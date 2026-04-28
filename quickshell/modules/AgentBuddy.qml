@@ -28,6 +28,7 @@ Item {
     Layout.alignment: Qt.AlignVCenter
     implicitWidth: currentConfig.frameWidth
     implicitHeight: 20
+    clip: false
 
     Image {
         id: sprite
@@ -38,9 +39,10 @@ Item {
             root.currentConfig.frameWidth,
             root.currentConfig.frameHeight
         )
-        width: root.currentConfig.frameWidth * (20 / root.currentConfig.frameHeight)
-        height: 20
-        anchors.centerIn: parent
+        width: root.currentConfig.frameWidth
+        height: root.currentConfig.frameHeight
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
         smooth: false
     }
 
