@@ -5105,3 +5105,15 @@
 [33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
 [33m  WARN[0m: Hyprland event socket error: QLocalSocket::PeerClosedError
 [33m  WARN[0m: The Wayland connection broke. Did the Wayland compositor die?
+[32m  INFO[0m: Launching config: "/nix/store/2ph034i4488samcf5a771l0rarhsbf1l-hm_quickshell/shell.qml"
+[32m  INFO[0m: Shell ID: "363fda069adad2fb3ac4a6c896d7df0f" Path ID "363fda069adad2fb3ac4a6c896d7df0f"
+[32m  INFO[0m: Saving logs to "/run/user/1000/quickshell/by-id/0fb1o8u7et/log.qslog"
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[32m  INFO[0m: Configuration Loaded
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating properties of org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2 via GetAll
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating properties of org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player via GetAll
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")

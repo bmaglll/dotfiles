@@ -46,11 +46,13 @@ PanelWindow {
     Item {
         anchors.fill: parent
         anchors.margins: 2
+        clip: false
 
         // ----- LEFT: workspaces -----
         RowLayout {
             id: leftRow
             spacing: 0
+            clip: false
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
 
