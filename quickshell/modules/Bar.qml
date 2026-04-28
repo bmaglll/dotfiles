@@ -21,7 +21,7 @@ PanelWindow {
     anchors.right: true
 
     color: "#00ffffff"
-    implicitHeight: 48
+    implicitHeight: 24
 
     // ---- Color & font variables ----
     QtObject {
