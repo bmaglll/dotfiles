@@ -61,6 +61,10 @@ PanelWindow {
             MprisMini {
                 vars: vars
             }
+
+            AgentBuddy {
+                vars: vars
+            }
         }
 
         // ----- CENTER: clock -----
