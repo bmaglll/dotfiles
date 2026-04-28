@@ -26,10 +26,9 @@ Item {
     property int currentFrame: 0
 
     Layout.alignment: Qt.AlignVCenter
-    readonly property int displayHeight: 24
-    readonly property real scaleFactor: displayHeight / currentConfig.frameHeight
+    readonly property real scaleFactor: 2.0
     implicitWidth: currentConfig.frameWidth * scaleFactor
-    implicitHeight: displayHeight
+    implicitHeight: currentConfig.frameHeight * scaleFactor
 
     Image {
         id: sprite
@@ -41,7 +40,7 @@ Item {
             root.currentConfig.frameHeight
         )
         width: root.currentConfig.frameWidth * root.scaleFactor
-        height: root.displayHeight
+        height: root.currentConfig.frameHeight * root.scaleFactor
         anchors.centerIn: parent
         smooth: false
     }
