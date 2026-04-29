@@ -70,7 +70,7 @@ PanelWindow {
             anchors.left: leftRow.right
             anchors.leftMargin: 4
             anchors.verticalCenter: parent.verticalCenter
-            width: Math.max(120, buddyRepeater.count * 120)
+            width: buddyRepeater.count > 0 ? 120 : 0
             height: parent.height
 
             ListModel { id: buddyModel }
@@ -105,7 +105,7 @@ PanelWindow {
                 triggeredOnStart: true
                 onTriggered: {
                     if (!buddyScanProc.running)
-                        buddyScanProc.exec({ command: ["bash", "-c", "ls /tmp/agent-buddy-* 2>/dev/null"] })
+                        buddyScanProc.exec({ command: ["bash", "-c", "find /tmp -maxdepth 1 -name 'agent-buddy-*' -newer /proc/1/cmdline 2>/dev/null | sort"] })
                 }
             }
 
