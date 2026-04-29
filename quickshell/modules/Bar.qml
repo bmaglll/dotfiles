@@ -105,7 +105,7 @@ PanelWindow {
                 triggeredOnStart: true
                 onTriggered: {
                     if (!buddyScanProc.running)
-                        buddyScanProc.exec({ command: ["bash", "-c", "find /tmp -maxdepth 1 -name 'agent-buddy-*' -newer /proc/1/cmdline 2>/dev/null | sort"] })
+                        buddyScanProc.exec({ command: ["bash", "-c", "find /tmp -maxdepth 1 -name 'agent-buddy-*' ! -name '*.pid' -newer /proc/1/cmdline 2>/dev/null | sort"] })
                 }
             }
 
