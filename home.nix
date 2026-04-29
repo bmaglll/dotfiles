@@ -54,6 +54,7 @@
     swaynotificationcenter
     ffmpeg
     fzf
+    codex
     # yazi - managed via programs.yazi below
     obs-studio
     libnotify
@@ -283,7 +284,7 @@
       scripts = {
         notification-sound = {
           exec = "bash /home/bmag/nixos-config/shell/notification-sound.sh";
-          app-name = "Claude Code";
+          app-name = "^(Claude Code|Codex)$";
         };
       };
     };
@@ -471,4 +472,3 @@
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 }
-

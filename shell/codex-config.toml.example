@@ -1,0 +1,10 @@
+model = "gpt-5.4"
+
+[features]
+codex_hooks = true
+
+[projects."/home/bmag/nixos-config"]
+trust_level = "trusted"
+
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"

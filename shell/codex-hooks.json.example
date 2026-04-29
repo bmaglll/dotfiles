@@ -1,0 +1,42 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/bmag/nixos-config/shell/codex-tmux-rename.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash /home/bmag/nixos-config/shell/codex-agent-buddy-hook.sh session_start"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/bmag/nixos-config/shell/codex-agent-buddy-hook.sh user_prompt_submit"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/bmag/nixos-config/shell/codex-notify-stop.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash /home/bmag/nixos-config/shell/codex-agent-buddy-hook.sh stop"
+          }
+        ]
+      }
+    ]
+  }
+}
