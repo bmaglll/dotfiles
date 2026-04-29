@@ -8,11 +8,30 @@ Item {
     property real walkAreaWidth: 120
     property string stateFile: "/tmp/agent-buddy-state"
 
+    // --- Configurable Timers (ms unless noted) ---
+    readonly property int cfgSleepTimeout: 30000       // idle time before sleep kicks in
+    readonly property int cfgPoseDuration: 10000        // how long pose plays when completed task
+    readonly property int cfgCringeDuration: 10000      // how long cringe plays when waiting for prompt
+    readonly property int cfgWalkMinDuration: 3000     // min walk before activity
+    readonly property int cfgWalkMaxDuration: 5000     // max walk before activity
+    readonly property int cfgActivityMinDuration: 3000 // min activity duration during work
+    readonly property int cfgActivityMaxDuration: 5000 // max activity duration during work
+    readonly property int cfgStatePollInterval: 500    // how often to check state file
+    readonly property int cfgTurnStepInterval: 100     // delay between turn animation steps
+    readonly property int cfgWalkStepInterval: 50      // delay between walk position updates
+    readonly property int cfgWalkSpeed: 1              // pixels per walk step
+
     property string activeState: "idle"
     property string nextState: ""
     property int currentFrame: 0
 
     readonly property real scaleFactor: .9
+    // Per-pack scale overrides (omit to use scaleFactor)
+    readonly property var packScale: ({
+        "agent-buddy-jolteon": .85,
+        "agent-buddy-mew": .8
+    })
+    readonly property real currentScale: packScale[currentPack] !== undefined ? packScale[currentPack] : scaleFactor
 
     // --- Sprite Pack System ---
     readonly property var packNames: [
@@ -77,7 +96,7 @@ Item {
     // --- External state from agent hooks ---
     property string externalState: "idle"
     property real lastStateChangeTime: 0
-    readonly property real sleepTimeout: 15000
+    readonly property real sleepTimeout: cfgSleepTimeout
 
     Process {
         id: stateProc
@@ -95,7 +114,7 @@ Item {
 
     Timer {
         id: statePollTimer
-        interval: 500
+        interval: root.cfgStatePollInterval
         running: true
         repeat: true
         triggeredOnStart: true
@@ -158,13 +177,13 @@ Item {
     }
 
     function scheduleWorkActivity() {
-        workActivityTimer.interval = 1000 + Math.random() * 2000
+        workActivityTimer.interval = root.cfgWalkMinDuration + Math.random() * (root.cfgWalkMaxDuration - root.cfgWalkMinDuration)
         workActivityTimer.start()
     }
 
     Timer {
         id: cringeTimer
-        interval: 5000
+        interval: root.cfgCringeDuration
         repeat: false
         onTriggered: {
             if (root.activeState === "cringe")
@@ -174,7 +193,7 @@ Item {
 
     Timer {
         id: poseTimer
-        interval: 5000
+        interval: root.cfgPoseDuration
         repeat: false
         onTriggered: {
             if (root.activeState === "pose")
@@ -189,7 +208,7 @@ Item {
             if (!root.workLoopActive) return
             var activity = root.workActivities[Math.floor(Math.random() * root.workActivities.length)]
             root.setState(activity)
-            workResumeTimer.interval = 2000 + Math.random() * 1000
+            workResumeTimer.interval = root.cfgActivityMinDuration + Math.random() * (root.cfgActivityMaxDuration - root.cfgActivityMinDuration)
             workResumeTimer.start()
         }
     }
@@ -236,8 +255,8 @@ Item {
         return 0
     }
 
-    width: currentConfig.frameWidth * scaleFactor
-    height: currentConfig.frameHeight * scaleFactor
+    width: currentConfig.frameWidth * currentScale
+    height: currentConfig.frameHeight * currentScale
     y: (parent.height - height) / 2 + (currentConfig.offsetY || 0) + packStateOffset
 
     readonly property var sleepVariants: ["sleep_sit", "sleep_curled", "sleep_sit_m", "sleep_curled_m"]
@@ -261,8 +280,8 @@ Item {
             root.currentConfig.frameWidth,
             root.currentConfig.frameHeight
         )
-        width: root.currentConfig.frameWidth * root.scaleFactor
-        height: root.currentConfig.frameHeight * root.scaleFactor
+        width: root.currentConfig.frameWidth * root.currentScale
+        height: root.currentConfig.frameHeight * root.currentScale
         smooth: false
         mirror: root.currentConfig.mirror || false
     }
@@ -279,7 +298,7 @@ Item {
 
     Timer {
         id: turnTimer
-        interval: 100
+        interval: root.cfgTurnStepInterval
         running: root.isTurning
         repeat: true
         onTriggered: {
@@ -294,11 +313,11 @@ Item {
 
     Timer {
         id: walkTimer
-        interval: 50
+        interval: root.cfgWalkStepInterval
         running: root.activeState === "walk_right" || root.activeState === "walk_left"
         repeat: true
         onTriggered: {
-            var speed = 1
+            var speed = root.cfgWalkSpeed
             if (root.activeState === "walk_right") {
                 root.x += speed
                 if (root.x >= root.walkAreaWidth - root.width) {
