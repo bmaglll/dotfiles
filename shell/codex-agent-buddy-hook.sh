@@ -5,7 +5,8 @@ INPUT=$(cat)
 SESSION_ID=$(printf '%s' "$INPUT" | jq -r '.session_id // empty')
 EVENT="${1:-}"
 SHORT_ID=${SESSION_ID: -6}
-STATE_FILE="/tmp/agent-buddy-${SHORT_ID}"
+STATE_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+STATE_FILE="${STATE_DIR}/agent-buddy-${SHORT_ID}"
 
 [ -n "$SHORT_ID" ] || exit 0
 

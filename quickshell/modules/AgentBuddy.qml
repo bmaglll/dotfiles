@@ -227,8 +227,12 @@ Item {
     }
 
     readonly property int packStateOffset: {
-        if (currentPack === "agent-buddy-mew" && (activeState === "idle" || activeState === "walk_right" || activeState === "walk_left"))
-            return 2
+        if (currentPack === "agent-buddy-mew") {
+            if (activeState === "sleep_sit" || activeState === "sleep_sit_m" || activeState === "sleep_curled" || activeState === "sleep_curled_m")
+                return 4
+            if (activeState === "idle" || activeState === "walk_right" || activeState === "walk_left" || activeState === "pose")
+                return 2
+        }
         return 0
     }
 
