@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
+import Quickshell.Io
 
 // sibling modules in the same dir
 import "."
@@ -61,9 +62,62 @@ PanelWindow {
             MprisMini {
                 vars: vars
             }
+        }
 
-            AgentBuddy {
-                vars: vars
+        // ----- Agent Buddy walk area -----
+        Item {
+            id: buddyArea
+            anchors.left: leftRow.right
+            anchors.leftMargin: 4
+            anchors.verticalCenter: parent.verticalCenter
+            width: Math.max(120, buddyRepeater.count * 120)
+            height: parent.height
+
+            ListModel { id: buddyModel }
+
+            Process {
+                id: buddyScanProc
+                stdout: StdioCollector {
+                    onStreamFinished: {
+                        var files = this.text.trim().split("\n").filter(function(f) { return f !== "" })
+                        // Remove entries no longer present
+                        for (var i = buddyModel.count - 1; i >= 0; i--) {
+                            if (files.indexOf(buddyModel.get(i).filePath) === -1)
+                                buddyModel.remove(i)
+                        }
+                        // Add new entries
+                        for (var j = 0; j < files.length; j++) {
+                            var found = false
+                            for (var k = 0; k < buddyModel.count; k++) {
+                                if (buddyModel.get(k).filePath === files[j]) { found = true; break }
+                            }
+                            if (!found)
+                                buddyModel.append({ filePath: files[j] })
+                        }
+                    }
+                }
+            }
+
+            Timer {
+                interval: 2000
+                running: true
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: {
+                    if (!buddyScanProc.running)
+                        buddyScanProc.exec({ command: ["bash", "-c", "ls /tmp/agent-buddy-* 2>/dev/null"] })
+                }
+            }
+
+            Repeater {
+                id: buddyRepeater
+                model: buddyModel
+
+                AgentBuddy {
+                    vars: vars
+                    stateFile: model.filePath
+                    walkAreaWidth: buddyArea.width
+                }
             }
         }
 
@@ -73,7 +127,7 @@ PanelWindow {
             spacing: 4
             anchors.verticalCenter: parent.verticalCenter
             x: Math.max(
-                leftRow.x + leftRow.width + 8,
+                buddyArea.x + buddyArea.width + 8,
                 Math.min(
                     (parent.width - width) / 2,
                     rightRow.x - width - 8
