@@ -5,7 +5,6 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
-import Quickshell.Io
 
 // sibling modules in the same dir
 import "."
@@ -15,6 +14,7 @@ PanelWindow {
 
     // injected by Variants in shell.qml
     required property var modelData
+    required property var buddyModel
     screen: modelData
 
     anchors.top: true
@@ -73,50 +73,25 @@ PanelWindow {
             width: buddyRepeater.count > 0 ? 120 : 0
             height: parent.height
 
-            ListModel { id: buddyModel }
-
-            Process {
-                id: buddyScanProc
-                stdout: StdioCollector {
-                    onStreamFinished: {
-                        var files = this.text.trim().split("\n").filter(function(f) { return f !== "" })
-                        // Remove entries no longer present
-                        for (var i = buddyModel.count - 1; i >= 0; i--) {
-                            if (files.indexOf(buddyModel.get(i).filePath) === -1)
-                                buddyModel.remove(i)
-                        }
-                        // Add new entries
-                        for (var j = 0; j < files.length; j++) {
-                            var found = false
-                            for (var k = 0; k < buddyModel.count; k++) {
-                                if (buddyModel.get(k).filePath === files[j]) { found = true; break }
-                            }
-                            if (!found)
-                                buddyModel.append({ filePath: files[j] })
-                        }
-                    }
+            function getSiblingPositions(excludeFile) {
+                var positions = []
+                for (var i = 0; i < buddyRepeater.count; i++) {
+                    var item = buddyRepeater.itemAt(i)
+                    if (item && item.stateFile !== excludeFile)
+                        positions.push(item.x)
                 }
-            }
-
-            Timer {
-                interval: 2000
-                running: true
-                repeat: true
-                triggeredOnStart: true
-                onTriggered: {
-                    if (!buddyScanProc.running)
-                        buddyScanProc.exec({ command: ["bash", "-c", "find /tmp -maxdepth 1 -name 'agent-buddy-*' -newer /proc/1/cmdline 2>/dev/null | sort"] })
-                }
+                return positions
             }
 
             Repeater {
                 id: buddyRepeater
-                model: buddyModel
+                model: root.buddyModel
 
                 AgentBuddy {
                     vars: vars
                     stateFile: model.filePath
                     walkAreaWidth: buddyArea.width
+                    siblingPositions: function() { return buddyArea.getSiblingPositions(model.filePath) }
                 }
             }
         }

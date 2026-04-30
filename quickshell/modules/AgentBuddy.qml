@@ -7,20 +7,22 @@ Item {
     property var vars
     property real walkAreaWidth: 120
     property string stateFile: "/tmp/agent-buddy-state"
+    property var siblingPositions: function() { return [] }
+    readonly property int cfgMinBuddySpacing: 20       // min px between buddies when stopping
 
     // --- Configurable Timers (ms unless noted) ---
-    readonly property int cfgSleepTimeout: 30000       // idle time before sleep kicks in
-    readonly property int cfgPoseDuration: 10000        // how long pose plays when completed task
-    readonly property int cfgCringeDuration: 10000      // how long cringe plays when waiting for prompt
-    readonly property int cfgWalkMinDuration: 3000     // min walk before activity
-    readonly property int cfgWalkMaxDuration: 5000     // max walk before activity
+    readonly property int cfgSleepTimeout: 60000       // idle time before sleep kicks in
+    readonly property int cfgPoseDuration: 30000        // how long pose plays when completed task
+    readonly property int cfgCringeDuration: 30000      // how long cringe plays when waiting for prompt
+    readonly property int cfgWalkMinDuration: 5000     // min walk before activity
+    readonly property int cfgWalkMaxDuration: 10000     // max walk before activity
     readonly property int cfgActivityMinDuration: 3000 // min activity duration during work
-    readonly property int cfgActivityMaxDuration: 5000 // max activity duration during work
+    readonly property int cfgActivityMaxDuration: 7000 // max activity duration during work
     readonly property int cfgStatePollInterval: 500    // how often to check state file
     readonly property int cfgTurnStepInterval: 100     // delay between turn animation steps
     readonly property int cfgWalkStepInterval: 50      // delay between walk position updates
     readonly property int cfgWalkSpeed: 1              // pixels per walk step
-    readonly property int cfgDoneRemovalDelay: 300000  // ms before removing buddy after session ends (300s = 5min)
+    readonly property int cfgDoneRemovalDelay: 60000   // ms before removing buddy after session ends (60s)
 
     property string activeState: "idle"
     property string nextState: ""
@@ -64,7 +66,15 @@ Item {
         "agent-buddy-vulpix":     { Idle: {w:32,h:32,d:[40,12,20,12]}, Walk: {w:32,h:40,d:[6,4,4,4,6]}, Sleep: {w:24,h:24,d:[30,35]}, Eat: {w:24,h:24,d:[6,8,6,8]}, Cringe: {w:24,h:56,d:[2,8]}, Pose: {w:24,h:40,d:[8,1,3,2,8]}, EventSleep: {w:24,h:24,d:[30,35]} }
     })
 
-    property int packIndex: Math.floor(Math.random() * packNames.length)
+    property int packIndex: {
+        // Deterministic hash from stateFile so all bars pick the same pack
+        var hash = 0
+        for (var i = 0; i < stateFile.length; i++) {
+            hash = ((hash << 5) - hash) + stateFile.charCodeAt(i)
+            hash |= 0
+        }
+        return Math.abs(hash) % packNames.length
+    }
     readonly property string currentPack: packNames[packIndex]
     readonly property var pack: packData[currentPack]
     readonly property string packPath: "../assets/" + currentPack + "/"
@@ -221,6 +231,11 @@ Item {
         repeat: false
         onTriggered: {
             if (!root.workLoopActive) return
+            if (root.isTooCloseToSibling()) {
+                // Too close to another buddy, keep walking a bit longer
+                root.scheduleWorkActivity()
+                return
+            }
             var activity = root.workActivities[Math.floor(Math.random() * root.workActivities.length)]
             root.setState(activity)
             workResumeTimer.interval = root.cfgActivityMinDuration + Math.random() * (root.cfgActivityMaxDuration - root.cfgActivityMinDuration)
@@ -275,6 +290,15 @@ Item {
     y: (parent.height - height) / 2 + (currentConfig.offsetY || 0) + packStateOffset
 
     readonly property var sleepVariants: ["sleep_sit", "sleep_curled", "sleep_sit_m", "sleep_curled_m"]
+
+    function isTooCloseToSibling() {
+        var positions = siblingPositions()
+        for (var i = 0; i < positions.length; i++) {
+            if (Math.abs(root.x - positions[i]) < cfgMinBuddySpacing)
+                return true
+        }
+        return false
+    }
 
     function setState(newState, next) {
         nextState = next || ""

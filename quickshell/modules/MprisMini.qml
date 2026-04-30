@@ -12,7 +12,7 @@ Item {
     visible: player !== null
 
     implicitHeight: 24
-    implicitWidth: row.implicitWidth + 16 // Implicit width relies on RowLayout width
+    implicitWidth: row.implicitWidth + 16
 
     Rectangle {
         anchors.fill: parent
@@ -129,9 +129,7 @@ Item {
         Text {
             Layout.alignment: Qt.AlignVCenter
 
-            // 🛑 FIX: Set a fixed width. Change 200 to your desired pixel width.
-            Layout.preferredWidth: 200
-            // 🛑 FIX: Removed Layout.fillWidth: true, as it conflicts with preferredWidth.
+            Layout.maximumWidth: 200
 
             text: {
                 if (!root.player) {
@@ -147,8 +145,7 @@ Item {
             font.bold: false
             color: "white"
 
-            // This ensures "..." is shown when the text exceeds the 200px width.
-            elide: Text.ElideRight 
+            elide: Text.ElideRight
             maximumLineCount: 1
             verticalAlignment: Text.AlignVCenter
         }
