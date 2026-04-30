@@ -20,6 +20,7 @@ Item {
     readonly property int cfgTurnStepInterval: 100     // delay between turn animation steps
     readonly property int cfgWalkStepInterval: 50      // delay between walk position updates
     readonly property int cfgWalkSpeed: 1              // pixels per walk step
+    readonly property int cfgDoneRemovalDelay: 300000  // ms before removing buddy after session ends (300s = 5min)
 
     property string activeState: "idle"
     property string nextState: ""
@@ -130,12 +131,25 @@ Item {
         }
     }
 
+    // --- Done removal: delete state file after timeout ---
+    Process { id: removeProc }
+    Timer {
+        id: doneRemovalTimer
+        interval: root.cfgDoneRemovalDelay
+        repeat: false
+        onTriggered: {
+            removeProc.exec({ command: ["rm", "-f", root.stateFile] })
+        }
+    }
+
     function applyExternalState(extState) {
         switch (extState) {
             case "working":
+                doneRemovalTimer.stop()
                 startWorkLoop()
                 break
             case "waiting":
+                doneRemovalTimer.stop()
                 stopWorkLoop()
                 setState("cringe")
                 cringeTimer.start()
@@ -144,6 +158,7 @@ Item {
                 stopWorkLoop()
                 setState("pose")
                 poseTimer.start()
+                doneRemovalTimer.start()
                 break
             case "sleep":
                 stopWorkLoop()

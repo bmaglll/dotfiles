@@ -139,9 +139,7 @@ Item {
                     return "No MPRIS player (len=" + len + ")";
                 }
 
-                const artist = root.player.trackArtist || "Unknown Artist";
-                const title  = root.player.trackTitle  || "Unknown Title";
-                return artist + " - " + title;
+                return root.player.trackTitle || "Unknown Title";
             }
 
             font.family: "JetBrainsMono Nerd Font"
