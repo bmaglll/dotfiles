@@ -29,12 +29,20 @@ Item {
     property int currentFrame: 0
 
     readonly property real scaleFactor: .9
-    // Per-pack scale overrides (omit to use scaleFactor)
+    // Per-pack scale overrides: number for all states, or { default, state_name } for per-state
     readonly property var packScale: ({
-        "agent-buddy-jolteon": .85,
-        "agent-buddy-mew": .8
+        "agent-buddy-jolteon": { default: .85, cringe: .75 },
+        "agent-buddy-mew": { default: .8 }
     })
-    readonly property real currentScale: packScale[currentPack] !== undefined ? packScale[currentPack] : scaleFactor
+    readonly property real currentScale: {
+        var ps = packScale[currentPack]
+        if (ps === undefined) return scaleFactor
+        if (typeof ps === "number") return ps
+        var stateKey = activeState
+        if (ps[stateKey] !== undefined) return ps[stateKey]
+        if (ps["default"] !== undefined) return ps["default"]
+        return scaleFactor
+    }
 
     // --- Sprite Pack System ---
     readonly property var packNames: [
@@ -152,33 +160,66 @@ Item {
         }
     }
 
+    // Pending state: walk away first, then apply this state once clear
+    property string pendingState: ""
+
+    function applyOrDefer(stateName) {
+        if (isTooCloseToSibling()) {
+            pendingState = stateName
+            // Walk in a random direction to get away
+            var dir = Math.random() < 0.5 ? "walk_right" : "walk_left"
+            setState(dir === "walk_right" ? "turning_right" : "turning_left", dir)
+            pendingCheckTimer.start()
+        } else {
+            pendingState = ""
+            setState(stateName)
+        }
+    }
+
+    Timer {
+        id: pendingCheckTimer
+        interval: 500
+        repeat: true
+        onTriggered: {
+            if (root.pendingState === "") { stop(); return }
+            if (!root.isTooCloseToSibling()) {
+                var ps = root.pendingState
+                root.pendingState = ""
+                root.setState(ps)
+                stop()
+            }
+        }
+    }
+
     function applyExternalState(extState) {
         switch (extState) {
             case "working":
                 doneRemovalTimer.stop()
+                pendingState = ""
+                pendingCheckTimer.stop()
                 startWorkLoop()
                 break
             case "waiting":
                 doneRemovalTimer.stop()
                 stopWorkLoop()
-                setState("cringe")
+                applyOrDefer("cringe")
                 cringeTimer.start()
                 break
             case "done":
                 stopWorkLoop()
-                setState("pose")
+                applyOrDefer("pose")
                 poseTimer.start()
                 doneRemovalTimer.start()
                 break
             case "sleep":
                 stopWorkLoop()
-                setState("sleep")
+                applyOrDefer("sleep")
                 break
             case "idle":
             default:
                 stopWorkLoop()
                 if (activeState !== "idle")
-                    setState("idle")
+                    applyOrDefer("idle")
                 break
         }
     }
