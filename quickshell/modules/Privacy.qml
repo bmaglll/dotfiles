@@ -35,10 +35,12 @@ Item {
     property bool camActive: false
 
     readonly property bool anyActive: micActive || camActive
+    readonly property bool allOff: !micHwOn && !camConnected
 
+    visible: !allOff
     Layout.alignment: Qt.AlignVCenter
-    implicitWidth: bg.width
-    implicitHeight: bg.height
+    implicitWidth: allOff ? 0 : bg.width
+    implicitHeight: allOff ? 0 : bg.height
 
     Rectangle {
         id: bg
