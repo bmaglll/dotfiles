@@ -291,6 +291,17 @@ Item {
 
     readonly property var sleepVariants: ["sleep_sit", "sleep_curled", "sleep_sit_m", "sleep_curled_m"]
 
+    Component.onCompleted: {
+        // Offset spawn position if too close to an existing buddy
+        var positions = siblingPositions()
+        for (var i = 0; i < positions.length; i++) {
+            if (Math.abs(root.x - positions[i]) < cfgMinBuddySpacing) {
+                root.x = Math.min(walkAreaWidth - width, positions[i] + cfgMinBuddySpacing)
+                break
+            }
+        }
+    }
+
     function isTooCloseToSibling() {
         var positions = siblingPositions()
         for (var i = 0; i < positions.length; i++) {

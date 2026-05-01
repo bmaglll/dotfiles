@@ -9,18 +9,23 @@ RowLayout {
     // pass from shell.qml: QtObject with colors/fonts
     property var vars
 
+    // sorted workspace IDs for sequential display
+    property var sortedWs: Hyprland.workspaces.values
+        .map(w => w.id)
+        .filter(id => id > 0)
+        .sort((a, b) => a - b)
+
     Repeater {
-        model: 5
+        model: workspacesBar.sortedWs
 
         Text {
-            property var ws: Hyprland.workspaces.values.find(w => w.id == index + 1)
-            property bool isActive: Hyprland.focusedWorkspace?.id == (index + 1)
+            required property var modelData
+            required property int index
+            property bool isActive: Hyprland.focusedWorkspace?.id == modelData
 
             text: index + 1
 
-            color: isActive
-                   ? vars.colWhite
-                   : (ws ? vars.colLightGrey : vars.colDarkGrey)
+            color: isActive ? vars.colWhite : vars.colLightGrey
 
             font.family: vars.fontFamily
             font.pixelSize: vars.iFontSz
@@ -28,7 +33,7 @@ RowLayout {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: Hyprland.dispatch("workspace " + (index + 1))
+                onClicked: Hyprland.dispatch("workspace " + modelData)
             }
         }
     }
