@@ -29,7 +29,7 @@
     clipse
     waybar
     cava
-    spotify
+    # spotify  # temporarily disabled - snapcraft CDN down
     fastfetch
     kitty
     waybar-mpris
@@ -264,9 +264,9 @@
   xdg.configFile."quickshell".source = ./quickshell;
 
 
-  # Spotify icon for system tray
-  xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source =
-    ./icons/spotify-linux-32.png;
+  # Spotify icon for system tray (temporarily disabled - snapcraft CDN down)
+  # xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source =
+  #   ./icons/spotify-linux-32.png;
 
   ###########################################################################################
   # Swaync (notification center)
