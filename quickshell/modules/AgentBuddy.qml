@@ -31,7 +31,7 @@ Item {
     readonly property real scaleFactor: .9
     // Per-pack scale overrides: number for all states, or { default, state_name } for per-state
     readonly property var packScale: ({
-        "agent-buddy-jolteon": { default: .85, cringe: .75 },
+        "agent-buddy-jolteon": { default: .8, cringe: .70 },
         "agent-buddy-mew": { default: .8 }
     })
     readonly property real currentScale: {
