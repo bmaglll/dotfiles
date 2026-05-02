@@ -134,6 +134,13 @@ PanelWindow {
                 panelWindow: root
             }
 
+            KeepAwake {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
+            }
+
             Privacy {
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
