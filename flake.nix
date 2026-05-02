@@ -31,5 +31,13 @@
         inputs.home-manager.nixosModules.default
       ];
     };
+
+    nixosConfigurations.nix-server = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./hosts/nix-server/configuration.nix
+        inputs.home-manager.nixosModules.default
+      ];
+    };
   };
 }

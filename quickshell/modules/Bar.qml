@@ -70,7 +70,7 @@ PanelWindow {
             anchors.left: leftRow.right
             anchors.leftMargin: 4
             anchors.verticalCenter: parent.verticalCenter
-            width: buddyRepeater.count > 0 ? 120 : 0
+            width: buddyRepeater.count > 0 ? 160 : 0
             height: parent.height
 
             function getSiblingPositions(excludeFile) {

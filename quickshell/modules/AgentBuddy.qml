@@ -8,7 +8,7 @@ Item {
     property real walkAreaWidth: 120
     property string stateFile: "/tmp/agent-buddy-state"
     property var siblingPositions: function() { return [] }
-    readonly property int cfgMinBuddySpacing: 25       // min px between buddies when stopping
+    readonly property int cfgMinBuddySpacing: 20       // min px between buddies when stopping
 
     // --- Configurable Timers (ms unless noted) ---
     readonly property int cfgSleepTimeout: 60000       // idle time before sleep kicks in
@@ -114,7 +114,7 @@ Item {
 
     // --- External state from agent hooks ---
     property string externalState: "idle"
-    property real lastStateChangeTime: 0
+    property real lastStateChangeTime: Date.now()
     readonly property real sleepTimeout: cfgSleepTimeout
 
     Process {
