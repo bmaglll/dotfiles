@@ -29,6 +29,8 @@ Item {
     property bool micHwOn: true         // hardware switch allows signal (fail-open)
     property bool micMuted: false       // software mute via wpctl
     property bool micActive: false      // Stream/Input/Audio exists
+    property int micHwOffStreak: 0      // consecutive "off" reads from framework-mic-switch
+    readonly property int micHwOffThreshold: 3
 
     // cam state
     property bool camConnected: false
@@ -126,7 +128,20 @@ Item {
                 root.micActive = (micMatch !== null && parseInt(micMatch[1]) > 0)
                 root.micMuted = (micMuteMatch !== null && parseInt(micMuteMatch[1]) > 0)
                 // If software muted, capture reads silence — can't detect hw switch, assume on
-                root.micHwOn = root.micMuted || !(hwSwitchMatch !== null && hwSwitchMatch[1] === "off")
+                // Otherwise debounce: require N consecutive "off" reads before declaring off,
+                // since a quiet room also reads as silence.
+                var rawHwOff = (hwSwitchMatch !== null && hwSwitchMatch[1] === "off")
+                if (root.micMuted) {
+                    root.micHwOffStreak = 0
+                    root.micHwOn = true
+                } else if (rawHwOff) {
+                    root.micHwOffStreak = root.micHwOffStreak + 1
+                    if (root.micHwOffStreak >= root.micHwOffThreshold)
+                        root.micHwOn = false
+                } else {
+                    root.micHwOffStreak = 0
+                    root.micHwOn = true
+                }
 
                 root.camConnected = (camHwMatch !== null && parseInt(camHwMatch[1]) > 0)
                 root.camActive = (vidMatch !== null && parseInt(vidMatch[1]) > 0)

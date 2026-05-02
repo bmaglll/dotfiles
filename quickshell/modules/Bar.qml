@@ -135,6 +135,7 @@ PanelWindow {
             }
 
             KeepAwake {
+                panelWindow: root
                 fontFamily: vars.fontFamily
                 fontSize: vars.iFontSz
                 hoverBg: vars.hoverBg
