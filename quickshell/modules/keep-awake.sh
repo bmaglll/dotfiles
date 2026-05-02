@@ -5,6 +5,36 @@ set -euo pipefail
 STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/quickshell-keep-awake.state"
 DEFAULT_DURATION=3600
 
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send -a "quickshell" "$1" "$2"
+  fi
+}
+
+lock_session() {
+  if command -v loginctl >/dev/null 2>&1; then
+    loginctl lock-session >/dev/null 2>&1 && return 0
+  fi
+
+  if command -v hyprlock >/dev/null 2>&1; then
+    pidof hyprlock >/dev/null 2>&1 || hyprlock >/dev/null 2>&1
+  fi
+}
+
+format_duration() {
+  local duration="$1"
+
+  if (( duration < 60 )); then
+    printf '%s seconds' "$duration"
+  elif (( duration % 3600 == 0 )); then
+    printf '%s hour%s' "$(( duration / 3600 ))" "$([[ $(( duration / 3600 )) -eq 1 ]] && echo '' || echo 's')"
+  elif (( duration % 60 == 0 )); then
+    printf '%s minutes' "$(( duration / 60 ))"
+  else
+    printf '%s seconds' "$duration"
+  fi
+}
+
 cleanup_state() {
   rm -f "$STATE_FILE"
 }
@@ -33,50 +63,71 @@ read_state() {
 cmd_start() {
   local duration="${1:-$DEFAULT_DURATION}"
   local expires_at
+  local pid
+  local mode="timed"
+  local label
 
   if read_state; then
     cmd_stop >/dev/null
   fi
 
-  expires_at=$(( $(date +%s) + duration ))
+  if [[ "$duration" == "indefinite" ]]; then
+    mode="indefinite"
+    expires_at=0
+    label="until turned off"
+  else
+    expires_at=$(( $(date +%s) + duration ))
+    label="$(format_duration "$duration")"
+  fi
 
-  (
-    child_pid=""
-
-    cleanup() {
-      if [[ -n "$child_pid" ]]; then
-        kill "$child_pid" 2>/dev/null || true
-        wait "$child_pid" 2>/dev/null || true
-      fi
-      cleanup_state
-    }
-
-    trap cleanup INT TERM EXIT
-
-    printf 'pid=%s\nexpires_at=%s\nduration=%s\n' "$$" "$expires_at" "$duration" > "$STATE_FILE"
-
+  if [[ "$mode" == "indefinite" ]]; then
     systemd-inhibit \
       --what=idle \
       --who="quickshell" \
       --why="Keep the screen awake temporarily" \
-      sleep "$duration" &
-    child_pid=$!
+      bash -lc 'while :; do sleep 3600; done' >/dev/null 2>&1 &
+    pid=$!
+  else
+    (
+      trap 'cleanup_state' EXIT
+      systemd-inhibit \
+        --what=idle \
+        --who="quickshell" \
+        --why="Keep the screen awake temporarily" \
+        bash -lc "sleep $duration; loginctl lock-session >/dev/null 2>&1 || { pidof hyprlock >/dev/null 2>&1 || hyprlock >/dev/null 2>&1; }"
+    ) >/dev/null 2>&1 &
+    pid=$!
+  fi
 
-    wait "$child_pid"
-  ) >/dev/null 2>&1 &
+  sleep 0.2
 
-  disown || true
+  if ! kill -0 "$pid" 2>/dev/null; then
+    cleanup_state
+    notify "Keep awake failed" "systemd-inhibit could not start."
+    echo failed
+    return 1
+  fi
+
+  printf 'pid=%s\nexpires_at=%s\nduration=%s\nmode=%s\n' "$pid" "$expires_at" "$duration" "$mode" > "$STATE_FILE"
+  disown "$pid" || true
+  if [[ "$mode" == "indefinite" ]]; then
+    notify "Auto-lock disabled" "Screen sleep and auto-lock are paused until you turn them back on."
+  else
+    notify "Keep awake enabled" "Screen sleep and auto-lock paused for ${label}."
+  fi
   echo started
 }
 
 cmd_stop() {
   if ! read_state; then
+    notify "Keep awake already off" "No active keep-awake timer was running."
     echo inactive
     return 0
   fi
 
   kill "$pid" 2>/dev/null || true
   cleanup_state
+  notify "Keep awake disabled" "Screen sleep and auto-lock restored."
   echo stopped
 }
 
@@ -84,7 +135,12 @@ cmd_status() {
   local now remaining
 
   if ! read_state; then
-    echo "active:0 remaining:0"
+    echo "active:0 remaining:0 mode:off"
+    return 0
+  fi
+
+  if [[ "${mode:-timed}" == "indefinite" ]]; then
+    echo "active:1 remaining:0 mode:indefinite"
     return 0
   fi
 
@@ -94,7 +150,7 @@ cmd_status() {
     remaining=0
   fi
 
-  echo "active:1 remaining:${remaining}"
+  echo "active:1 remaining:${remaining} mode:timed"
 }
 
 case "${1:-status}" in

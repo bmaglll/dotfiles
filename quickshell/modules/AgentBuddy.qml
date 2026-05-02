@@ -8,7 +8,7 @@ Item {
     property real walkAreaWidth: 120
     property string stateFile: "/tmp/agent-buddy-state"
     property var siblingPositions: function() { return [] }
-    readonly property int cfgMinBuddySpacing: 20       // min px between buddies when stopping
+    readonly property int cfgMinBuddySpacing: 25       // min px between buddies when stopping
 
     // --- Configurable Timers (ms unless noted) ---
     readonly property int cfgSleepTimeout: 60000       // idle time before sleep kicks in
@@ -333,13 +333,23 @@ Item {
     readonly property var sleepVariants: ["sleep_sit", "sleep_curled", "sleep_sit_m", "sleep_curled_m"]
 
     Component.onCompleted: {
-        // Offset spawn position if too close to an existing buddy
+        // Offset spawn position until clear of all existing buddies
         var positions = siblingPositions()
-        for (var i = 0; i < positions.length; i++) {
-            if (Math.abs(root.x - positions[i]) < cfgMinBuddySpacing) {
-                root.x = Math.min(walkAreaWidth - width, positions[i] + cfgMinBuddySpacing)
-                break
+        var maxX = Math.max(0, walkAreaWidth - width)
+        var attempts = 0
+        while (attempts < 20) {
+            var collided = false
+            for (var i = 0; i < positions.length; i++) {
+                if (Math.abs(root.x - positions[i]) < cfgMinBuddySpacing) {
+                    root.x = positions[i] + cfgMinBuddySpacing
+                    if (root.x > maxX) root.x = Math.max(0, positions[i] - cfgMinBuddySpacing)
+                    if (root.x < 0) root.x = 0
+                    collided = true
+                    break
+                }
             }
+            if (!collided) break
+            attempts++
         }
     }
 
