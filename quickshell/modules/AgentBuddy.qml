@@ -114,7 +114,7 @@ Item {
 
     // --- External state from agent hooks ---
     property string externalState: "idle"
-    property real lastStateChangeTime: Date.now()
+    property real lastStateChangeTime: 0
     readonly property real sleepTimeout: cfgSleepTimeout
 
     Process {
@@ -333,6 +333,9 @@ Item {
     readonly property var sleepVariants: ["sleep_sit", "sleep_curled", "sleep_sit_m", "sleep_curled_m"]
 
     Component.onCompleted: {
+        // Start the sleep timer at spawn so an unchanging idle buddy still naps
+        lastStateChangeTime = Date.now()
+
         // Offset spawn position until clear of all existing buddies
         var positions = siblingPositions()
         var maxX = Math.max(0, walkAreaWidth - width)
