@@ -23,12 +23,24 @@ nrs() {
   fi
 
   git push
-  if sudo nixos-rebuild switch --flake ~/nixos-config#lap-nix; then
-    notify-send -i ~/nixos-config/icons/NixOS.svg "NixOS Rebuild" "Switch successful"
-    mpv --no-video ~/nixos-config/sounds/nrs_notification.mp3 &
+
+  local host
+  host=$(hostname)
+
+  if sudo nixos-rebuild switch --flake ~/nixos-config#"$host"; then
+    if command -v notify-send >/dev/null; then
+      notify-send -i ~/nixos-config/icons/NixOS.svg "NixOS Rebuild" "Switch successful"
+    fi
+    if command -v mpv >/dev/null && [[ -f ~/nixos-config/sounds/nrs_notification.mp3 ]]; then
+      mpv --no-video ~/nixos-config/sounds/nrs_notification.mp3 &
+    fi
   else
-    notify-send -u critical -i ~/nixos-config/icons/NixOS.svg "NixOS Rebuild" "Switch failed"
-    mpv --no-video ~/nixos-config/sounds/nrs_notification.mp3 &
+    if command -v notify-send >/dev/null; then
+      notify-send -u critical -i ~/nixos-config/icons/NixOS.svg "NixOS Rebuild" "Switch failed"
+    fi
+    if command -v mpv >/dev/null && [[ -f ~/nixos-config/sounds/nrs_notification.mp3 ]]; then
+      mpv --no-video ~/nixos-config/sounds/nrs_notification.mp3 &
+    fi
   fi
 }
 
