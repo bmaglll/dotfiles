@@ -10,34 +10,24 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Hardware Flakes  
-   nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
- 
+    # Hardware Flakes
+    nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, ... }@inputs: {
-    nixosConfigurations.lap-nix = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/lap-nix/configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
+  outputs = { self, nixpkgs, nixos-hardware, ... }@inputs:
+    let
+      mkSystem = name: nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/${name}/configuration.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
+    in {
+      nixosConfigurations = {
+        lap-nix    = mkSystem "lap-nix";
+        desk-nix   = mkSystem "desk-nix";
+        server-nix = mkSystem "server-nix";
+      };
     };
-
-    nixosConfigurations.desk-nix = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/desk-nix/configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
-    };
-
-    nixosConfigurations.server-nix = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/server-nix/configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
-    };
-  };
 }

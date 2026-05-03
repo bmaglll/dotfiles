@@ -24,7 +24,7 @@
   programs.bash = {
     enable = true;
     initExtra = ''
-      source ~/nixos-config/shell/nps.sh
+      source ~/nixos-config/shell/nx.sh
       PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     '';
   };
