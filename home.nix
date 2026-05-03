@@ -29,7 +29,7 @@
     clipse
     waybar
     cava
-    # spotify  # temporarily disabled - snapcraft CDN down
+    spotify  # temporarily disabled - snapcraft CDN down
     fastfetch
     kitty
     waybar-mpris
@@ -72,7 +72,6 @@
       ps.anthropic
       ps.pygobject3
     ]))
-    # Added by Claude
   ];
   ###########################################################################################
   # Bash 
