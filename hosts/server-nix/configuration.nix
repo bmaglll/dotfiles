@@ -47,7 +47,7 @@
   users.users.bmag = {
     isNormalUser = true;
     description = "Brandon";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.bash;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIByLDb/A/HaIzdsXnpIYASxTTGKKSBSHiBCOvMmtzTs5 bmagll@proton.me"
@@ -69,7 +69,6 @@
   services.journald.extraConfig = "SystemMaxUse=500M";
 
   virtualisation.docker.enable = true;
-  users.users.bmag.extraGroups = [ "docker" ];
 
   virtualisation.oci-containers = {
     backend = "docker";
