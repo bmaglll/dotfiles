@@ -46,6 +46,18 @@
 
   security.sudo.wheelNeedsPassword = true;
 
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:bmaglll/dotfiles#nix-server";
+    flags = [ "--update-input" "nixpkgs" "-L" ];
+    dates = "04:00";
+    randomizedDelaySec = "45min";
+  };
+
+  services.fail2ban.enable = true;
+
+  services.journald.extraConfig = "SystemMaxUse=500M";
+
   environment.systemPackages = with pkgs; [
     vim
     git
