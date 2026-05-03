@@ -35,6 +35,12 @@
   # Fingerprint authentication
   services.fprintd.enable = true;
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    useRoutingFeatures = "client";
+  };
+
   environment.systemPackages = with pkgs; [
     libfprint
   ];
