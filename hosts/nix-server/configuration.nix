@@ -25,8 +25,11 @@
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
     };
-    openFirewall = true;
+    # openFirewall = true;  # disabled: SSH now only via Tailscale
+    openFirewall = false;
   };
+
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
   services.tailscale = {
     enable = true;
