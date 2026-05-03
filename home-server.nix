@@ -37,7 +37,9 @@
     extraConfig = ''
       setw -g mouse on
       bind BSpace kill-window
-      set -g status-style "bg=#b388ff,fg=#000000"
+      set -g status-style "bg=#ff5555,fg=#000000"
+      set -g status-left "#[bg=#ff0000,fg=#ffffff,bold] SERVER #[default] "
+      set -g status-left-length 20
       set -g status-right ""
       set -g renumber-windows on
       set -g allow-passthrough on
