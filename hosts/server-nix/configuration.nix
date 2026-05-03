@@ -12,7 +12,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "nix-server";
+  networking.hostName = "server-nix";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Chicago";
@@ -51,7 +51,7 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "github:bmaglll/dotfiles#nix-server";
+    flake = "github:bmaglll/dotfiles#server-nix";
     flags = [ "--update-input" "nixpkgs" "-L" ];
     dates = "04:00";
     randomizedDelaySec = "45min";
