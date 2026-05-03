@@ -48,6 +48,7 @@
   programs.yazi = {
     enable = true;
     enableBashIntegration = true;
+    shellWrapperName = "yy";
     plugins = {
       smart-enter = pkgs.writeTextFile {
         name = "smart-enter";
@@ -86,12 +87,13 @@
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
+    withRuby = false;
+    withPython3 = false;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
     extraConfig = "";
-  };
-  xdg.configFile."nvim".source = ./nvim;
+  };  xdg.configFile."nvim".source = ./nvim;
 
   programs.home-manager.enable = true;
 }
