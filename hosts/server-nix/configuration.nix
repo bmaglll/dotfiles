@@ -18,6 +18,15 @@
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchExternalPower = "ignore";
+    lidSwitchDocked = "ignore";
+  };
+
+  powerManagement.enable = false;
+  services.power-profiles-daemon.enable = false;
+
   services.openssh = {
     enable = true;
     settings = {
