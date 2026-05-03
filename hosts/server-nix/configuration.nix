@@ -38,8 +38,6 @@
     openFirewall = false;
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
-
   services.tailscale = {
     enable = true;
     openFirewall = true;
@@ -69,6 +67,28 @@
   services.fail2ban.enable = true;
 
   services.journald.extraConfig = "SystemMaxUse=500M";
+
+  virtualisation.docker.enable = true;
+  users.users.bmag.extraGroups = [ "docker" ];
+
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers.homeassistant = {
+      image = "ghcr.io/home-assistant/home-assistant:stable";
+      volumes = [
+        "/var/lib/hass:/config"
+        "/etc/localtime:/etc/localtime:ro"
+        "/run/dbus:/run/dbus:ro"
+      ];
+      extraOptions = [
+        "--network=host"
+        "--privileged"
+      ];
+      autoStart = true;
+    };
+  };
+
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 8123 ];
 
   environment.systemPackages = with pkgs; [
     vim
