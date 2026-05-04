@@ -14,9 +14,6 @@ Item {
     property color colNormal: "#8f8f8f"
     property color colActive: "#ffaa00"
     property color colIndefinite: "#ff5555"
-    property color colInactiveBg: Qt.rgba(1, 1, 1, 0.05)
-    property color colActiveBg: Qt.rgba(1, 170 / 255, 0, 0.10)
-    property color colIndefiniteBg: Qt.rgba(1, 0.2, 0.2, 0.12)
 
     property color hoverBg: "transparent"
     property int hoverRadius: 10
@@ -29,14 +26,6 @@ Item {
     property bool active: false
     property int remainingSeconds: 0
     property string mode: "off"
-
-    readonly property color effectiveBg: {
-        if (mouse.containsMouse)
-            return root.hoverBg
-        if (root.mode === "indefinite")
-            return root.colIndefiniteBg
-        return root.active ? root.colActiveBg : root.colInactiveBg
-    }
 
     readonly property string helperScript: Qt.resolvedUrl("keep-awake.sh").toString().replace("file://", "")
     readonly property string remainingLabel: {
@@ -63,8 +52,7 @@ Item {
         width: row.implicitWidth + root.paddingH * 2
         height: row.implicitHeight + root.paddingV * 2
         radius: root.hoverRadius
-        color: root.effectiveBg
-        opacity: root.active ? 1.0 : 0.6
+        color: mouse.containsMouse ? root.hoverBg : "transparent"
 
         MouseArea {
             id: mouse
