@@ -1,0 +1,140 @@
+[32m  INFO[0m: Launching config: "/nix/store/qwg7n1mkgnpxbn3f1viv6nnv91q2ifw9-hm_quickshell/shell.qml"
+[32m  INFO[0m: Shell ID: "7e3006f4673b7fb57ff7e433342cc493" Path ID "7e3006f4673b7fb57ff7e433342cc493"
+[32m  INFO[0m: Saving logs to "/run/user/1000/quickshell/by-id/vjb5mkhet/log.qslog"
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[32m  INFO[0m: Configuration Loaded
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.firefox.instance_1_169/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("org.freedesktop.DBus.Error.ServiceUnknown", "The name is not activatable")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.firefox.instance_1_169/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("org.freedesktop.DBus.Error.ServiceUnknown", "The name is not activatable")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.firefox.instance_1_169/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("org.freedesktop.DBus.Error.ServiceUnknown", "The name is not activatable")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanControl
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanGoNext
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanGoPrevious
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanPause
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanPlay
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanSeek
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Shuffle
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Metadata
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:MaximumRate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:MinimumRate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Rate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Volume
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:LoopStatus
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:PlaybackStatus
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:SupportedMimeTypes
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:SupportedUriSchemes
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:CanQuit
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:CanRaise
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:DesktopEntry
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:Identity
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: @modules/AgentBuddy.qml[311:5]: Unable to assign [undefined] to int
+[33m  WARN[97m scene[0m: @modules/AgentBuddy.qml[311:5]: Unable to assign [undefined] to int
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `width` is deprecated. Set `implicitWidth` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/KeepAwake.qml[91:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m scene[0m: QML PopupWindow at @modules/Screenshot.qml[49:5]: Setting `height` is deprecated. Set `implicitHeight` instead.
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanControl
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanGoNext
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanGoPrevious
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanPause
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanPlay
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:CanSeek
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Shuffle
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Metadata
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:MaximumRate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:MinimumRate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Rate
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Volume
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:Position
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:LoopStatus
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2.Player:PlaybackStatus
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:SupportedMimeTypes
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:SupportedUriSchemes
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:CanQuit
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:CanRaise
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:DesktopEntry
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[97m quickshell.dbus.properties[0m: Error updating property org.mpris.MediaPlayer2.playerctld/org/mpris/MediaPlayer2/org.mpris.MediaPlayer2:Identity
+[33m  WARN[97m quickshell.dbus.properties[0m: QDBusError("com.github.altdesktop.playerctld.NoActivePlayer", "No player is being controlled by playerctld")
+[33m  WARN[0m: Searching custom icon paths is not yet supported. Icon path will be ignored for "unifi-cams?path=/tmp/unifi-cams-icons"
+[33m  WARN[0m: Could not load icon "unifi-cams?path=/tmp/unifi-cams-icons" at size QSize(100, 100) from request
+[33m  WARN[0m: Hyprland event socket error: QLocalSocket::PeerClosedError
+[33m  WARN[0m: The Wayland connection broke. Did the Wayland compositor die?
