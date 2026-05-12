@@ -37,15 +37,13 @@
 
   # Workaround for mt7921e hanging on resume ("PM: failed to restore async: error -110").
   # Reload the module after wake so wifi recovers without a manual reconnect.
-  systemd.services.mt7921e-resume-fix = {
-    description = "Reload mt7921e after resume (MT7922 suspend bug workaround)";
-    wantedBy = [ "post-resume.target" ];
-    after = [ "post-resume.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.kmod}/bin/rmmod mt7921e || true; ${pkgs.kmod}/bin/modprobe mt7921e'";
-    };
-  };
+  # Uses powerManagement.resumeCommands because it fires on both suspend and hibernation
+  # resume; an earlier attempt with a `post-resume.target`-bound service silently never ran
+  # because that target does not exist in systemd.
+  powerManagement.resumeCommands = ''
+    ${pkgs.kmod}/bin/rmmod mt7921e || true
+    ${pkgs.kmod}/bin/modprobe mt7921e
+  '';
 
   services.tailscale = {
     enable = true;
