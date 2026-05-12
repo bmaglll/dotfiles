@@ -54,13 +54,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # mDNS for network printer discovery (Canon TS3700 etc.)
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
