@@ -65,7 +65,7 @@
     mpv
     gh
     obs-studio
-    blueman
+    bluetui
 
     # Python environment with packages
     (python312.withPackages (ps: [
