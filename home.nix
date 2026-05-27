@@ -65,6 +65,7 @@
     mpv
     gh
     obs-studio
+    blueman
 
     # Python environment with packages
     (python312.withPackages (ps: [
