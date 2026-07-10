@@ -3,30 +3,23 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../common/baseline.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config.allowUnfree = true;
-
   networking.hostName = "server-nix";
-  networking.networkmanager.enable = true;
 
-  time.timeZone = "America/Chicago";
-  i18n.defaultLocale = "en_US.UTF-8";
-
+  # Headless: never react to lid switches (device is a laptop with lid closed)
   services.logind.settings.Login = {
     HandleLidSwitch = "ignore";
     HandleLidSwitchExternalPower = "ignore";
     HandleLidSwitchDocked = "ignore";
   };
 
+  # No sleep, no power profiles
   powerManagement.enable = false;
   services.power-profiles-daemon.enable = false;
 
+  # SSH: key-only, no root, closed to non-tailscale interfaces
   services.openssh = {
     enable = true;
     settings = {
@@ -34,20 +27,13 @@
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
     };
-    # openFirewall = true;  # disabled: SSH now only via Tailscale
+    # SSH is exposed only via tailscale0 (see firewall rule below)
     openFirewall = false;
   };
 
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    useRoutingFeatures = "client";
-  };
-
+  # Server-specific user bits (merges with common/baseline.nix's users.users.bmag)
   users.users.bmag = {
-    isNormalUser = true;
-    description = "Brandon";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "docker" ];
     shell = pkgs.bash;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIByLDb/A/HaIzdsXnpIYASxTTGKKSBSHiBCOvMmtzTs5 bmagll@proton.me"
@@ -68,6 +54,7 @@
 
   services.journald.extraConfig = "SystemMaxUse=500M";
 
+  # Docker + Home Assistant container
   virtualisation.docker.enable = true;
 
   virtualisation.oci-containers = {
@@ -87,16 +74,17 @@
     };
   };
 
+  # Only expose SSH + Home Assistant on tailscale0
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 8123 ];
 
+  # Server-specific packages (list-merges with baseline's [vim git])
   environment.systemPackages = with pkgs; [
-    vim
-    git
     curl
     wget
     htop
   ];
 
+  # Home-Manager: baseline only (no desktop overlay on the server)
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
