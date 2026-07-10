@@ -4,7 +4,7 @@
   imports =
     [
       # Shared config
-      ../../common/configuration.nix
+      ../../baseline/configuration.nix
       # Hardware (generate on tower with: nixos-generate-config)
       ./hardware-configuration.nix
     ];

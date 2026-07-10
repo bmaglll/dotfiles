@@ -1,10 +1,18 @@
 { config, pkgs, ... }:
 
+# Home-Manager baseline: shared by EVERY host (desktops + server).
+# Desktop-only additions live in ./desktop.nix, which the desktop hosts
+# import on top of this file. The server imports this file alone.
 {
   home.username = "bmag";
   home.homeDirectory = "/home/bmag";
   home.stateVersion = "25.11";
 
+  home.sessionPath = [ "$HOME/bin" ];
+
+  ###########################################################################################
+  # Shared CLI packages
+  ###########################################################################################
   home.packages = with pkgs; [
     btop
     fzf
@@ -19,8 +27,9 @@
     claude-code
   ];
 
-  home.sessionPath = [ "$HOME/bin" ];
-
+  ###########################################################################################
+  # Bash
+  ###########################################################################################
   programs.bash = {
     enable = true;
     initExtra = ''
@@ -29,6 +38,9 @@
     '';
   };
 
+  ###########################################################################################
+  # tmux (amber status bar; desktop overlay overrides with the host-aware version)
+  ###########################################################################################
   programs.tmux = {
     enable = true;
     keyMode = "vi";
@@ -45,6 +57,9 @@
     '';
   };
 
+  ###########################################################################################
+  # Yazi (file manager)
+  ###########################################################################################
   programs.yazi = {
     enable = true;
     enableBashIntegration = true;
@@ -84,6 +99,9 @@
     };
   };
 
+  ###########################################################################################
+  # neovim
+  ###########################################################################################
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
@@ -92,8 +110,13 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    extraPackages = with pkgs; [
+      wl-clipboard
+    ];
+    # IMPORTANT: stop using extraConfig once you're using init.lua
     extraConfig = "";
-  };  xdg.configFile."nvim".source = ./nvim;
+  };
+  xdg.configFile."nvim".source = ../nvim;
 
   programs.home-manager.enable = true;
 }

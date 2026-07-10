@@ -103,9 +103,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    users = {
-      "bmag" = import ../home.nix;
-    };
+    users."bmag".imports = [ ../home/baseline.nix ../home/desktop.nix ];
   };
 
   # Programs

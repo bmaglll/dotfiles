@@ -1,18 +1,18 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+# Home-Manager desktop overlay (Hyprland, GUI apps, bar, launcher, ...).
+# Imported on top of ./baseline.nix by the desktop hosts. The server does
+# NOT import this file.
 {
-  home.username = "bmag";
-  home.homeDirectory = "/home/bmag";
-  home.stateVersion = "25.11";
   ###########################################################################################
-  # User packages
+  # Desktop packages
   ###########################################################################################
   home.packages = with pkgs; [
     # Framework mic hardware switch detector
     (stdenv.mkDerivation {
       pname = "framework-mic-switch";
       version = "1.0.0";
-      src = ./quickshell/tools;
+      src = ../quickshell/tools;
       buildInputs = [ alsa-lib ];
       buildPhase = ''
         $CC -O2 -Wall -o framework-mic-switch framework-mic-switch.c -lasound
@@ -30,19 +30,15 @@
     waybar
     cava
     spotify  # temporarily disabled - snapcraft CDN down
-    fastfetch
     kitty
     waybar-mpris
     slurp
     playerctl
     grim
     grimblast
-    tmux
-    btop
     discord
     hyprpaper
     hyprsunset
-    wl-clipboard
     rose-pine-hyprcursor
     libgcc
     quickshell
@@ -53,18 +49,12 @@
     hyprshot
     swaynotificationcenter
     ffmpeg
-    fzf
     codex
-    # yazi - managed via programs.yazi below
     obs-studio
     libnotify
-    jq
     chromium
-    claude-code
     moonlight-qt
     mpv
-    gh
-    obs-studio
     bluetui
 
     # Python environment with packages
@@ -74,46 +64,32 @@
       ps.pygobject3
     ]))
   ];
+
   ###########################################################################################
-  # Bash 
+  # Bash (desktop extras on top of baseline)
   ###########################################################################################
-  home.sessionPath = [ "$HOME/bin" ];
-
-  programs.bash = {
-    enable = true;
-
-    shellAliases = {
-      lucas-cam = "~/projects/personal/unifi-cams/unifi-stream.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
-    };
-
-    # nrs: commit + push + rebuild
-    initExtra = ''
-    source ~/nixos-config/shell/nx.sh
+  programs.bash.shellAliases = {
+    lucas-cam = "~/projects/personal/unifi-cams/unifi-stream.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
+  };
+  programs.bash.initExtra = lib.mkAfter ''
     export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/1000/hypr/ 2>/dev/null | head -1)
-    PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
   '';
-  };
+
   ###########################################################################################
-  # neovim
+  # tmux (fancy host-aware bar — overrides baseline's amber definition)
   ###########################################################################################
-  programs.tmux = {
-  enable = true;
-  keyMode = "vi";
-  mouse = true;
-  shortcut = "space";
-  baseIndex = 1;
-  extraConfig = ''
-  setw -g mouse on
-  bind BSpace kill-window
-  set -g status-style 'bg=#{?#{==:#{pane_current_command},ssh},#ff5555,#{?#{==:#h,desk-nix},#00c8c8,#b388ff}},fg=#000000'
-  set -g status-left '#{?#{==:#{pane_current_command},ssh},#[bg=#ff0000#,fg=#ffffff#,bold] SSH #[default] ,}'
-  set -g status-left-length 20
-  set -g status-right ""
-  set -g renumber-windows on
-  set -as terminal-features ",xterm-ghostty:sync"
-  set -g allow-passthrough on
+  programs.tmux.extraConfig = lib.mkForce ''
+    setw -g mouse on
+    bind BSpace kill-window
+    set -g status-style 'bg=#{?#{==:#{pane_current_command},ssh},#ff5555,#{?#{==:#h,desk-nix},#00c8c8,#b388ff}},fg=#000000'
+    set -g status-left '#{?#{==:#{pane_current_command},ssh},#[bg=#ff0000#,fg=#ffffff#,bold] SSH #[default] ,}'
+    set -g status-left-length 20
+    set -g status-right ""
+    set -g renumber-windows on
+    set -as terminal-features ",xterm-ghostty:sync"
+    set -g allow-passthrough on
   '';
-  };
+
   ###########################################################################################
   # Ghostty
   ###########################################################################################
@@ -126,80 +102,25 @@
     };
   };
   xdg.configFile."ghostty/config".force = true;
+
   ###########################################################################################
-  # Yazi (file manager)
+  # Yazi (desktop opener rules on top of baseline)
   ###########################################################################################
-  programs.yazi = {
-    enable = true;
-    enableBashIntegration = true;
-    shellWrapperName = "yy";
-    plugins = {
-      smart-enter = pkgs.writeTextFile {
-        name = "smart-enter";
-        destination = "/main.lua";
-        text = ''
-          --- @sync entry
-          return {
-            entry = function(state)
-              local h = cx.active.current.hovered
-              if h and h.cha.is_dir then
-                ya.emit("enter", {})
-              else
-                ya.emit("open", {})
-              end
-            end,
-          }
-        '';
-      };
-    };
-    keymap = {
-      mgr.prepend_keymap = [
-        { on = ["<Enter>"]; run = "plugin smart-enter"; desc = "Enter directory or open file"; }
+  programs.yazi.settings = {
+    opener = {
+      browser = [
+        { run = ''chromium %s''; desc = "Open in Chromium"; orphan = true; }
       ];
     };
-    settings = {
-      mgr = {
-        sort_by = "mtime";
-        sort_reverse = true;
-        show_hidden = true;
-        ratio = [2 4 3];
-        linemode = "mtime";
-      };
-      opener = {
-        browser = [
-          { run = ''chromium %s''; desc = "Open in Chromium"; orphan = true; }
-        ];
-      };
-      open = {
-        prepend_rules = [
-          { url = "*.html"; use = ["browser"]; }
-          { url = "*.htm"; use = ["browser"]; }
-          { mime = "text/html"; use = ["browser"]; }
-        ];
-      };
+    open = {
+      prepend_rules = [
+        { url = "*.html"; use = ["browser"]; }
+        { url = "*.htm"; use = ["browser"]; }
+        { mime = "text/html"; use = ["browser"]; }
+      ];
     };
   };
-  ###########################################################################################
-  # neovim
-  ###########################################################################################
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-unwrapped;
-    withRuby = false;
-    withPython3 = false;
 
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  
-    extraPackages = with pkgs; [
-      wl-clipboard
-    ];
-  
-    # IMPORTANT: stop using extraConfig once you're using init.lua
-    extraConfig = "";
-  };
-  xdg.configFile."nvim".source = ./nvim;
   ###########################################################################################
   # Hyprland
   ###########################################################################################
@@ -208,15 +129,14 @@
     package = null;
     portalPackage = null;
 
-    settings = import ./hyprland/hyprland-conf.nix;
+    settings = import ../hyprland/hyprland-conf.nix;
   };
   ###########################################################################################
   # Hyprlock
   ###########################################################################################
   programs.hyprlock = {
     enable = true;
-    settings = import ./hyprland/hyprlock.nix;
-
+    settings = import ../hyprland/hyprlock.nix;
   };
   ###########################################################################################
   # Hypridle
@@ -266,12 +186,11 @@
   ###########################################################################################
   # Quickshell config (bar)
   ###########################################################################################
-  xdg.configFile."quickshell".source = ./quickshell;
-
+  xdg.configFile."quickshell".source = ../quickshell;
 
   # Spotify icon for system tray (temporarily disabled - snapcraft CDN down)
   # xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source =
-  #   ./icons/spotify-linux-32.png;
+  #   ../icons/spotify-linux-32.png;
 
   ###########################################################################################
   # Swaync (notification center)
@@ -473,7 +392,4 @@
   home.sessionVariables = {
     HYPRSHOT_DIR = "$HOME/Pictures/Screenshots";
   };
-
-  # Let Home Manager manage itself
-  programs.home-manager.enable = true;
 }

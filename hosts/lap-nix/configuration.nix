@@ -4,7 +4,7 @@
   imports =
     [
       # Shared config
-      ../../common/configuration.nix
+      ../../baseline/configuration.nix
       # Hardware
       ./hardware-configuration.nix
       ./laptop_gpu.nix
