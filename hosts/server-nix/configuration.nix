@@ -101,7 +101,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    users.bmag = import ../../home-server.nix;
+    users.bmag.imports = [ ../../home/baseline.nix ];
   };
 
   system.stateVersion = "25.11";
