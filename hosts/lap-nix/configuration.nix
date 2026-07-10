@@ -4,7 +4,8 @@
   imports =
     [
       # Shared config
-      ../../baseline/configuration.nix
+      ../../common/baseline.nix
+      ../../common/desktop.nix
       # Hardware
       ./hardware-configuration.nix
       ./laptop_gpu.nix
@@ -44,12 +45,6 @@
     ${pkgs.kmod}/bin/rmmod mt7921e || true
     ${pkgs.kmod}/bin/modprobe mt7921e
   '';
-
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    useRoutingFeatures = "client";
-  };
 
   environment.systemPackages = with pkgs; [
     libfprint
