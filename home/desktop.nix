@@ -56,6 +56,7 @@
     moonlight-qt
     mpv
     bluetui
+    wl-clipboard
 
     # Python environment with packages
     (python312.withPackages (ps: [
@@ -66,11 +67,13 @@
   ];
 
   ###########################################################################################
+  # Neovim clipboard provider (Wayland-only; list-merges with baseline's extraPackages)
+  ###########################################################################################
+  programs.neovim.extraPackages = with pkgs; [ wl-clipboard ];
+
+  ###########################################################################################
   # Bash (desktop extras on top of baseline)
   ###########################################################################################
-  programs.bash.shellAliases = {
-    lucas-cam = "~/projects/personal/unifi-cams/unifi-stream.sh 'rtsps://192.168.1.1:7441/bnwQ109pDsCuY3kf?enableSrtp'";
-  };
   programs.bash.initExtra = lib.mkAfter ''
     export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/1000/hypr/ 2>/dev/null | head -1)
   '';

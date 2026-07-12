@@ -22,7 +22,6 @@
     eza
     jq
     gh
-    wl-clipboard
     fastfetch
     claude-code
   ];
@@ -33,7 +32,7 @@
   programs.bash = {
     enable = true;
     initExtra = ''
-      source ~/nixos-config/shell/nx.sh
+      source ${../shell/nx.sh}
       PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     '';
   };
@@ -110,9 +109,7 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-    extraPackages = with pkgs; [
-      wl-clipboard
-    ];
+    extraPackages = with pkgs; [ ];
     # IMPORTANT: stop using extraConfig once you're using init.lua
     extraConfig = "";
   };

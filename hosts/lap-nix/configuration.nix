@@ -61,4 +61,9 @@
       fprintAuth = true;
     };
   };
+
+  # Pins on-disk state semantics to the release this machine was initialized
+  # against. Preserving the previously-inherited value from common/desktop.nix
+  # so behavior does not change. Do not bump without reading the release notes.
+  system.stateVersion = "25.05";
 }
