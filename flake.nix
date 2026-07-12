@@ -12,6 +12,12 @@
     };
     # Hardware Flakes
     nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
+
+    # NixOS-WSL for WSL host
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixos-hardware, ... }@inputs:
@@ -29,6 +35,7 @@
         lap-nix    = mkSystem "lap-nix";
         desk-nix   = mkSystem "desk-nix";
         server-nix = mkSystem "server-nix";
+        wsl-nix    = mkSystem "wsl-nix";
       };
     };
 }

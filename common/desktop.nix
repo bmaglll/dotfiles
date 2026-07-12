@@ -110,6 +110,4 @@
   systemd.sleep.settings.Sleep = {
     HibernateDelaySec = "90min";
   };
-
-  system.stateVersion = "25.05";
 }
