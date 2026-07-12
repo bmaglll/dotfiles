@@ -28,5 +28,16 @@
     users.bmag.imports = [ ../../home/baseline.nix ];
   };
 
+  # Nightly auto-upgrade. WSL is only running while Windows is on, so the
+  # systemd timer's Persistent=true default catches up on next WSL start
+  # if 04:00 was missed.
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:bmaglll/dotfiles#wsl-nix";
+    flags = [ "--update-input" "nixpkgs" "-L" ];
+    dates = "04:00";
+    randomizedDelaySec = "45min";
+  };
+
   system.stateVersion = "25.11";
 }
