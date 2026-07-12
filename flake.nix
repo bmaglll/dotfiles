@@ -21,6 +21,7 @@
         modules = [
           ./hosts/${name}/configuration.nix
           inputs.home-manager.nixosModules.default
+          { system.configurationRevision = self.rev or self.dirtyRev or "dirty"; }
         ];
       };
     in {
