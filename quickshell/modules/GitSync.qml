@@ -105,7 +105,7 @@ Item {
             id: closeTimer
             interval: 180
             onTriggered: {
-                if (!mouse.containsMouse && !popupHover.containsMouse)
+                if (!mouse.containsMouse && !popupHover.containsMouse && !commitMouse.containsMouse)
                     popup.visible = false
             }
         }
@@ -114,7 +114,7 @@ Item {
             id: iconText
             anchors.centerIn: parent
             font.family: root.fontFamily
-            font.pixelSize: root.fontSize
+            font.pixelSize: root.fontSize + 2
             font.bold: true
             color: root.statusColor
             text: ""
@@ -192,7 +192,7 @@ Item {
                     width: menuColumn.width
                     height: commitCol.implicitHeight + 12
                     radius: 8
-                    color: commitMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : "transparent"
+                    color: "transparent"
 
                     Column {
                         id: commitCol
@@ -227,6 +227,12 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         acceptedButtons: Qt.NoButton
+                        onContainsMouseChanged: {
+                            if (containsMouse)
+                                closeTimer.stop()
+                            else
+                                closeTimer.restart()
+                        }
                     }
                 }
             }
