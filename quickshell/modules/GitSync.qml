@@ -90,8 +90,24 @@ Item {
             id: mouse
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: popup.visible = !popup.visible
+            acceptedButtons: Qt.NoButton
+            onContainsMouseChanged: {
+                if (containsMouse) {
+                    closeTimer.stop()
+                    popup.visible = true
+                } else {
+                    closeTimer.restart()
+                }
+            }
+        }
+
+        Timer {
+            id: closeTimer
+            interval: 180
+            onTriggered: {
+                if (!mouse.containsMouse && !popupHover.containsMouse)
+                    popup.visible = false
+            }
         }
 
         Text {
@@ -131,6 +147,20 @@ Item {
             radius: 12
             border.width: 2
             border.color: Qt.rgba(205 / 255, 214 / 255, 244 / 255, 0.2)
+
+            MouseArea {
+                id: popupHover
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.NoButton
+                z: -1
+                onContainsMouseChanged: {
+                    if (containsMouse)
+                        closeTimer.stop()
+                    else
+                        closeTimer.restart()
+                }
+            }
 
             Column {
                 id: menuColumn
