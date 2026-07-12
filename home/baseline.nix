@@ -34,6 +34,12 @@
     initExtra = ''
       source ${../shell/nx.sh}
       PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+      # On SSH login, attach to (or create) the "Main" tmux session.
+      # No-op for local Hyprland shells since SSH_CONNECTION is unset there.
+      if [[ -z "$TMUX" && -n "$SSH_CONNECTION" ]]; then
+        exec tmux new-session -A -s Main
+      fi
     '';
   };
 
