@@ -62,14 +62,6 @@ PanelWindow {
             MprisMini {
                 vars: vars
             }
-
-            GitSync {
-                fontFamily: vars.fontFamily
-                fontSize: vars.iFontSz
-                hoverBg: vars.hoverBg
-                hoverRadius: vars.hoverRadius
-                panelWindow: root
-            }
         }
 
         // ----- Agent Buddy walk area -----
@@ -139,6 +131,14 @@ PanelWindow {
             anchors.verticalCenter: parent.verticalCenter
 
             Tray {
+                panelWindow: root
+            }
+
+            GitSync {
+                fontFamily: vars.fontFamily
+                fontSize: vars.iFontSz
+                hoverBg: vars.hoverBg
+                hoverRadius: vars.hoverRadius
                 panelWindow: root
             }
 
