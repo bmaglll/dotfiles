@@ -14,6 +14,24 @@
 
   networking.hostName = "wsl-nix";
 
+  # SSH: key-only, exposed only on tailscale0 (same pattern as server-nix).
+  # Lets lap-nix `ssh bmag@wsl-nix` over the tailnet to drive the Windows tower.
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
+    openFirewall = false;
+  };
+
+  users.users.bmag.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIByLDb/A/HaIzdsXnpIYASxTTGKKSBSHiBCOvMmtzTs5 bmagll@proton.me"
+  ];
+
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+
   # Override baseline's physical-host assumptions — WSL handles these itself
   boot.loader.systemd-boot.enable      = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
