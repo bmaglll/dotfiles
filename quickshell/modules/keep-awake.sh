@@ -82,7 +82,7 @@ cmd_start() {
 
   if [[ "$mode" == "indefinite" ]]; then
     systemd-inhibit \
-      --what=idle \
+      --what=idle:sleep:handle-lid-switch \
       --who="quickshell" \
       --why="Keep the screen awake temporarily" \
       bash -lc 'while :; do sleep 3600; done' >/dev/null 2>&1 &
@@ -91,7 +91,7 @@ cmd_start() {
     (
       trap 'cleanup_state' EXIT
       systemd-inhibit \
-        --what=idle \
+        --what=idle:sleep:handle-lid-switch \
         --who="quickshell" \
         --why="Keep the screen awake temporarily" \
         bash -lc "sleep $duration; loginctl lock-session >/dev/null 2>&1 || { pidof hyprlock >/dev/null 2>&1 || hyprlock >/dev/null 2>&1; }"
