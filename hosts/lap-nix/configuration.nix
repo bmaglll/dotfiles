@@ -57,10 +57,7 @@
     greetd = {
       fprintAuth = true;
     };
-    # hyprlock = {
-    #   fprintAuth = true;
-    # };
-    waylock = {
+    hyprlock = {
       fprintAuth = true;
     };
   };
