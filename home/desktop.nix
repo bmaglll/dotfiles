@@ -137,10 +137,10 @@
   ###########################################################################################
   # Hyprlock
   ###########################################################################################
-  programs.hyprlock = {
-    enable = true;
-    settings = import ../hyprland/hyprlock.nix;
-  };
+  # programs.hyprlock = {
+  #   enable = true;
+  #   settings = import ../hyprland/hyprlock.nix;
+  # };
   ###########################################################################################
   # Hypridle
   ###########################################################################################
@@ -149,7 +149,8 @@
 
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
+        # lock_cmd = "pidof hyprlock || hyprlock";
+        lock_cmd = "pidof waylock || waylock";
         before_sleep_cmd = "loginctl lock-session";
         after_sleep_cmd = "hyprctl dispatch dpms on";
         inhibit_if_fullscreen = true;
@@ -158,7 +159,8 @@
       listener = [
         {
           timeout = 600;
-          on-timeout = "pidof hyprlock || hyprlock";
+          # on-timeout = "pidof hyprlock || hyprlock";
+          on-timeout = "pidof waylock || waylock";
           on-resume = "";
         }
         {

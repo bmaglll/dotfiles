@@ -149,7 +149,8 @@
       "$mainMod, Space, exec, pkill wofi || $menu"
       "$mainMod, period, exec, ghostty --class=ghostty.emoji -e bash ~/nixos-config/shell/emoji-picker.sh"
       "$mainMod, F, fullscreen, 1"
-      "SUPER, L, exec, hyprlock"
+      # "SUPER, L, exec, hyprlock"
+      "SUPER, L, exec, waylock"
       # Unifi camera dashboard
       "$mainMod SHIFT, U, exec, bash -lc ~/projects/personal/unifi-cams/unifi-dashboard.sh"
       ];
