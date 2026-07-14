@@ -82,8 +82,7 @@
 
   # Desktop-only system packages (list-merges with baseline's [vim git])
   environment.systemPackages = with pkgs; [
-    # hyprlock
-    waylock
+    hyprlock
     hypridle
   ];
 
