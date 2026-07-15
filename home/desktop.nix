@@ -59,6 +59,8 @@
     wl-clipboard
 
     # Python environment with packages
+    # TODO: remove inline-snapshot override once nixpkgs fixes upstream test_docs.py drift (added 2026-07-14).
+    # Check with: nix build --no-link nixpkgs#python312Packages.inline-snapshot
     (let
       python = pkgs.python312.override {
         packageOverrides = pyself: pysuper: {
@@ -153,7 +155,9 @@
     package = null;
     portalPackage = null;
 
-    settings = import ../hyprland/hyprland-conf.nix;
+    # hyprlang is deprecated since Hyprland 0.55; config is now Lua.
+    configType = "lua";
+    extraConfig = builtins.readFile ../hyprland/hyprland.lua;
   };
   ###########################################################################################
   # Hyprlock
