@@ -114,6 +114,19 @@
       browser = [
         { run = ''chromium %s''; desc = "Open in Chromium"; orphan = true; }
       ];
+      # Override yazi's default `edit` opener (which runs $EDITOR in the
+      # current terminal and blocks yazi). Inside tmux, spawn nvim as a new
+      # tmux window so yazi stays open in the original pane; outside tmux,
+      # fall back to opening nvim normally.
+      edit = [
+        {
+          run = ''if [ -n "$TMUX" ]; then tmux neww -n nvim nvim "$@"; else nvim "$@"; fi'';
+          desc = "nvim (new tmux window if in tmux)";
+          block = false;
+          orphan = true;
+          for = "unix";
+        }
+      ];
     };
     open = {
       prepend_rules = [
