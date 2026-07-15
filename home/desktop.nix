@@ -59,7 +59,15 @@
     wl-clipboard
 
     # Python environment with packages
-    (python312.withPackages (ps: [
+    (let
+      python = pkgs.python312.override {
+        packageOverrides = pyself: pysuper: {
+          inline-snapshot = pysuper.inline-snapshot.overridePythonAttrs (_: {
+            doCheck = false;
+          });
+        };
+      };
+    in python.withPackages (ps: [
       ps.playwright
       ps.anthropic
       ps.pygobject3
