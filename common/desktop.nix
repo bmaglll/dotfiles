@@ -57,8 +57,9 @@
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  # Restore the setuid pkexec wrapper. Newer nixpkgs gates it behind this
-  # option (default false); without it `pkexec` errors "must be setuid root".
+  # Setuid pkexec wrapper: needed by `claude-nrs` to run `nixos-rebuild switch`
+  # via a GUI polkit popup (no terminal password prompt). Newer nixpkgs gates
+  # this behind an option that defaults off; disabling it breaks that workflow.
   security.polkit.enablePkexecWrapper = true;
 
   # Home-Manager: baseline + desktop overlay for the desktop user
