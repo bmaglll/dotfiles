@@ -11,6 +11,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "bmag";
+  wsl.wslConf.network.generateResolvConf = false;
 
   networking.hostName = "wsl-nix";
 
