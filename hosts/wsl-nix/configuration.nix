@@ -46,7 +46,13 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    users.bmag.imports = [ ../../home/baseline.nix ];
+    users.bmag = {
+      imports = [ ../../home/baseline.nix ];
+      # WSL-specific clipboard bridge: neovim's `+` register talks to Windows
+      # clipboard via win32yank. wl-clipboard (used on desktop hosts) needs a
+      # Wayland compositor, which WSL doesn't have.
+      programs.neovim.extraPackages = with pkgs; [ win32yank ];
+    };
   };
 
   # Nightly auto-upgrade. WSL is only running while Windows is on, so the
