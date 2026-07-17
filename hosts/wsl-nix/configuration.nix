@@ -11,6 +11,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "bmag";
+  users.users.bmag.linger = true;
   wsl.wslConf.network.generateResolvConf = false;
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
