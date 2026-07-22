@@ -182,9 +182,10 @@
         # A single dpms-on fires ~10ms after `PM: suspend exit` — before amdgpu's
         # display pipe is ready on a fast/aborted resume (e.g. lid closed then
         # reopened), so it silently misses and the panel stays dark with nothing
-        # to retry it. Retry over a few seconds so one call lands once the GPU is
-        # ready. dpms-on when already on is a harmless no-op.
-        after_sleep_cmd = "for i in 1 2 3 4 5 6; do hyprctl dispatch 'hl.dsp.dpms(\"on\")'; sleep 0.5; done";
+        # to retry it. Retry until DPMS actually reports on, then stop — blindly
+        # re-issuing dpms-on after the panel is back makes it flicker between the
+        # lockscreen and black. ~6s budget covers a slow GPU wake.
+        after_sleep_cmd = "for i in $(seq 1 20); do hyprctl monitors -j | grep -q '\"dpmsStatus\": *true' && break; hyprctl dispatch 'hl.dsp.dpms(\"on\")'; sleep 0.3; done";
         inhibit_if_fullscreen = true;
       };
 
