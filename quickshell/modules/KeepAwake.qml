@@ -6,6 +6,11 @@ import Quickshell.Io
 Item {
     id: root
 
+    // Reap any inhibitor orphaned by a previous quickshell session (or the
+    // old detached-sleep implementation) so we never start with a stuck lid
+    // lock, then refresh status once it's done.
+    Component.onCompleted: cleanupProc.exec({ command: ["bash", root.helperScript, "cleanup"] })
+
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 12
     property int gap: 6
@@ -214,6 +219,14 @@ Item {
 
     Process {
         id: toggleProc
+        onRunningChanged: {
+            if (!running && !statusProc.running)
+                statusProc.exec({ command: ["bash", root.helperScript, "status"] })
+        }
+    }
+
+    Process {
+        id: cleanupProc
         onRunningChanged: {
             if (!running && !statusProc.running)
                 statusProc.exec({ command: ["bash", root.helperScript, "status"] })
