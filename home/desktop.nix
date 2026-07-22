@@ -249,6 +249,12 @@
       };
     };
     style = ''
+      /* swaync 0.12.6 deprecated `notification-icon-size` in favor of a CSS
+         root variable. App icon is 1/3 of this. Keeps the -i UI.svg icon from
+         rendering huge next to camera thumbnails. */
+      :root {
+        --notification-icon-size: 48px;
+      }
       .notification-row {
         padding: 6px 0;
       }
