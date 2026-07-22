@@ -227,10 +227,38 @@
     ../icons/claude.svg;
 
   ###########################################################################################
-  # Swaync (notification center)
+  # Mako (notification daemon) — replaces swaync. swaync 0.12.6 double-frees on image
+  # notifications (icon/thumbnail) since the 2026-07-09 pkg update; unfixable (0.12.6 is
+  # newest). mako renders the same notifications crash-free. See project memory.
+  ###########################################################################################
+  services.mako = {
+    enable = true;
+    settings = {
+      font = "sans 11";
+      width = 360;
+      height = 220;
+      margin = "12";
+      padding = "12";
+      border-size = 2;
+      border-radius = 10;
+      default-timeout = 10000;
+      icons = true;
+      max-icon-size = 96;
+      markup = true;
+      actions = true;
+      layer = "overlay";
+      anchor = "top-right";
+      on-button-left = "invoke-default-action";
+      on-button-right = "dismiss";
+      on-button-middle = "none";
+    };
+  };
+
+  ###########################################################################################
+  # Swaync (disabled — replaced by mako above; kept for reference)
   ###########################################################################################
   services.swaync = {
-    enable = true;
+    enable = false;
     settings = {
       notification-icon-size = 36;
       notification-body-image-height = 150;
