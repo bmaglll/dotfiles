@@ -220,6 +220,12 @@
   # xdg.dataFile."icons/hicolor/128x128/apps/spotify-linux-32.png".source =
   #   ../icons/spotify-linux-32.png;
 
+  # Claude icon, installed by NAME so notify-send can use `-i claude` (app_icon
+  # field). Passing the file path directly makes notify-send emit an image-path
+  # hint, which crashes swaync 0.12.6. See shell/claude-notify-*.sh.
+  xdg.dataFile."icons/hicolor/scalable/apps/claude.svg".source =
+    ../icons/claude.svg;
+
   ###########################################################################################
   # Swaync (notification center)
   ###########################################################################################
