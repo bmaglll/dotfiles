@@ -176,7 +176,9 @@
       general = {
         lock_cmd = "pidof hyprlock || hyprlock";
         before_sleep_cmd = "loginctl lock-session";
-        after_sleep_cmd = "hyprctl dispatch dpms on";
+        # Hyprland's Lua config mode evaluates `hyprctl dispatch` args as Lua;
+        # the old `dpms on` form no longer parses. Use the hl.dsp call form.
+        after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms(\"on\")'";
         inhibit_if_fullscreen = true;
       };
 
