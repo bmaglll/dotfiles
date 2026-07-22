@@ -178,7 +178,13 @@
         before_sleep_cmd = "loginctl lock-session";
         # Hyprland's Lua config mode evaluates `hyprctl dispatch` args as Lua;
         # the old `dpms on` form no longer parses. Use the hl.dsp call form.
-        after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms(\"on\")'";
+        #
+        # A single dpms-on fires ~10ms after `PM: suspend exit` — before amdgpu's
+        # display pipe is ready on a fast/aborted resume (e.g. lid closed then
+        # reopened), so it silently misses and the panel stays dark with nothing
+        # to retry it. Retry over a few seconds so one call lands once the GPU is
+        # ready. dpms-on when already on is a harmless no-op.
+        after_sleep_cmd = "for i in 1 2 3 4 5 6; do hyprctl dispatch 'hl.dsp.dpms(\"on\")'; sleep 0.5; done";
         inhibit_if_fullscreen = true;
       };
 
