@@ -64,7 +64,7 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                btopLauncher.exec({ command: ["hyprctl", "dispatch", "exec", "[float;size 80% 80%;center] ghostty -e btop"] })
+                btopLauncher.exec({ command: ["hyprctl", "dispatch", "hl.dsp.exec_cmd(\"[float;size 80% 80%;center] ghostty -e btop\")"] })
             }
         }
 
