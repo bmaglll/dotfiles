@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 INPUT=$(cat)
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // empty' | tail -c 7)
-ICON="/home/bmag/nixos-config/icons/claude.svg"
+# Icon-theme NAME, not a file path. notify-send maps a file path to the
+# `image-path` hint, which crashes swaync 0.12.6 (double-free). A name goes in
+# the app_icon field instead. Installed via xdg.dataFile in home/desktop.nix.
+ICON="claude"
 (
   ACTION=$(notify-send -a "Claude Code" -i "$ICON" -A "open=Open" "Task Complete" "Claude [$SESSION_ID] finished working")
   [ "$ACTION" = "open" ] && bash ~/nixos-config/shell/claude-focus.sh "$SESSION_ID"
