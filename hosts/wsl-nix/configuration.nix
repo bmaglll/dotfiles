@@ -35,6 +35,20 @@
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
+  # Force eth0 MTU to 1500. WSL can bring eth0 up at a lower MTU, which
+  # black-holes large post-quantum SSH key-exchange packets over Tailscale
+  # (the handshake stalls at preauth). Oneshot at boot — eth0 exists by then.
+  systemd.services.fix-eth0-mtu = {
+    description = "Set eth0 MTU to 1500";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-pre.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.iproute2}/bin/ip link set dev eth0 mtu 1500";
+    };
+  };
+
   # Override baseline's physical-host assumptions — WSL handles these itself
   boot.loader.systemd-boot.enable      = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
