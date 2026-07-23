@@ -49,6 +49,32 @@
     };
   };
 
+  # Keep Windows awake ONLY while inbound SSH sessions are active. Lets the
+  # tower S3-sleep when idle (energy) yet never sleep out from under a live
+  # SSH/tmux session. Pokes Windows' idle timer via SetThreadExecutionState
+  # over WSL interop. EncodedCommand avoids all cross-boundary quoting.
+  systemd.services.keep-windows-awake = {
+    description = "Inhibit Windows sleep while inbound SSH sessions are active";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "sshd.service" ];
+    path = [ pkgs.iproute2 pkgs.coreutils ];
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = "10s";
+    };
+    script = ''
+      PS=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
+      ENC=QQBkAGQALQBUAHkAcABlACAALQBOAGEAbQBlAHMAcABhAGMAZQAgAFcAIAAtAE4AYQBtAGUAIABQACAALQBNAGUAbQBiAGUAcgBEAGUAZgBpAG4AaQB0AGkAbwBuACAAJwBbAFMAeQBzAHQAZQBtAC4AUgB1AG4AdABpAG0AZQAuAEkAbgB0AGUAcgBvAHAAUwBlAHIAdgBpAGMAZQBzAC4ARABsAGwASQBtAHAAbwByAHQAKAAiAGsAZQByAG4AZQBsADMAMgAuAGQAbABsACIAKQBdACAAcAB1AGIAbABpAGMAIABzAHQAYQB0AGkAYwAgAGUAeAB0AGUAcgBuACAAdQBpAG4AdAAgAFMAZQB0AFQAaAByAGUAYQBkAEUAeABlAGMAdQB0AGkAbwBuAFMAdABhAHQAZQAoAHUAaQBuAHQAIABlACkAOwAnADsAIABbAHYAbwBpAGQAXQBbAFcALgBQAF0AOgA6AFMAZQB0AFQAaAByAGUAYQBkAEUAeABlAGMAdQB0AGkAbwBuAFMAdABhAHQAZQAoADEAKQA=
+      while true; do
+        n=$(ss -Htn state established '( sport = :22 )' | wc -l)
+        if [ "$n" -gt 0 ] && [ -x "$PS" ]; then
+          "$PS" -NoProfile -NonInteractive -EncodedCommand "$ENC" >/dev/null 2>&1 || true
+        fi
+        sleep 120
+      done
+    '';
+  };
+
   # Override baseline's physical-host assumptions — WSL handles these itself
   boot.loader.systemd-boot.enable      = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
