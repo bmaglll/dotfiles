@@ -150,6 +150,9 @@ hl.bind(mainMod .. " + M",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_S
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + Z",      hl.dsp.window.float())
 hl.bind(mainMod .. " + Space",  hl.dsp.exec_cmd("pkill wofi || " .. menu))
+-- Nested tmux escape: send Ctrl+Space twice to the focused window so an
+-- outer tmux (on this laptop) forwards its prefix to an inner tmux (over ssh).
+hl.bind("CTRL + SHIFT + Space", hl.dsp.exec_cmd("hyprctl dispatch sendshortcut 'CTRL,space,activewindow' && hyprctl dispatch sendshortcut 'CTRL,space,activewindow'"))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("ghostty --class=ghostty.emoji -e bash ~/nixos-config/shell/emoji-picker.sh"))
 hl.bind(mainMod .. " + F",      hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod .. " + L",      hl.dsp.exec_cmd("hyprlock"))
