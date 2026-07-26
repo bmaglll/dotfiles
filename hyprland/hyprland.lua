@@ -152,7 +152,9 @@ hl.bind(mainMod .. " + Z",      hl.dsp.window.float())
 hl.bind(mainMod .. " + Space",  hl.dsp.exec_cmd("pkill wofi || " .. menu))
 -- Nested tmux escape: send Ctrl+Space twice to the focused window so an
 -- outer tmux (on this laptop) forwards its prefix to an inner tmux (over ssh).
-hl.bind("CTRL + SHIFT + Space", hl.dsp.exec_cmd("hyprctl dispatch sendshortcut 'CTRL,space,activewindow' && hyprctl dispatch sendshortcut 'CTRL,space,activewindow'"))
+-- hyprctl dispatch args are Lua expressions in this config (not classic
+-- "MOD,KEY,WINDOW" form), so we call hl.dsp.send_shortcut with a table.
+hl.bind("CTRL + SHIFT + Space", hl.dsp.exec_cmd([[hyprctl dispatch 'hl.dsp.send_shortcut({ mods = "CTRL", key = "space", window = "activewindow" })' && hyprctl dispatch 'hl.dsp.send_shortcut({ mods = "CTRL", key = "space", window = "activewindow" })']]))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("ghostty --class=ghostty.emoji -e bash ~/nixos-config/shell/emoji-picker.sh"))
 hl.bind(mainMod .. " + F",      hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod .. " + L",      hl.dsp.exec_cmd("hyprlock"))
