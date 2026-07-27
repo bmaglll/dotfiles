@@ -102,8 +102,10 @@ end
 
 local function process_change(bufnr, state, new_lines)
   local old_lines = state.last_lines
-  local old_text = table.concat(old_lines, "\n")
-  local new_text = table.concat(new_lines, "\n")
+  -- vim.diff (xdiff) needs a trailing newline or it misreads the final line
+  -- of the input as changed even when it's untouched.
+  local old_text = table.concat(old_lines, "\n") .. "\n"
+  local new_text = table.concat(new_lines, "\n") .. "\n"
   if old_text == new_text then
     state.last_lines = new_lines
     return
