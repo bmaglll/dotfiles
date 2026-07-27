@@ -8,7 +8,7 @@ local M = {}
 
 local POLL_INTERVAL_MS = 500
 local FADE_INTERVAL_MS = 1000
-local MAX_AGE_SEC = 120
+local MAX_AGE_SEC = 3600
 local AGE_BUCKETS = 5
 
 local ADD_COLORS = { "#1e3a8a", "#2f52a8", "#3b82f6", "#60a5fa", "#93c5fd" }
@@ -25,9 +25,23 @@ local buf_state = {} -- bufnr -> { path, last_lines, last_mtime, hunks }
 local function define_highlights()
   for i, c in ipairs(ADD_COLORS) do
     vim.api.nvim_set_hl(0, "AgentWatchAdd" .. i, { bg = c })
+    vim.api.nvim_set_hl(0, "AgentWatchAddLabel" .. i, { fg = c, italic = true })
   end
   for i, c in ipairs(DEL_COLORS) do
     vim.api.nvim_set_hl(0, "AgentWatchDel" .. i, { bg = c })
+    vim.api.nvim_set_hl(0, "AgentWatchDelLabel" .. i, { fg = c, italic = true })
+  end
+end
+
+local function format_age(elapsed_sec)
+  if elapsed_sec < 10 then
+    return "just now"
+  elseif elapsed_sec < 60 then
+    return string.format("%ds ago", math.floor(elapsed_sec))
+  elseif elapsed_sec < 3600 then
+    return string.format("%dm ago", math.floor(elapsed_sec / 60))
+  else
+    return string.format("%dh ago", math.floor(elapsed_sec / 3600))
   end
 end
 
@@ -66,12 +80,15 @@ end
 
 local function add_hunk(bufnr, row_start, row_end)
   local ids = {}
+  local label = " +" .. format_age(0)
   for row = row_start, row_end do
     local id = vim.api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
       end_row = row + 1,
       end_col = 0,
       hl_group = "AgentWatchAdd1",
       hl_eol = true,
+      virt_text = { { label, "AgentWatchAddLabel1" } },
+      virt_text_pos = "eol",
     })
     table.insert(ids, id)
   end
@@ -83,9 +100,10 @@ local function add_hunk(bufnr, row_start, row_end)
 end
 
 local function del_hunk(bufnr, anchor_row, above, lines)
+  local label = " -" .. format_age(0)
   local vlines = {}
   for _, line in ipairs(lines) do
-    table.insert(vlines, { { line, "AgentWatchDel1" } })
+    table.insert(vlines, { { line, "AgentWatchDel1" }, { label, "AgentWatchDelLabel1" } })
   end
   local id = vim.api.nvim_buf_set_extmark(bufnr, ns, anchor_row, 0, {
     virt_lines = vlines,
@@ -203,30 +221,41 @@ local function tick_fade()
           end
         else
           local bucket = age_bucket(elapsed)
-          local hl = (hunk.type == "add" and "AgentWatchAdd" or "AgentWatchDel") .. bucket
-          for _, id in ipairs(hunk.extmark_ids) do
-            local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
-            if pos and pos[1] then
-              local row, col = pos[1], pos[2]
-              if hunk.type == "add" then
+          local age_str = format_age(elapsed)
+          if hunk.type == "add" then
+            local hl = "AgentWatchAdd" .. bucket
+            local label = { { " +" .. age_str, "AgentWatchAddLabel" .. bucket } }
+            for _, id in ipairs(hunk.extmark_ids) do
+              local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
+              if pos and pos[1] then
+                local row, col = pos[1], pos[2]
                 vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, {
                   id = id,
                   end_row = row + 1,
                   end_col = 0,
                   hl_group = hl,
                   hl_eol = true,
-                })
-              else
-                local vlines = {}
-                for _, line in ipairs(hunk.lines) do
-                  table.insert(vlines, { { line, hl } })
-                end
-                vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, {
-                  id = id,
-                  virt_lines = vlines,
-                  virt_lines_above = hunk.above,
+                  virt_text = label,
+                  virt_text_pos = "eol",
                 })
               end
+            end
+          else
+            local hl = "AgentWatchDel" .. bucket
+            local label_hl = "AgentWatchDelLabel" .. bucket
+            local id = hunk.extmark_ids[1]
+            local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
+            if pos and pos[1] then
+              local row, col = pos[1], pos[2]
+              local vlines = {}
+              for _, line in ipairs(hunk.lines) do
+                table.insert(vlines, { { line, hl }, { " -" .. age_str, label_hl } })
+              end
+              vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, {
+                id = id,
+                virt_lines = vlines,
+                virt_lines_above = hunk.above,
+              })
             end
           end
           table.insert(kept, hunk)
