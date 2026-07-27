@@ -58,6 +58,7 @@
       set -g status-right ""
       set -g renumber-windows on
       set -g allow-passthrough on
+      set -g set-clipboard on
     '';
   };
 

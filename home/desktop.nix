@@ -101,6 +101,7 @@
     set -g renumber-windows on
     set -as terminal-features ",xterm-ghostty:sync"
     set -g allow-passthrough on
+    set -g set-clipboard on
   '';
 
   ###########################################################################################
@@ -112,6 +113,7 @@
       font-family = ["JetBrainsMono Nerd Font" "Apple Color Emoji"];
       command = "tmux new-session -A -s Main \\; new-window";
       keybind = "shift+enter=text:\\x1b\\r";
+      clipboard-write = "allow";
     };
   };
   xdg.configFile."ghostty/config".force = true;
