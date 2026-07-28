@@ -8,7 +8,7 @@ local M = {}
 
 local POLL_INTERVAL_MS = 500
 local FADE_INTERVAL_MS = 1000
-local MAX_AGE_SEC = 120 -- TESTING: 5 buckets over 2 min (24s each); restore to 3600
+local MAX_AGE_SEC = 30 -- TESTING: 5 buckets over 30s (6s each); restore to 3600
 local AGE_BUCKETS = 5
 
 local ADD_COLORS = { "#1e3a8a", "#2f52a8", "#3b82f6", "#60a5fa", "#93c5fd" }
@@ -177,10 +177,10 @@ local function poll_buffer(bufnr, state)
   if not mtime or mtime == state.last_mtime then
     return
   end
-  state.last_mtime = mtime
 
   if vim.bo[bufnr].modified then
-    -- Don't clobber unsaved edits in the buffer; try again next poll.
+    -- Genuine unsaved user edits: back off WITHOUT advancing last_mtime so the
+    -- change is retried on a later poll once the buffer is clean again.
     return
   end
 
@@ -189,7 +189,12 @@ local function poll_buffer(bufnr, state)
     return
   end
 
+  state.last_mtime = mtime
   process_change(bufnr, state, new_lines)
+  -- process_change's nvim_buf_set_lines dirties the buffer, but its content now
+  -- matches disk exactly, so clearing 'modified' is accurate — and prevents the
+  -- guard above from permanently locking out all future external updates.
+  vim.bo[bufnr].modified = false
 end
 
 local function poll_all()
