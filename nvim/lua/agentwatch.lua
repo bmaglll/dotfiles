@@ -78,6 +78,27 @@ local function unregister_buf(bufnr)
   buf_state[bufnr] = nil
 end
 
+-- Usable text width of the window showing bufnr (for right-aligning labels
+-- inside virt_lines, which right_align virt_text doesn't apply to).
+local function text_width(bufnr)
+  local win = vim.fn.bufwinid(bufnr)
+  if win == -1 then
+    return vim.o.columns
+  end
+  local info = vim.fn.getwininfo(win)[1]
+  return info.width - info.textoff
+end
+
+local function del_vlines(width, lines, label, hl, label_hl)
+  local vlines = {}
+  local label_w = vim.fn.strdisplaywidth(label)
+  for _, line in ipairs(lines) do
+    local pad = math.max(width - vim.fn.strdisplaywidth(line) - label_w, 1)
+    table.insert(vlines, { { line, hl }, { string.rep(" ", pad), hl }, { label, label_hl } })
+  end
+  return vlines
+end
+
 local function add_hunk(bufnr, row_start, row_end)
   local ids = {}
   local label = " +" .. format_age(0)
@@ -90,7 +111,7 @@ local function add_hunk(bufnr, row_start, row_end)
         hl_group = "AgentWatchAdd1",
         hl_eol = true,
         virt_text = { { label, "AgentWatchAddLabel1" } },
-        virt_text_pos = "eol",
+        virt_text_pos = "right_align",
       })
       table.insert(ids, id)
     end
@@ -103,11 +124,8 @@ local function add_hunk(bufnr, row_start, row_end)
 end
 
 local function del_hunk(bufnr, anchor_row, above, lines)
-  local label = " -" .. format_age(0)
-  local vlines = {}
-  for _, line in ipairs(lines) do
-    table.insert(vlines, { { line, "AgentWatchDel1" }, { label, "AgentWatchDelLabel1" } })
-  end
+  local label = "-" .. format_age(0) .. " "
+  local vlines = del_vlines(text_width(bufnr), lines, label, "AgentWatchDel1", "AgentWatchDelLabel1")
   local id = vim.api.nvim_buf_set_extmark(bufnr, ns, anchor_row, 0, {
     virt_lines = vlines,
     virt_lines_above = above,
@@ -150,6 +168,10 @@ local function process_change(bufnr, state, new_lines)
         first, last = start_a, start_a
       else
         first, last = start_a - 1, start_a - 1 + count_a
+        -- set_lines collapses extmarks in the replaced range onto the edit
+        -- point instead of deleting them, stacking stale age labels on the
+        -- surviving line — clear them first.
+        vim.api.nvim_buf_clear_namespace(bufnr, ns, first, last)
       end
       vim.api.nvim_buf_set_lines(bufnr, first, last, false, repl)
     end
@@ -265,7 +287,7 @@ local function tick_fade()
                   hl_group = hl,
                   hl_eol = true,
                   virt_text = label,
-                  virt_text_pos = "eol",
+                  virt_text_pos = "right_align",
                 })
               end
             end
@@ -276,10 +298,7 @@ local function tick_fade()
             local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
             if pos and pos[1] then
               local row, col = pos[1], pos[2]
-              local vlines = {}
-              for _, line in ipairs(hunk.lines) do
-                table.insert(vlines, { { line, hl }, { " -" .. age_str, label_hl } })
-              end
+              local vlines = del_vlines(text_width(bufnr), hunk.lines, "-" .. age_str .. " ", hl, label_hl)
               vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, {
                 id = id,
                 virt_lines = vlines,
