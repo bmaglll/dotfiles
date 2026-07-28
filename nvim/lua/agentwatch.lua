@@ -8,7 +8,7 @@ local M = {}
 
 local POLL_INTERVAL_MS = 500
 local FADE_INTERVAL_MS = 1000
-local MAX_AGE_SEC = 3600
+local MAX_AGE_SEC = 120 -- TESTING: 5 buckets over 2 min (24s each); restore to 3600
 local AGE_BUCKETS = 5
 
 local ADD_COLORS = { "#1e3a8a", "#2f52a8", "#3b82f6", "#60a5fa", "#93c5fd" }
