@@ -81,16 +81,19 @@ end
 local function add_hunk(bufnr, row_start, row_end)
   local ids = {}
   local label = " +" .. format_age(0)
+  local line_count = vim.api.nvim_buf_line_count(bufnr)
   for row = row_start, row_end do
-    local id = vim.api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
-      end_row = row + 1,
-      end_col = 0,
-      hl_group = "AgentWatchAdd1",
-      hl_eol = true,
-      virt_text = { { label, "AgentWatchAddLabel1" } },
-      virt_text_pos = "eol",
-    })
-    table.insert(ids, id)
+    if row < line_count then
+      local id = vim.api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
+        end_row = math.min(row + 1, line_count),
+        end_col = 0,
+        hl_group = "AgentWatchAdd1",
+        hl_eol = true,
+        virt_text = { { label, "AgentWatchAddLabel1" } },
+        virt_text_pos = "eol",
+      })
+      table.insert(ids, id)
+    end
   end
   table.insert(buf_state[bufnr].hunks, {
     type = "add",
@@ -232,11 +235,12 @@ local function tick_fade()
             local label = { { " +" .. age_str, "AgentWatchAddLabel" .. bucket } }
             for _, id in ipairs(hunk.extmark_ids) do
               local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
-              if pos and pos[1] then
+              local line_count = vim.api.nvim_buf_line_count(bufnr)
+              if pos and pos[1] and pos[1] < line_count then
                 local row, col = pos[1], pos[2]
                 vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, {
                   id = id,
-                  end_row = row + 1,
+                  end_row = math.min(row + 1, line_count),
                   end_col = 0,
                   hl_group = hl,
                   hl_eol = true,
@@ -293,10 +297,15 @@ function M.enable()
   end
 
   poll_timer = uv.new_timer()
-  poll_timer:start(POLL_INTERVAL_MS, POLL_INTERVAL_MS, vim.schedule_wrap(poll_all))
+  -- pcall so one failing tick can't kill the timer or spam ENTER prompts
+  poll_timer:start(POLL_INTERVAL_MS, POLL_INTERVAL_MS, vim.schedule_wrap(function()
+    pcall(poll_all)
+  end))
 
   fade_timer = uv.new_timer()
-  fade_timer:start(FADE_INTERVAL_MS, FADE_INTERVAL_MS, vim.schedule_wrap(tick_fade))
+  fade_timer:start(FADE_INTERVAL_MS, FADE_INTERVAL_MS, vim.schedule_wrap(function()
+    pcall(tick_fade)
+  end))
 
   vim.notify("agent-watch: on", vim.log.levels.INFO)
 end
