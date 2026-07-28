@@ -9,10 +9,21 @@ local M = {}
 local POLL_INTERVAL_MS = 500
 local FADE_INTERVAL_MS = 1000
 local MAX_AGE_SEC = 3600
-local AGE_BUCKETS = 5
+local AGE_BUCKETS = 20
 
-local ADD_COLORS = { "#1e3a8a", "#2f52a8", "#3b82f6", "#60a5fa", "#93c5fd" }
-local DEL_COLORS = { "#7f1d1d", "#a3231f", "#b91c1c", "#dc2626", "#ef4444" }
+-- fresh (deep) -> old (pale), 20 steps each
+local ADD_COLORS = {
+  "#002373", "#002b8c", "#0033a6", "#0039b9", "#0040d2",
+  "#0046e6", "#004cf9", "#0652ff", "#135bff", "#2064ff",
+  "#2d6dff", "#3976ff", "#467fff", "#5388ff", "#6090ff",
+  "#6c99ff", "#79a2ff", "#86abff", "#93b4ff", "#a6c1ff",
+}
+local DEL_COLORS = {
+  "#720000", "#820000", "#920000", "#a30000", "#b30000",
+  "#c30000", "#d40000", "#e40000", "#f40000", "#ff0606",
+  "#ff1616", "#ff2626", "#ff3737", "#ff4747", "#ff5757",
+  "#ff6868", "#ff7878", "#ff8080", "#ff9090", "#ffa1a1",
+}
 
 local ns = vim.api.nvim_create_namespace("freshlines")
 local augroup = nil
