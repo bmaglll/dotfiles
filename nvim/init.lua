@@ -6,5 +6,5 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.number = true
 
 -- Live diff highlighting for files edited externally (e.g. by a coding agent)
-require("agentwatch").setup()
+require("freshlines").setup()
 

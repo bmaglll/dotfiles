@@ -1,6 +1,6 @@
--- agentwatch: poll watched buffers for on-disk changes (e.g. from a coding
+-- freshlines: poll watched buffers for on-disk changes (e.g. from a coding
 -- agent editing files externally) and highlight recent edits with a fading
--- diff-style gradient. Toggle globally with :AgentWatchToggle.
+-- diff-style gradient. Toggle globally with :FreshlinesToggle.
 
 local uv = vim.uv or vim.loop
 
@@ -8,13 +8,13 @@ local M = {}
 
 local POLL_INTERVAL_MS = 500
 local FADE_INTERVAL_MS = 1000
-local MAX_AGE_SEC = 30 -- TESTING: 5 buckets over 30s (6s each); restore to 3600
+local MAX_AGE_SEC = 3600
 local AGE_BUCKETS = 5
 
 local ADD_COLORS = { "#1e3a8a", "#2f52a8", "#3b82f6", "#60a5fa", "#93c5fd" }
 local DEL_COLORS = { "#7f1d1d", "#a3231f", "#b91c1c", "#dc2626", "#ef4444" }
 
-local ns = vim.api.nvim_create_namespace("agentwatch")
+local ns = vim.api.nvim_create_namespace("freshlines")
 local augroup = nil
 
 local enabled = false
@@ -24,12 +24,12 @@ local buf_state = {} -- bufnr -> { path, last_lines, last_mtime, hunks }
 
 local function define_highlights()
   for i, c in ipairs(ADD_COLORS) do
-    vim.api.nvim_set_hl(0, "AgentWatchAdd" .. i, { bg = c })
-    vim.api.nvim_set_hl(0, "AgentWatchAddLabel" .. i, { fg = c, italic = true })
+    vim.api.nvim_set_hl(0, "FreshlinesAdd" .. i, { bg = c })
+    vim.api.nvim_set_hl(0, "FreshlinesAddLabel" .. i, { fg = c, italic = true })
   end
   for i, c in ipairs(DEL_COLORS) do
-    vim.api.nvim_set_hl(0, "AgentWatchDel" .. i, { bg = c })
-    vim.api.nvim_set_hl(0, "AgentWatchDelLabel" .. i, { fg = c, italic = true })
+    vim.api.nvim_set_hl(0, "FreshlinesDel" .. i, { bg = c })
+    vim.api.nvim_set_hl(0, "FreshlinesDelLabel" .. i, { fg = c, italic = true })
   end
 end
 
@@ -108,9 +108,9 @@ local function add_hunk(bufnr, row_start, row_end)
       local id = vim.api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
         end_row = math.min(row + 1, line_count),
         end_col = 0,
-        hl_group = "AgentWatchAdd1",
+        hl_group = "FreshlinesAdd1",
         hl_eol = true,
-        virt_text = { { label, "AgentWatchAddLabel1" } },
+        virt_text = { { label, "FreshlinesAddLabel1" } },
         virt_text_pos = "right_align",
       })
       table.insert(ids, id)
@@ -125,7 +125,7 @@ end
 
 local function del_hunk(bufnr, anchor_row, above, lines)
   local label = "-" .. format_age(0) .. " "
-  local vlines = del_vlines(text_width(bufnr), lines, label, "AgentWatchDel1", "AgentWatchDelLabel1")
+  local vlines = del_vlines(text_width(bufnr), lines, label, "FreshlinesDel1", "FreshlinesDelLabel1")
   local id = vim.api.nvim_buf_set_extmark(bufnr, ns, anchor_row, 0, {
     virt_lines = vlines,
     virt_lines_above = above,
@@ -273,8 +273,8 @@ local function tick_fade()
           local bucket = age_bucket(elapsed)
           local age_str = format_age(elapsed)
           if hunk.type == "add" then
-            local hl = "AgentWatchAdd" .. bucket
-            local label = { { " +" .. age_str, "AgentWatchAddLabel" .. bucket } }
+            local hl = "FreshlinesAdd" .. bucket
+            local label = { { " +" .. age_str, "FreshlinesAddLabel" .. bucket } }
             for _, id in ipairs(hunk.extmark_ids) do
               local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
               local line_count = vim.api.nvim_buf_line_count(bufnr)
@@ -292,8 +292,8 @@ local function tick_fade()
               end
             end
           else
-            local hl = "AgentWatchDel" .. bucket
-            local label_hl = "AgentWatchDelLabel" .. bucket
+            local hl = "FreshlinesDel" .. bucket
+            local label_hl = "FreshlinesDelLabel" .. bucket
             local id = hunk.extmark_ids[1]
             local pos = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, id, {})
             if pos and pos[1] then
@@ -346,7 +346,7 @@ function M.enable()
     pcall(tick_fade)
   end))
 
-  vim.notify("agent-watch: on", vim.log.levels.INFO)
+  vim.notify("freshlines: on", vim.log.levels.INFO)
 end
 
 function M.disable()
@@ -367,7 +367,7 @@ function M.disable()
   end
 
   clear_all()
-  vim.notify("agent-watch: off", vim.log.levels.INFO)
+  vim.notify("freshlines: off", vim.log.levels.INFO)
 end
 
 function M.toggle()
@@ -381,7 +381,7 @@ end
 function M.setup()
   define_highlights()
 
-  augroup = vim.api.nvim_create_augroup("AgentWatch", { clear = true })
+  augroup = vim.api.nvim_create_augroup("Freshlines", { clear = true })
 
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufEnter" }, {
     group = augroup,
@@ -399,7 +399,7 @@ function M.setup()
     end,
   })
 
-  vim.api.nvim_create_user_command("AgentWatchToggle", function()
+  vim.api.nvim_create_user_command("FreshlinesToggle", function()
     M.toggle()
   end, {})
 
