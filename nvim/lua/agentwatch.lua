@@ -133,7 +133,27 @@ local function process_change(bufnr, state, new_lines)
   end
 
   local hunks = vim.diff(old_text, new_text, { result_type = "indices", algorithm = "myers" })
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, new_lines)
+
+  -- Apply each hunk as a minimal edit (in reverse so earlier rows stay valid)
+  -- instead of set_lines(0, -1): a full-buffer rewrite clobbers every existing
+  -- extmark, wiping still-fading highlights from previous changes.
+  if hunks then
+    for i = #hunks, 1, -1 do
+      local start_a, count_a, start_b, count_b = hunks[i][1], hunks[i][2], hunks[i][3], hunks[i][4]
+      local repl = {}
+      for j = start_b, start_b + count_b - 1 do
+        table.insert(repl, new_lines[j])
+      end
+      local first, last
+      if count_a == 0 then
+        -- pure insert: xdiff's start_a is the line the insert goes after
+        first, last = start_a, start_a
+      else
+        first, last = start_a - 1, start_a - 1 + count_a
+      end
+      vim.api.nvim_buf_set_lines(bufnr, first, last, false, repl)
+    end
+  end
   local new_line_count = #new_lines
 
   if hunks then
