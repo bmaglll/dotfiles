@@ -402,6 +402,14 @@ function M.setup()
   vim.api.nvim_create_user_command("AgentWatchToggle", function()
     M.toggle()
   end, {})
+
+  -- auto-enable once startup buffers are loaded
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = augroup,
+    callback = function()
+      M.enable()
+    end,
+  })
 end
 
 return M
