@@ -46,6 +46,12 @@
     ${pkgs.kmod}/bin/modprobe mt7921e
   '';
 
+  # DOIO 4-key macropad (QMK, feed:6060). Grant the logged-in user raw-HID
+  # access so Vial/VIA can remap the keys and knob without root.
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="6060", MODE="0660", GROUP="users", TAG+="uaccess"
+  '';
+
   environment.systemPackages = with pkgs; [
     libfprint
     iw
