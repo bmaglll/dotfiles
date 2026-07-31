@@ -46,10 +46,12 @@
     ${pkgs.kmod}/bin/modprobe mt7921e
   '';
 
-  # DOIO 4-key macropad (QMK, feed:6060). Grant the logged-in user raw-HID
-  # access so Vial/VIA can remap the keys and knob without root.
+  # DOIO 4-key macropad raw-HID access for VIA/Vial remapping without root.
+  # First rule: current qmkbuilder VIA firmware (feed:6060).
+  # Second rule: Vial firmware (matches Vial's serial), in case we flash it.
   services.udev.extraRules = ''
     KERNEL=="hidraw*", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="6060", MODE="0660", GROUP="users", TAG+="uaccess"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess"
   '';
 
   environment.systemPackages = with pkgs; [
