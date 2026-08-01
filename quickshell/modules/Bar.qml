@@ -172,6 +172,7 @@ PanelWindow {
                 pollInterval: 2000
                 hoverBg: vars.hoverBg
                 hoverRadius: vars.hoverRadius
+                panelWindow: root
             }
 
             VolumeDisplay {
