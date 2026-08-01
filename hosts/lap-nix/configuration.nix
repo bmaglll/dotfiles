@@ -57,6 +57,7 @@
   environment.systemPackages = with pkgs; [
     libfprint
     iw
+    remmina
   ];
 
   security.pam.services = {
