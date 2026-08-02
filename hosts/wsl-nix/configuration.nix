@@ -17,10 +17,6 @@
 
   networking.hostName = "wsl-nix";
 
-  environment.systemPackages = with pkgs; [
-    codex
-  ];
-
   # SSH: key-only, exposed only on tailscale0 (same pattern as server-nix).
   # Lets lap-nix `ssh bmag@wsl-nix` over the tailnet to drive the Windows tower.
   services.openssh = {
