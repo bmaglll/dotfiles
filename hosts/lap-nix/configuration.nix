@@ -58,6 +58,7 @@
     libfprint
     iw
     remmina
+    vial
   ];
 
   security.pam.services = {
