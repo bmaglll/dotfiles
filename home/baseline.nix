@@ -93,8 +93,8 @@
       mgr.prepend_keymap = [
         { on = ["<Enter>"]; run = "plugin smart-enter"; desc = "Enter directory or open file"; }
         {
-          on = ["<S-Enter>"];
-          run = ''shell 'if [ -n "$TMUX" ]; then tmux new-window -c "$(pwd)"; fi' --orphan --confirm'';
+          on = ["t"];
+          run = ''shell 'if [ -n "$TMUX" ]; then p=%h; [ -z "$p" ] && p="$(pwd)"; [ -d "$p" ] || p="$(dirname "$p")"; tmux new-window -c "$p"; fi' --orphan --confirm'';
           desc = "Open directory in new tmux window";
         }
       ];
