@@ -59,6 +59,7 @@
     iw
     remmina
     vial
+    codex
   ];
 
   security.pam.services = {
