@@ -1,4 +1,11 @@
-model = "gpt-5.4"
+# ~/.codex/config.toml  — copy this file to ~/.codex/config.toml
+#
+# Orchestrator model is GPT-5.6 Sol, run through your ChatGPT/Codex SUBSCRIPTION
+# login (run `codex login` once — no OpenAI API key or per-token billing needed).
+# Only the DeepSeek worker models use an API key, read from an env var (see below).
+
+model = "gpt-5.6-sol"
+model_provider = "openai"          # built-in provider; uses your subscription auth
 notify = ["bash", "/home/bmag/nixos-config/shell/codex-notify.sh"]
 
 [features]
@@ -9,7 +16,54 @@ trust_level = "trusted"
 
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
+"gpt-5.4" = "gpt-5.6-sol"
 
 [tui]
 notifications = true
 notification_condition = "always"
+
+# --- DeepSeek provider (cheap workers) ---------------------------------------
+# The API key is read from the DEEPSEEK_API_KEY environment variable. NEVER hard-
+# code it here — this file is committed to git. Set it in your shell/session, e.g.
+#   export DEEPSEEK_API_KEY=sk-...
+[model_providers.deepseek]
+name = "DeepSeek"
+base_url = "https://api.deepseek.com/"
+wire_api = "responses"             # DeepSeek supports the Responses API; switch to "chat" if you hit errors
+env_key = "DEEPSEEK_API_KEY"
+
+# --- Profiles: the model each subagent runs on -------------------------------
+[profiles.orchestrator]            # GPT-5.6 Sol  ($5/$30, cached in $0.50) — subscription
+model = "gpt-5.6-sol"
+model_provider = "openai"
+
+[profiles.luna-worker]             # GPT-5.6 Luna ($1/$6) — subscription
+model = "gpt-5.6-luna"
+model_provider = "openai"
+
+[profiles.flash-worker]            # DeepSeek V4 Flash — cheapest bulk worker (API key)
+model = "deepseek-v4-flash"
+model_provider = "deepseek"
+model_reasoning_effort = "low"
+
+[profiles.pro-worker]              # DeepSeek V4 Pro — strong coding worker (API key)
+model = "deepseek-v4-pro"
+model_provider = "deepseek"
+model_reasoning_effort = "high"
+
+# --- Subagent delegation over MCP --------------------------------------------
+# Lets the Sol orchestrator delegate bounded tasks to the cheap workers above,
+# each in a CLEAN, isolated context (this is what keeps cache-write/input cost
+# down — the orchestrator's big context is never re-sent to a worker).
+#
+# Setup:
+#   git clone https://github.com/leonardsellem/codex-subagents-mcp ~/codex-subagents-mcp
+#   cd ~/codex-subagents-mcp && npm install && npm run build
+# Then point `command` at your node binary (`which node`) and `args[0]` at the
+# compiled entrypoint — BOTH must be ABSOLUTE paths.
+[mcp_servers.subagents]
+command = "/run/current-system/sw/bin/node"   # replace with output of: readlink -f "$(which node)"
+args = [
+  "/home/bmag/codex-subagents-mcp/dist/codex-subagents.mcp.js",
+  "--agents-dir", "/home/bmag/nixos-config/shell/codex-agents",
+]

@@ -35,6 +35,10 @@
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
+  # Node.js (+ npm) — wsl-nix only. Needed to build the codex-subagents-mcp
+  # delegation server (~/codex-subagents-mcp). Kept off the shared baseline.
+  environment.systemPackages = with pkgs; [ nodejs ];
+
   # Force eth0 MTU to 1500. WSL can bring eth0 up at a lower MTU, which
   # black-holes large post-quantum SSH key-exchange packets over Tailscale
   # (the handshake stalls at preauth). Oneshot at boot — eth0 exists by then.
