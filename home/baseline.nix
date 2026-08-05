@@ -33,6 +33,10 @@
     enable = true;
     initExtra = ''
       source ${../shell/nx.sh}
+
+      # Private secrets (DEEPSEEK_API_KEY, etc.) — file kept out of git & the Nix
+      # store, so the key never lands in a world-readable path. See ~/.config/secrets.env.
+      [ -f "$HOME/.config/secrets.env" ] && source "$HOME/.config/secrets.env"
       PS1='\[\033[01;32m\][\D{%H:%M:%S}]\[\033[00m\] \[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
       # On SSH login, attach to (or create) the "Main" tmux session.
