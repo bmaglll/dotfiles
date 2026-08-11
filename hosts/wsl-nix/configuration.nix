@@ -106,5 +106,17 @@
     randomizedDelaySec = "45min";
   };
 
+  # Daily garbage collection. Game-dev `nix develop` builds (e.g. ~/projects/
+  # untracked/newgame) generate large throwaway closures; without periodic GC
+  # they grow the ext4.vhdx until the Windows C: drive fills, which surfaces
+  # as SIGBUS / "Input/output error" on mmap'd binaries. Runs after the 04:00
+  # autoUpgrade so it prunes the generations that upgrade leaves behind.
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
+  };
+  nix.settings.auto-optimise-store = true;
+
   system.stateVersion = "25.11";
 }
