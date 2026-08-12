@@ -15,6 +15,10 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
+  # nix-ld: run generic dynamically-linked binaries (e.g. the self-updating
+  # oh-my-pi `omp` coding agent installed to ~/.local/bin) on NixOS.
+  programs.nix-ld.enable = true;
+
   # Networking
   networking.networkmanager.enable = true;
 
