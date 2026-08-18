@@ -23,6 +23,15 @@
   boot.resumeDevice = "/dev/disk/by-uuid/51e79868-d770-4c23-ba7d-f9754f95bc41";
   boot.kernelParams = [ "resume_offset=39610368" "pcie_aspm.policy=performance" "amdgpu.sg_display=0" ];
 
+  # Force the smallest possible hibernation image. Default image_size is 40% of
+  # RAM (~5.9G), which requires enough *free* RAM for the atomic snapshot copy.
+  # Under memory pressure that copy fails with ENOMEM ("Error -12 creating image")
+  # by a hair (~25MB observed 2026-08-13), so suspend-then-hibernate silently
+  # falls back to s2idle and drains the battery to death overnight (~80%->0 in 8h).
+  # image_size=0 makes the kernel free/flush maximally before the copy so hibernation
+  # reliably succeeds (slower write, but it actually completes).
+  systemd.tmpfiles.rules = [ "w /sys/power/image_size - - - - 0" ];
+
   # Lid close triggers suspend-then-hibernate
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend-then-hibernate";
