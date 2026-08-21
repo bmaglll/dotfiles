@@ -1,5 +1,18 @@
 { config, pkgs, lib, inputs, ... }:
 
+let
+  # The OMP coding agent (@oh-my-pi/pi-coding-agent) refuses to run on Bun
+  # < 1.3.14, but nixpkgs currently pins 1.3.13. Bump just the prebuilt-binary
+  # version + hash; the base derivation's autoPatchelfHook relinks it for NixOS.
+  # Remove this override once nixpkgs ships >= 1.3.14.
+  bun_1_3_14 = pkgs.bun.overrideAttrs (old: rec {
+    version = "1.3.14";
+    src = pkgs.fetchurl {
+      url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-x64.zip";
+      hash = "sha256-lR7iruhV8IWVruxiJSJqKY0/6oOj3NZGXAnLzN9+hI8=";
+    };
+  });
+in
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
@@ -37,7 +50,12 @@
 
   # Node.js (+ npm) — wsl-nix only. Needed to build the codex-subagents-mcp
   # delegation server (~/codex-subagents-mcp). Kept off the shared baseline.
-  environment.systemPackages = with pkgs; [ nodejs ];
+  #
+  # bun — runtime for the OMP coding agent (@oh-my-pi/pi-coding-agent), which
+  # ships only as a Bun single-file binary that NixOS's stub loader can't run.
+  # Installed imperatively with `bun install -g @oh-my-pi/pi-coding-agent`;
+  # its shim lands in ~/.bun/bin (added to PATH in the home-manager block below).
+  environment.systemPackages = [ pkgs.nodejs bun_1_3_14 ];
 
   # Force eth0 MTU to 1500. WSL can bring eth0 up at a lower MTU, which
   # black-holes large post-quantum SSH key-exchange packets over Tailscale
@@ -92,6 +110,9 @@
     extraSpecialArgs = { inherit inputs; };
     users.bmag = {
       imports = [ ../../home/baseline.nix ];
+      # Put bun's global-install shim dir on PATH so `omp` (the OMP coding
+      # agent installed via `bun install -g`) is runnable. wsl-nix only.
+      home.sessionPath = [ "/home/bmag/.bun/bin" ];
     };
   };
 
