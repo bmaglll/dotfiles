@@ -8,6 +8,9 @@
   home.homeDirectory = "/home/bmag";
   home.stateVersion = "25.11";
 
+  # Put ~/.local/bin on PATH — where the oh-my-pi `omp` installer drops its binary.
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   ###########################################################################################
   # Shared CLI packages
   ###########################################################################################
