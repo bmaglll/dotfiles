@@ -13,6 +13,7 @@ Item {
     property color colNormal: "white"
     property color colWarning: "#ffaa00"
     property color colCritical: "#ff5555"
+    property color colSpike: "#ff7800"     // distinct orange: a single core pinned while overall load is low
 
     // hover / popup
     property color hoverBg: "transparent"
@@ -28,6 +29,14 @@ Item {
     // thresholds (percentage, used for CPU/RAM)
     property real warningThreshold: 70
     property real criticalThreshold: 90
+
+    // single-core spike detection (a runaway process pinning one core barely
+    // moves the aggregate on a many-thread CPU, so watch the per-core numbers).
+    property real coreSpikeThreshold: 90   // a core at/above this counts as "hot"
+    property int spikeSustainPolls: 3      // consecutive polls a core must stay hot before flagging (~poll*3)
+    property int hotCoreCount: 0           // cores currently at/above coreSpikeThreshold
+    property int spikeStreak: 0            // consecutive polls with >=1 hot core
+    readonly property bool coreSpiking: root.spikeStreak >= root.spikeSustainPolls
 
     // temperature thresholds (°C)
     property real tempWarningThreshold: 65
@@ -71,7 +80,13 @@ Item {
         return (kb / 1024 / 1024).toFixed(1) + " GiB"
     }
 
-    readonly property color cpuColor: colorForPercent(root.cpuPercent)
+    readonly property color cpuColor: {
+        // genuine broad load (amber/red) takes precedence over a single-core pin
+        if (root.cpuPercent >= root.warningThreshold) return colorForPercent(root.cpuPercent)
+        // otherwise flag a sustained single/few-core pin the aggregate hides
+        if (root.coreSpiking) return root.colSpike
+        return root.colNormal
+    }
     readonly property color ramColor: colorForPercent(root.ramPercent)
 
     readonly property color tempColor: {
@@ -212,6 +227,9 @@ Item {
                 // ---- CPU ----
                 Text {
                     text: "CPU  " + Math.round(root.cpuPercent) + "%"
+                          + (root.coreSpiking
+                             ? "   \u{f0ee0} " + root.hotCoreCount + (root.hotCoreCount > 1 ? " cores pinned" : " core pinned")
+                             : "")
                     font.family: root.fontFamily
                     font.pixelSize: 11
                     font.bold: true
@@ -400,6 +418,13 @@ Item {
                 root.prevCoreIdle = newPrevIdle
                 root.prevCoreTotal = newPrevTotal
                 root.corePercents = cores
+
+                // single-core spike tracking (B: count hot cores, C: require it sustained)
+                var hot = 0
+                for (var h = 0; h < cores.length; h++)
+                    if (cores[h].percent >= root.coreSpikeThreshold) hot++
+                root.hotCoreCount = hot
+                root.spikeStreak = hot >= 1 ? root.spikeStreak + 1 : 0
             }
         }
     }

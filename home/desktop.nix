@@ -132,7 +132,7 @@
       # fall back to opening nvim normally.
       edit = [
         {
-          run = ''if [ -n "$TMUX" ]; then tmux neww -n nvim nvim "$@"; else nvim "$@"; fi'';
+          run = ''if [ -n "$TMUX" ]; then tmux neww -n nvim nvim %s; else nvim %s; fi'';
           desc = "nvim (new tmux window if in tmux)";
           block = false;
           orphan = true;
