@@ -2,6 +2,14 @@
 
 Common issues and fixes for this NixOS/Framework 13 setup.
 
+## Function Keys Have Swapped Behavior
+
+**Symptoms:** F1–F12 perform their standard function-key actions instead of brightness, volume, and other media controls by default, or vice versa.
+
+**Cause:** Fn Lock was toggled, often accidentally.
+
+**Fix:** Press **Fn + Esc** once to toggle Fn Lock. The Esc key's indicator light shows the current Fn Lock state.
+
 ## Touchpad Unresponsive (After Wiping/Cleaning)
 
 **Symptoms:** Touchpad stops responding after cleaning keyboard/touchpad surface. Device still shows in `hyprctl devices` and `/proc/bus/input/devices`.
