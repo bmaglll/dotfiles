@@ -51,6 +51,7 @@
     ffmpeg
     codex
     obs-studio
+    steam
     libnotify
     chromium
     moonlight-qt
